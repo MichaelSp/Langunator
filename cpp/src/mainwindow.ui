@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>886</width>
+    <height>426</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+      <widget class="QWidget" name="tabLearn">
+       <attribute name="icon">
+        <iconset resource="../img.qrc">
+         <normaloff>:/img/img/media-record.png</normaloff>:/img/img/media-record.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Lernen</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="1">
+         <widget class="QRadioButton" name="rdbDirection1">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Sprache 1-&gt;Sprache2</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="4">
+         <widget class="QSplitter" name="splitter">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <widget class="QGroupBox" name="groupBox">
+           <property name="title">
+            <string>Frage</string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_2">
+            <item row="0" column="0">
+             <widget class="QTextEdit" name="txtQuestion">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QGroupBox" name="groupBox_2">
+           <property name="title">
+            <string>Antwort</string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_3">
+            <item row="0" column="0">
+             <widget class="QCommandLinkButton" name="btnShowAnswer">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Antwort zeigen</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QCommandLinkButton" name="btnAnswerRight">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Richtig</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../img.qrc">
+                <normaloff>:/img/img/dialog-ok-apply.png</normaloff>:/img/img/dialog-ok-apply.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QCommandLinkButton" name="btnAnswerWrong">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Falsch</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../img.qrc">
+                <normaloff>:/img/img/edit-delete.png</normaloff>:/img/img/edit-delete.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" colspan="2">
+             <widget class="QTextEdit" name="txtAnswer"/>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QComboBox" name="cmbQuestionCategory"/>
+        </item>
+        <item row="0" column="3">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="2">
+         <widget class="QRadioButton" name="rdbDirection2">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Sprache 2 -&gt; Sprache 1</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabEnter">
+       <attribute name="icon">
+        <iconset resource="../img.qrc">
+         <normaloff>:/img/img/edit-add.png</normaloff>:/img/img/edit-add.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Eingeben</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_7">
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="groupBox_4">
+          <property name="title">
+           <string>Sprache</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_6">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Sprache 1:</string>
+             </property>
+             <property name="buddy">
+              <cstring>edtLanguage1</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="edtLanguage1"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Sprache 2:</string>
+             </property>
+             <property name="buddy">
+              <cstring>edtLanguage2</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="edtLanguage2"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QGroupBox" name="groupBox_3">
+          <property name="title">
+           <string>Kategorie</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_5">
+           <item row="2" column="1">
+            <widget class="QCommandLinkButton" name="btnCategoryRemove">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Kategory Löschen</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../img.qrc">
+               <normaloff>:/img/img/edit-delete.png</normaloff>:/img/img/edit-delete.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QCommandLinkButton" name="btnCategoryAdd">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Kategory hinzufügen</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../img.qrc">
+               <normaloff>:/img/img/edit-add.png</normaloff>:/img/img/edit-add.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="2">
+            <widget class="QComboBox" name="cmbEnterCategory"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="2">
+         <widget class="QTabWidget" name="tabEditBoxes">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="tabBox1">
+           <attribute name="title">
+            <string>Box 1</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_8">
+            <item row="0" column="0">
+             <widget class="QSplitter" name="splitter_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <widget class="QWidget" name="layoutWidget">
+               <layout class="QVBoxLayout" name="verticalLayout_2">
+                <item>
+                 <widget class="QLabel" name="lblLanguage1">
+                  <property name="text">
+                   <string>Sprache 1</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>txtLanguage1</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QTextEdit" name="txtLanguage1"/>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="layoutWidget">
+               <layout class="QVBoxLayout" name="verticalLayout">
+                <item>
+                 <widget class="QLabel" name="lblLanguage2">
+                  <property name="text">
+                   <string>Sprache 2</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>txtLanguage2</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QTextEdit" name="txtLanguage2"/>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QFrame" name="frame">
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_9">
+               <item row="0" column="2">
+                <widget class="QCommandLinkButton" name="btnMoveToBox">
+                 <property name="text">
+                  <string>Verschieben</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QCommandLinkButton" name="btnPrev">
+                 <property name="text">
+                  <string>Zurück</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../img.qrc">
+                   <normaloff>:/img/img/media-skip-backward.png</normaloff>:/img/img/media-skip-backward.png</iconset>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QCommandLinkButton" name="btnQuestionDelete">
+                 <property name="text">
+                  <string>Löschen</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../img.qrc">
+                   <normaloff>:/img/img/edit-delete.png</normaloff>:/img/img/edit-delete.png</iconset>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="3">
+                <widget class="QCommandLinkButton" name="btnQuestionSave">
+                 <property name="text">
+                  <string>Speichern</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../img.qrc">
+                   <normaloff>:/img/img/dialog-ok.png</normaloff>:/img/img/dialog-ok.png</iconset>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="4">
+                <widget class="QCommandLinkButton" name="btnNext">
+                 <property name="text">
+                  <string>Weiter</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../img.qrc">
+                   <normaloff>:/img/img/media-skip-forward.png</normaloff>:/img/img/media-skip-forward.png</iconset>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>cmbQuestionCategory</tabstop>
+  <tabstop>rdbDirection1</tabstop>
+  <tabstop>rdbDirection2</tabstop>
+  <tabstop>txtQuestion</tabstop>
+  <tabstop>btnShowAnswer</tabstop>
+  <tabstop>txtAnswer</tabstop>
+  <tabstop>btnAnswerRight</tabstop>
+  <tabstop>btnAnswerWrong</tabstop>
+  <tabstop>btnCategoryRemove</tabstop>
+  <tabstop>edtLanguage1</tabstop>
+  <tabstop>edtLanguage2</tabstop>
+  <tabstop>txtLanguage1</tabstop>
+  <tabstop>txtLanguage2</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../img.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>edtLanguage1</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>lblLanguage1</receiver>
+   <slot>setText(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>500</x>
+     <y>99</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>107</x>
+     <y>229</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>edtLanguage2</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>lblLanguage2</receiver>
+   <slot>setText(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>514</x>
+     <y>128</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>242</x>
+     <y>223</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

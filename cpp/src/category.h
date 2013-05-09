@@ -1,0 +1,48 @@
+#ifndef CATEGORY_H
+#define CATEGORY_H
+
+#include "pch.h"
+#include <dquest.h>
+#include <dqsql.h>
+#include <dqclause.h>
+#include <QString>
+
+#include <QObject>
+
+class DB;
+class Category : public DQModel
+{
+    DQ_MODEL
+public:
+    Category(){}
+    explicit Category(QString from, QString to);
+    Category(const Category&);
+
+    QString categoryName()const{return langFrom + " -> " + langTo;}
+
+    bool isValid()const{return !(((QString)langFrom).isEmpty() || ((QString)langTo).isEmpty());}
+
+    void setLanguageFrom(QString from){langFrom=from;}
+    void setLanguageTo(QString to){langTo=to;}
+    QString languageFrom(){return langFrom;}
+    QString languageTo(){return langTo;}
+
+    void add(QString lang1, QString lang2, int box=0);
+    virtual bool save(bool forceInsert,bool forceAllField);
+
+    static Category &currentCategory();
+private:
+    DQField<QString> langFrom;
+    DQField<QString> langTo;
+    static Category _currentCategory;
+};
+
+DQ_DECLARE_MODEL(Category,
+                 "category",
+                 DQ_FIELD(langFrom),
+                 DQ_FIELD(langTo)
+                 )
+
+Q_DECLARE_METATYPE(Category)
+
+#endif // CATEGORY_H
