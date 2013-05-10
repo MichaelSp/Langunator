@@ -373,7 +373,7 @@ public class MainFrame extends JFrameGridBag {
 				taInfo.addLine("***");
 				taInfo.addLine("***");
 				taInfo.addLine("***");
-				taInfo.addLine("Version: 2.11 (13.2.13)");
+				taInfo.addLine("Version: 3.0 (10.05.13)");
 				taInfo.addLine("Author: Peter Wichers");
 				taInfo.addLine("");
 			}
