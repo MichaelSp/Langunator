@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1036</width>
+    <width>1129</width>
     <height>479</height>
    </rect>
   </property>
@@ -85,7 +85,7 @@
               </property>
               <layout class="QGridLayout" name="gridLayout_8">
                <item row="1" column="0">
-                <widget class="QCommandLinkButton" name="btnAnswerWrong">
+                <widget class="QCommandLinkButton" name="btnGrobRichtig">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -111,7 +111,7 @@
                 </widget>
                </item>
                <item row="1" column="1">
-                <widget class="QCommandLinkButton" name="commandLinkButton_2">
+                <widget class="QCommandLinkButton" name="btnFalsch">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -134,7 +134,7 @@
                 </widget>
                </item>
                <item row="1" column="2">
-                <widget class="QCommandLinkButton" name="btnAnswerRight">
+                <widget class="QCommandLinkButton" name="btnRichtig">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -160,7 +160,7 @@
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QCommandLinkButton" name="commandLinkButton">
+                <widget class="QCommandLinkButton" name="btnFastRichtig">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
