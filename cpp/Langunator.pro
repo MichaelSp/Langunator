@@ -23,7 +23,6 @@ SOURCES += src/main.cpp\
         src/mainwindow.cpp \
     src/db.cpp \
     src/category.cpp \
-    src/vokabel.cpp \
     dquest-0.2/src/dqwhere.cpp \
     dquest-0.2/src/dqstream.cpp \
     dquest-0.2/src/dqsqlstatement.cpp \
@@ -42,13 +41,14 @@ SOURCES += src/main.cpp\
     dquest-0.2/src/dqclause.cpp \
     dquest-0.2/src/dqbasefield.cpp \
     dquest-0.2/src/dqabstractmodel.cpp \
-    src/Backend.cpp
+    src/Backend.cpp \
+    src/VocableList.cpp \
+    src/vocabel.cpp
 
 HEADERS  += src/mainwindow.h \
     src/pch.h \
     src/db.h \
     src/category.h \
-    src/vokabel.h \
     dquest-0.2/src/dqwhere_p.h \
     dquest-0.2/src/dqwhere.h \
     dquest-0.2/src/dquest.h \
@@ -74,7 +74,9 @@ HEADERS  += src/mainwindow.h \
     dquest-0.2/src/dqclause.h \
     dquest-0.2/src/dqbasefield.h \
     dquest-0.2/src/dqabstractmodel.h \
-    src/Backend.h
+    src/Backend.h \
+    src/VocableList.h \
+    src/vocabel.h
 
 FORMS    += src/mainwindow.ui
 

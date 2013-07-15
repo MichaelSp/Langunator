@@ -46,10 +46,25 @@ CategoryPtr Backend::currentCategory() const
     return m_currentCategory;
 }
 
+void Backend::addVocable(QString lang1, QString lang2)
+{
+    bool ok = currentCategory()->addVocable(lang1, lang2);
+    if (ok && !vocListModel.isNull())
+    {
+        vocListModel->refreshCache();
+    }
+}
+
+QAbstractItemModel *Backend::currentVocabularyModel()const
+{
+    return vocListModel.data();
+}
+
 void Backend::setCurrentCategory(CategoryPtr arg)
 {
     if (m_currentCategory != arg) {
         m_currentCategory = arg;
+        vocListModel = VocableListPtr(new VocableList(m_currentCategory));
         emit currentCategoryChanged(arg);
     }
 }

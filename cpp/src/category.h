@@ -9,12 +9,14 @@
 
 #include <QObject>
 
+class Vocabel;
 class DB;
 class Category : public DQModel
 {
     DQ_MODEL
-public:
-    Category(){}
+    public:
+        Category(){}
+
     explicit Category(QString from, QString to);
     Category(const Category&);
 
@@ -27,8 +29,10 @@ public:
     QString languageFrom(){return langFrom;}
     QString languageTo(){return langTo;}
 
-    bool add(QString lang1, QString lang2);
-    virtual bool save(bool forceInsert,bool forceAllField);
+    DQList<Vocabel> vocables();
+
+    bool addVocable(QString lang1, QString lang2);
+    virtual bool save(bool forceInsert = false, bool forceAllField=false);
 
 private:
     DQField<QString> langFrom;

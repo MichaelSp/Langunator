@@ -3,6 +3,7 @@
 #include <QObject>
 #include "db.h"
 #include "category.h"
+#include "VocableList.h"
 
 class Backend : public QObject
 {
@@ -16,6 +17,9 @@ public:
 
     const CategoriesPtr &categories();
     CategoryPtr currentCategory() const;
+
+    void addVocable(QString lang1, QString lang2);
+    QAbstractItemModel *currentVocabularyModel() const;
 
 public slots:
     void setCurrentCategory(CategoryPtr arg);
@@ -34,5 +38,7 @@ private:
     CategoriesPtr _categories;
     CategoryPtr m_currentCategory;
     bool cacheIsDirty;
+
+    VocableListPtr vocListModel;
 };
 

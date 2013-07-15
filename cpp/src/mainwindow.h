@@ -27,10 +27,6 @@ private slots:
     void on_cmbEnterCategory_currentIndexChanged(int index);
     void on_btnCategoryRemove_clicked();
     void on_btnQuestionSave_clicked();
-    void on_btnQuestionDelete_clicked();
-    void on_btnNext_clicked();
-    void on_btnPrev_clicked();
-    void on_btnMoveToBox_clicked();
 
 private:
     Ui::MainWindow *ui;

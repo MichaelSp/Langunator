@@ -1,8 +1,9 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include <QtConcurrent/QtConcurrent>
 
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include "db.h"
+
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -16,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->edtLanguage2, &QLineEdit::textEdited, this, &MainWindow::currentLanguageChanged);
     connect(&backend, &Backend::categoriesUpdated, this, &MainWindow::updateCategories);
     connect(&backend, &Backend::currentCategoryChanged, this, &MainWindow::currentCategoryChanged);
+
 }
 
 MainWindow::~MainWindow()
@@ -46,6 +48,7 @@ void MainWindow::currentCategoryChanged(CategoryPtr cat)
     if (valid) {
         ui->edtLanguage1->setText(cat->languageFrom());
         ui->edtLanguage2->setText(cat->languageTo());
+        ui->lstVocables->setModel( backend.currentVocabularyModel() );
     }
     else {
         ui->edtLanguage1->clear();
@@ -107,34 +110,12 @@ void MainWindow::on_btnQuestionSave_clicked()
         ui->lblWarning->setText(tr("Die Eingabefelder für %1 und %2 dürfen nicht leer sein.")
                                 .arg(backend.currentCategory()->languageFrom()).arg(backend.currentCategory()->languageTo()));
         QLabel *lbl = ui->lblWarning;
-        QtConcurrent::run([=](){
-            lbl->show();
-            QThread::sleep(10);
-            lbl->hide();
-        });
+        lbl->show();
+        QTimer::singleShot(5000, lbl, SLOT(hide()));
         return;
     }
-    backend.currentCategory()->add(ui->txtLanguage1->toHtml(), ui->txtLanguage2->toHtml());
+    backend.addVocable(ui->txtLanguage1->toPlainText(), ui->txtLanguage2->toPlainText());
     ui->txtLanguage1->clear();
     ui->txtLanguage2->clear();
 }
 
-void MainWindow::on_btnQuestionDelete_clicked()
-{
-
-}
-
-void MainWindow::on_btnNext_clicked()
-{
-
-}
-
-void MainWindow::on_btnPrev_clicked()
-{
-
-}
-
-void MainWindow::on_btnMoveToBox_clicked()
-{
-
-}
