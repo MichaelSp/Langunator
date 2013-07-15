@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>886</width>
-    <height>426</height>
+    <width>970</width>
+    <height>438</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <property name="iconSize">
        <size>
@@ -507,6 +507,15 @@
          </widget>
         </item>
        </layout>
+      </widget>
+      <widget class="QWidget" name="tab">
+       <attribute name="icon">
+        <iconset resource="../img.qrc">
+         <normaloff>:/img/img/actions_document_encrypt.png</normaloff>:/img/img/actions_document_encrypt.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Import/Export</string>
+       </attribute>
       </widget>
      </widget>
     </item>

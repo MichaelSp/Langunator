@@ -2,14 +2,15 @@
 #define VOKABEL_H
 
 #include "pch.h"
-#include "box.h"
 
 class Vokabel: public DQModel {
     DQ_MODEL
 public:
     DQField<QString> language1;
     DQField<QString> language2;
-    DQForeignKey<Box> box;
+    DQField<int> lektion;
+    DQField<int> right;
+    DQField<int> wrong;
 };
 
 DQ_DECLARE_MODEL(Vokabel,
