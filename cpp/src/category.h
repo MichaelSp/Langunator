@@ -43,8 +43,8 @@ DQ_DECLARE_MODEL(Category,
 
 
 typedef QList<Category> Categories;
-typedef QSharedPointer< Category > CategoryPtr;
-typedef QList< CategoryPtr> CategoriesPtr;
+typedef QSharedPointer<Category> CategoryPtr;
+typedef QList<CategoryPtr> CategoriesPtr;
 
 Q_DECLARE_METATYPE(Category)
 Q_DECLARE_METATYPE(CategoryPtr)

@@ -44,13 +44,5 @@
         <file>img/apps_preferences_desktop_filetype_association.png</file>
         <file>img/categories_applications_education_language.png</file>
         <file>img/categories_system_preferences.png</file>
-        <file>img/dialog-ok.png</file>
-        <file>img/dialog-ok-apply.png</file>
-        <file>img/edit-add.png</file>
-        <file>img/edit-delete.png</file>
-        <file>img/media-playback-stop.png</file>
-        <file>img/media-record.png</file>
-        <file>img/media-skip-backward.png</file>
-        <file>img/media-skip-forward.png</file>
     </qresource>
 </RCC>
