@@ -60,11 +60,19 @@ QAbstractItemModel *Backend::currentVocabularyModel()const
     return vocListModel.data();
 }
 
+Vocabel* Backend::currentVocable()
+{
+    if (trainingSet.size() == 0)
+        return NULL;
+    return trainingSet.at(0);
+}
+
 void Backend::setCurrentCategory(CategoryPtr arg)
 {
     if (m_currentCategory != arg) {
         m_currentCategory = arg;
         vocListModel = VocableListPtr(new VocableList(m_currentCategory));
+        trainingSet = Vocabel::objects().filter(DQWhere("category = ", m_currentCategory->id)).all();
         emit currentCategoryChanged(arg);
     }
 }

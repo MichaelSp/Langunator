@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1055</width>
-    <height>457</height>
+    <width>1036</width>
+    <height>479</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,32 +35,6 @@
         <string>Lernen</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4">
-        <item row="0" column="0">
-         <widget class="QComboBox" name="cmbQuestionCategory"/>
-        </item>
-        <item row="0" column="3">
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="2">
-         <widget class="QRadioButton" name="rdbDirection2">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Sprache 2 -&gt; Sprache 1</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="1">
          <widget class="QRadioButton" name="rdbDirection1">
           <property name="enabled">
@@ -115,6 +89,12 @@
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>50</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Grob richtig</string>
                  </property>
@@ -132,6 +112,12 @@
                </item>
                <item row="1" column="1">
                 <widget class="QCommandLinkButton" name="commandLinkButton_2">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>50</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Falsch</string>
                  </property>
@@ -152,6 +138,12 @@
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>50</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Richtig</string>
                  </property>
@@ -169,6 +161,12 @@
                </item>
                <item row="0" column="1">
                 <widget class="QCommandLinkButton" name="commandLinkButton">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>50</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Fast richtig</string>
                  </property>
@@ -202,6 +200,19 @@
             </item>
            </layout>
           </widget>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QComboBox" name="cmbQuestionCategory"/>
+        </item>
+        <item row="0" column="2">
+         <widget class="QRadioButton" name="rdbDirection2">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Sprache 2 -&gt; Sprache 1</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -580,6 +591,9 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tab">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <attribute name="icon">
         <iconset resource="../img.qrc">
          <normaloff>:/img/img/Import Export.png</normaloff>:/img/img/Import Export.png</iconset>

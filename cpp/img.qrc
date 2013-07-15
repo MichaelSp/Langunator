@@ -2,7 +2,6 @@
     <qresource prefix="/img">
         <file>img/Import Export.png</file>
         <file>img/Rechts.png</file>
-        <file>img/roll.png</file>
         <file>img/Speichern.png</file>
         <file>img/Statistik.png</file>
         <file>img/Taste.png</file>

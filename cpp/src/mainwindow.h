@@ -28,6 +28,8 @@ private slots:
     void on_btnCategoryRemove_clicked();
     void on_btnQuestionSave_clicked();
 
+    void on_btnShowAnswer_clicked();
+
 private:
     Ui::MainWindow *ui;
     Backend backend;

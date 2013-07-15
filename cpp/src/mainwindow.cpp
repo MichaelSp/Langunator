@@ -1,7 +1,7 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include <QtConcurrent/QtConcurrent>
 
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include "db.h"
 
 
@@ -34,17 +34,23 @@ void MainWindow::updateCategories(CategoriesPtr cats)
     int currentIndex = ui->cmbEnterCategory->count()-1;
     ui->cmbEnterCategory->addItem("<Neue Kategorie>", false);
     ui->cmbEnterCategory->setCurrentIndex(currentIndex);
+
     backend.setCurrentCategory( ui->cmbEnterCategory->itemData( currentIndex ).value<CategoryPtr>() );
 }
-
 
 void MainWindow::currentCategoryChanged(CategoryPtr cat)
 {
     bool valid = !cat.isNull() && cat->isValid();
     ui->btnCategoryAdd->setDisabled(valid);
+    ui->btnShowAnswer->setEnabled(false);
     if (valid) {
         ui->edtLanguage1->setText(cat->languageFrom());
         ui->edtLanguage2->setText(cat->languageTo());
+        Vocabel *voc = backend.currentVocable();
+        ui->btnShowAnswer->setEnabled(voc != NULL);
+        if (voc) {
+            ui->txtQuestion->setText( voc->language1 );
+        }
     }
     else {
         ui->edtLanguage1->clear();
@@ -105,31 +111,18 @@ void MainWindow::on_btnQuestionSave_clicked()
     {
         ui->lblWarning->setText(tr("Die Eingabefelder für %1 und %2 dürfen nicht leer sein.")
                                 .arg(backend.currentCategory()->languageFrom()).arg(backend.currentCategory()->languageTo()));
-        QLabel *lbl = ui->lblWarning;
-
+        ui->lblWarning->show();
+        QTimer::singleShot(5000, ui->lblWarning, SLOT(hide()));
         return;
     }
-    backend.currentCategory()->add(ui->txtLanguage1->toHtml(), ui->txtLanguage2->toHtml());
+    backend.currentCategory()->addVocable(ui->txtLanguage1->toHtml(), ui->txtLanguage2->toHtml());
     ui->txtLanguage1->clear();
     ui->txtLanguage2->clear();
 }
 
-void MainWindow::on_btnQuestionDelete_clicked()
+void MainWindow::on_btnShowAnswer_clicked()
 {
-
-}
-
-void MainWindow::on_btnNext_clicked()
-{
-
-}
-
-void MainWindow::on_btnPrev_clicked()
-{
-
-}
-
-void MainWindow::on_btnMoveToBox_clicked()
-{
-
+    if (backend.currentVocable() == NULL)
+        return;
+    ui->txtLanguage2->setText( backend.currentVocable()->language2 );
 }

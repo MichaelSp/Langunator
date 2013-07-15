@@ -7,6 +7,12 @@
 class Vocabel: public DQModel {
     DQ_MODEL
 public:
+
+    void next();
+    void previous();
+    void back();
+    void stay();
+
     DQForeignKey<Category> category;
     DQField<QString> language1;
     DQField<QString> language2;

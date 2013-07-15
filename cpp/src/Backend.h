@@ -3,6 +3,7 @@
 #include <QObject>
 #include "db.h"
 #include "category.h"
+#include "vocabel.h"
 #include "VocableList.h"
 
 class Backend : public QObject
@@ -20,6 +21,8 @@ public:
 
     void addVocable(QString lang1, QString lang2);
     QAbstractItemModel *currentVocabularyModel() const;
+
+    Vocabel *currentVocable();
 
 public slots:
     void setCurrentCategory(CategoryPtr arg);
@@ -40,5 +43,6 @@ private:
     bool cacheIsDirty;
 
     VocableListPtr vocListModel;
+    DQList<Vocabel> trainingSet;
 };
 
