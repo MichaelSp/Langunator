@@ -17,8 +17,12 @@ public:
     DQField<QString> language1;
     DQField<QString> language2;
     DQField<int> lektion;
-    DQField<int> right;
-    DQField<int> wrong;
+    DQField<int> next;
+    DQField<int> previous;
+    DQField<int> stay;
+    DQField<int> back;
+    DQField<int> rightInRow;
+    DQField<QDateTime> lastAsked;
 };
 
 DQ_DECLARE_MODEL(Vocabel,
