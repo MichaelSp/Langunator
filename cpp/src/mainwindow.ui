@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>970</width>
-    <height>438</height>
+    <width>1055</width>
+    <height>457</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <property name="iconSize">
        <size>
@@ -29,12 +29,38 @@
       <widget class="QWidget" name="tabLearn">
        <attribute name="icon">
         <iconset resource="../img.qrc">
-         <normaloff>:/img/img/media-record.png</normaloff>:/img/img/media-record.png</iconset>
+         <normaloff>:/img/img/Unihut.png</normaloff>:/img/img/Unihut.png</iconset>
        </attribute>
        <attribute name="title">
         <string>Lernen</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <widget class="QComboBox" name="cmbQuestionCategory"/>
+        </item>
+        <item row="0" column="3">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="2">
+         <widget class="QRadioButton" name="rdbDirection2">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Sprache 2 -&gt; Sprache 1</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="1">
          <widget class="QRadioButton" name="rdbDirection1">
           <property name="enabled">
@@ -69,6 +95,101 @@
             <string>Antwort</string>
            </property>
            <layout class="QGridLayout" name="gridLayout_3">
+            <item row="3" column="0">
+             <widget class="QFrame" name="frameTasten">
+              <property name="maximumSize">
+               <size>
+                <width>450</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_8">
+               <item row="1" column="0">
+                <widget class="QCommandLinkButton" name="btnAnswerWrong">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="text">
+                  <string>Grob richtig</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../img.qrc">
+                   <normaloff>:/img/img/Taste links.png</normaloff>:/img/img/Taste links.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>40</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QCommandLinkButton" name="commandLinkButton_2">
+                 <property name="text">
+                  <string>Falsch</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../img.qrc">
+                   <normaloff>:/img/img/Taste unten.png</normaloff>:/img/img/Taste unten.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>40</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2">
+                <widget class="QCommandLinkButton" name="btnAnswerRight">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="text">
+                  <string>Richtig</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../img.qrc">
+                   <normaloff>:/img/img/Taste rechts.png</normaloff>:/img/img/Taste rechts.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>40</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QCommandLinkButton" name="commandLinkButton">
+                 <property name="text">
+                  <string>Fast richtig</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../img.qrc">
+                   <normaloff>:/img/img/Taste oben.png</normaloff>:/img/img/Taste oben.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>40</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="1" column="0" colspan="3">
+             <widget class="QTextEdit" name="txtAnswer"/>
+            </item>
             <item row="0" column="0">
              <widget class="QCommandLinkButton" name="btnShowAnswer">
               <property name="enabled">
@@ -79,65 +200,8 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
-             <widget class="QCommandLinkButton" name="btnAnswerRight">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>Richtig</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../img.qrc">
-                <normaloff>:/img/img/dialog-ok-apply.png</normaloff>:/img/img/dialog-ok-apply.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QCommandLinkButton" name="btnAnswerWrong">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>Falsch</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../img.qrc">
-                <normaloff>:/img/img/edit-delete.png</normaloff>:/img/img/edit-delete.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0" colspan="2">
-             <widget class="QTextEdit" name="txtAnswer"/>
-            </item>
            </layout>
           </widget>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QComboBox" name="cmbQuestionCategory"/>
-        </item>
-        <item row="0" column="3">
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="2">
-         <widget class="QRadioButton" name="rdbDirection2">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Sprache 2 -&gt; Sprache 1</string>
-          </property>
          </widget>
         </item>
        </layout>
@@ -145,10 +209,10 @@
       <widget class="QWidget" name="tabEnter">
        <attribute name="icon">
         <iconset resource="../img.qrc">
-         <normaloff>:/img/img/edit-add.png</normaloff>:/img/img/edit-add.png</iconset>
+         <normaloff>:/img/img/Zange.png</normaloff>:/img/img/Zange.png</iconset>
        </attribute>
        <attribute name="title">
-        <string>Eingeben</string>
+        <string>Vokabeln verwalten</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_7">
         <item row="0" column="0">
@@ -157,19 +221,6 @@
            <string>Sprache</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_6">
-           <item row="0" column="0">
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>Sprache 1:</string>
-             </property>
-             <property name="buddy">
-              <cstring>edtLanguage1</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="edtLanguage1"/>
-           </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_2">
              <property name="text">
@@ -182,6 +233,19 @@
            </item>
            <item row="1" column="1">
             <widget class="QLineEdit" name="edtLanguage2"/>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="edtLanguage1"/>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Sprache 1:</string>
+             </property>
+             <property name="buddy">
+              <cstring>edtLanguage1</cstring>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -201,7 +265,7 @@
               <string>Kategory Löschen</string>
              </property>
              <property name="icon">
-              <iconset resource="../img.qrc">
+              <iconset>
                <normaloff>:/img/img/edit-delete.png</normaloff>:/img/img/edit-delete.png</iconset>
              </property>
             </widget>
@@ -215,7 +279,7 @@
               <string>Kategory hinzufügen</string>
              </property>
              <property name="icon">
-              <iconset resource="../img.qrc">
+              <iconset>
                <normaloff>:/img/img/edit-add.png</normaloff>:/img/img/edit-add.png</iconset>
              </property>
             </widget>
@@ -227,123 +291,13 @@
          </widget>
         </item>
         <item row="1" column="0" colspan="2">
-         <widget class="QTabWidget" name="tabEditBoxes">
-          <property name="enabled">
-           <bool>false</bool>
+         <widget class="QSplitter" name="splitter_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
-          <property name="currentIndex">
-           <number>0</number>
-          </property>
-          <widget class="QWidget" name="tabBox1">
-           <attribute name="title">
-            <string>Box 1</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_8">
-            <item row="2" column="0">
-             <widget class="QFrame" name="frame">
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_9">
-               <item row="0" column="2">
-                <widget class="QCommandLinkButton" name="btnMoveToBox">
-                 <property name="text">
-                  <string>Verschieben</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="0">
-                <widget class="QCommandLinkButton" name="btnPrev">
-                 <property name="text">
-                  <string>Zurück</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../img.qrc">
-                   <normaloff>:/img/img/media-skip-backward.png</normaloff>:/img/img/media-skip-backward.png</iconset>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QCommandLinkButton" name="btnQuestionDelete">
-                 <property name="text">
-                  <string>Löschen</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../img.qrc">
-                   <normaloff>:/img/img/edit-delete.png</normaloff>:/img/img/edit-delete.png</iconset>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="3">
-                <widget class="QCommandLinkButton" name="btnQuestionSave">
-                 <property name="text">
-                  <string>Speichern</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../img.qrc">
-                   <normaloff>:/img/img/dialog-ok.png</normaloff>:/img/img/dialog-ok.png</iconset>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="4">
-                <widget class="QCommandLinkButton" name="btnNext">
-                 <property name="text">
-                  <string>Weiter</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../img.qrc">
-                   <normaloff>:/img/img/media-skip-forward.png</normaloff>:/img/img/media-skip-forward.png</iconset>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QSplitter" name="splitter_2">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <widget class="QWidget" name="layoutWidget">
-               <layout class="QVBoxLayout" name="verticalLayout_2">
-                <item>
-                 <widget class="QLabel" name="lblLanguage1">
-                  <property name="text">
-                   <string>Sprache 1</string>
-                  </property>
-                  <property name="buddy">
-                   <cstring>txtLanguage1</cstring>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QTextEdit" name="txtLanguage1"/>
-                </item>
-               </layout>
-              </widget>
-              <widget class="QWidget" name="layoutWidget">
-               <layout class="QVBoxLayout" name="verticalLayout">
-                <item>
-                 <widget class="QLabel" name="lblLanguage2">
-                  <property name="text">
-                   <string>Sprache 2</string>
-                  </property>
-                  <property name="buddy">
-                   <cstring>txtLanguage2</cstring>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QTextEdit" name="txtLanguage2"/>
-                </item>
-               </layout>
-              </widget>
-             </widget>
-            </item>
-            <item row="0" column="0">
+          <widget class="QWidget" name="layoutWidget">
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
              <widget class="QLabel" name="lblWarning">
               <property name="palette">
                <palette>
@@ -502,7 +456,124 @@
               </property>
              </widget>
             </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_2">
+              <item>
+               <widget class="QLabel" name="lblLanguage1">
+                <property name="text">
+                 <string>Sprache 1</string>
+                </property>
+                <property name="buddy">
+                 <cstring>txtLanguage1</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QTextEdit" name="txtLanguage1"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout">
+              <item>
+               <widget class="QLabel" name="lblLanguage2">
+                <property name="text">
+                 <string>Sprache 2</string>
+                </property>
+                <property name="buddy">
+                 <cstring>txtLanguage2</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QTextEdit" name="txtLanguage2"/>
+              </item>
+              <item>
+               <widget class="QFrame" name="frame">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_9">
+                 <item row="0" column="1">
+                  <widget class="QCommandLinkButton" name="btnQuestionDelete">
+                   <property name="text">
+                    <string>Löschen</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="../img.qrc">
+                     <normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>30</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QCommandLinkButton" name="btnMoveToBox">
+                   <property name="text">
+                    <string>Suchen</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="../img.qrc">
+                     <normaloff>:/img/img/Fernglas.png</normaloff>:/img/img/Fernglas.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>30</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QCommandLinkButton" name="btnQuestionSave">
+                   <property name="text">
+                    <string>Speichern</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="../img.qrc">
+                     <normaloff>:/img/img/Speichern.png</normaloff>:/img/img/Speichern.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>30</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </item>
            </layout>
+          </widget>
+          <widget class="QListWidget" name="listWidget">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+             <horstretch>20</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>500</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>500</width>
+             <height>500</height>
+            </size>
+           </property>
           </widget>
          </widget>
         </item>
@@ -511,10 +582,19 @@
       <widget class="QWidget" name="tab">
        <attribute name="icon">
         <iconset resource="../img.qrc">
-         <normaloff>:/img/img/actions_document_encrypt.png</normaloff>:/img/img/actions_document_encrypt.png</iconset>
+         <normaloff>:/img/img/Import Export.png</normaloff>:/img/img/Import Export.png</iconset>
        </attribute>
        <attribute name="title">
         <string>Import/Export</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="icon">
+        <iconset resource="../img.qrc">
+         <normaloff>:/img/img/Statistik.png</normaloff>:/img/img/Statistik.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Statistik</string>
        </attribute>
       </widget>
      </widget>
@@ -524,19 +604,15 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>tabWidget</tabstop>
   <tabstop>cmbQuestionCategory</tabstop>
   <tabstop>rdbDirection1</tabstop>
   <tabstop>rdbDirection2</tabstop>
   <tabstop>txtQuestion</tabstop>
   <tabstop>btnShowAnswer</tabstop>
   <tabstop>txtAnswer</tabstop>
-  <tabstop>btnAnswerRight</tabstop>
-  <tabstop>btnAnswerWrong</tabstop>
   <tabstop>btnCategoryRemove</tabstop>
   <tabstop>edtLanguage1</tabstop>
   <tabstop>edtLanguage2</tabstop>
-  <tabstop>txtLanguage1</tabstop>
   <tabstop>txtLanguage2</tabstop>
  </tabstops>
  <resources>

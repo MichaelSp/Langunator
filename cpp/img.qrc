@@ -1,48 +1,21 @@
 <RCC>
     <qresource prefix="/img">
-        <file>img/dialog-ok.png</file>
-        <file>img/dialog-ok-apply.png</file>
-        <file>img/edit-add.png</file>
-        <file>img/edit-delete.png</file>
-        <file>img/media-playback-stop.png</file>
-        <file>img/media-record.png</file>
-        <file>img/media-skip-backward.png</file>
-        <file>img/media-skip-forward.png</file>
-        <file>img/actions_document_encrypt.png</file>
-        <file>img/actions_document_print_preview.png</file>
-        <file>img/actions_document_properties.png</file>
-        <file>img/actions_document_sign.png</file>
+        <file>img/Import Export.png</file>
+        <file>img/Rechts.png</file>
+        <file>img/roll.png</file>
+        <file>img/Speichern.png</file>
+        <file>img/Statistik.png</file>
+        <file>img/Taste.png</file>
+        <file>img/Taste links.png</file>
+        <file>img/Taste oben.png</file>
+        <file>img/Taste rechts.png</file>
+        <file>img/Taste unten.png</file>
+        <file>img/Unihut.png</file>
+        <file>img/Wiederholen.png</file>
+        <file>img/Zange.png</file>
         <file>img/actions_edit_clear_rtl_locationbar.png</file>
-        <file>img/actions_edit_cut_paste.png</file>
-        <file>img/actions_edit_find_user.png</file>
-        <file>img/actions_edit_paste.png</file>
-        <file>img/actions_export_document.png</file>
-        <file>img/actions_fill_color_browser_window.png</file>
-        <file>img/actions_flag_black.png</file>
-        <file>img/actions_flag_blue.png</file>
-        <file>img/actions_flag_red_private.png</file>
-        <file>img/actions_flag_yellow.png</file>
-        <file>img/actions_games_config_theme_video.png</file>
-        <file>img/actions_games_endturn.png</file>
-        <file>img/actions_go_up_search.png</file>
-        <file>img/actions_help_contextual.png</file>
         <file>img/actions_list_add_user_export_bills.png</file>
-        <file>img/actions_list_user_remove_repair.png</file>
-        <file>img/actions_mail_mark_junk.png</file>
-        <file>img/actions_media_seek_forward.png</file>
-        <file>img/actions_media_skip_backward.png</file>
-        <file>img/actions_next_go_view_start_resume_pause_back_play.png</file>
-        <file>img/actions_office_chart_area_stacked.png</file>
-        <file>img/actions_previous_go.png</file>
-        <file>img/actions_system_suspend.png</file>
-        <file>img/actions_toolbars_configure.png</file>
-        <file>img/actions_view_file_columns.png</file>
-        <file>img/actions_view_object_histogram_logarithmic.png</file>
-        <file>img/apps_accessories_calculator.png</file>
         <file>img/apps_hardware.png</file>
-        <file>img/apps_kthesaurus.png</file>
-        <file>img/apps_preferences_desktop_filetype_association.png</file>
-        <file>img/categories_applications_education_language.png</file>
-        <file>img/categories_system_preferences.png</file>
+        <file>img/Fernglas.png</file>
     </qresource>
 </RCC>

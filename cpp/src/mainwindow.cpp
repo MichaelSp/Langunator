@@ -42,7 +42,6 @@ void MainWindow::currentCategoryChanged(CategoryPtr cat)
 {
     bool valid = !cat.isNull() && cat->isValid();
     ui->btnCategoryAdd->setDisabled(valid);
-    ui->tabEditBoxes->setEnabled(valid);
     if (valid) {
         ui->edtLanguage1->setText(cat->languageFrom());
         ui->edtLanguage2->setText(cat->languageTo());
@@ -107,11 +106,7 @@ void MainWindow::on_btnQuestionSave_clicked()
         ui->lblWarning->setText(tr("Die Eingabefelder für %1 und %2 dürfen nicht leer sein.")
                                 .arg(backend.currentCategory()->languageFrom()).arg(backend.currentCategory()->languageTo()));
         QLabel *lbl = ui->lblWarning;
-        QtConcurrent::run([=](){
-            lbl->show();
-            QThread::sleep(10);
-            lbl->hide();
-        });
+
         return;
     }
     backend.currentCategory()->add(ui->txtLanguage1->toHtml(), ui->txtLanguage2->toHtml());
