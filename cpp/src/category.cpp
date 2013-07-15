@@ -3,8 +3,6 @@
 #include "db.h"
 #include "vokabel.h"
 
-Category Category::_currentCategory;
-
 Category::Category(QString from, QString to)
 {
     langFrom = from;
@@ -17,12 +15,13 @@ Category::Category(const Category &cat)
     langTo = cat.langTo;
 }
 
-void Category::add(QString lang1, QString lang2, int box)
+bool Category::add(QString lang1, QString lang2, int box)
 {
     Vokabel vok;
     vok.language1 = lang1;
     vok.language2 = lang2;
     vok.box = box;
+    return vok.save();
 }
 
 bool Category::save(bool forceInsert, bool forceAllField)
@@ -32,8 +31,4 @@ bool Category::save(bool forceInsert, bool forceAllField)
     return returnValue;
 }
 
-Category &Category::currentCategory()
-{
-    return _currentCategory;
-}
 

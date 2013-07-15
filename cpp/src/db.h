@@ -1,12 +1,12 @@
-#ifndef DB_H
-#define DB_H
+#pragma once
 
-#include "factory.h"
+#include "pch.h"
 
+class Backend;
 
 class DB: public QObject
 {
-    friend class Factory;
+    friend class Backend;
     Q_OBJECT
 public:
 
@@ -22,5 +22,3 @@ private:
     bool _isLoaded;
     DQConnection *connection;
 };
-
-#endif // DB_H

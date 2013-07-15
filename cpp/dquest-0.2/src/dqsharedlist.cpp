@@ -88,6 +88,11 @@ DQModelMetaInfo* DQSharedList::metaInfo(){
     return data->metaInfo;
 }
 
+void DQSharedList::detach()
+{
+    data->list.clear();
+}
+
 void DQSharedList::setMetaInfo(DQModelMetaInfo* metaInfo){
     data->metaInfo = metaInfo;
 }

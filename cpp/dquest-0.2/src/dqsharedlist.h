@@ -87,6 +87,10 @@ public:
      */
     DQModelMetaInfo* metaInfo();
 
+    /// Drop references to all elements. Size will return 0
+    /** Calling the detach method will render this object unusable */
+    void detach();
+
 protected:
     /// Set the binded data model by it's meta info
     void setMetaInfo(DQModelMetaInfo* metaInfo);

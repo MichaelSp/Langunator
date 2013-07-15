@@ -27,14 +27,12 @@ public:
     QString languageFrom(){return langFrom;}
     QString languageTo(){return langTo;}
 
-    void add(QString lang1, QString lang2, int box=0);
+    bool add(QString lang1, QString lang2, int box=0);
     virtual bool save(bool forceInsert,bool forceAllField);
 
-    static Category &currentCategory();
 private:
     DQField<QString> langFrom;
     DQField<QString> langTo;
-    static Category _currentCategory;
 };
 
 DQ_DECLARE_MODEL(Category,
@@ -43,6 +41,14 @@ DQ_DECLARE_MODEL(Category,
                  DQ_FIELD(langTo)
                  )
 
+
+typedef QList<Category> Categories;
+typedef QSharedPointer< Category > CategoryPtr;
+typedef QList< CategoryPtr> CategoriesPtr;
+
 Q_DECLARE_METATYPE(Category)
+Q_DECLARE_METATYPE(CategoryPtr)
+Q_DECLARE_METATYPE(Categories)
+Q_DECLARE_METATYPE(CategoriesPtr)
 
 #endif // CATEGORY_H
