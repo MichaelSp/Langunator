@@ -15,12 +15,11 @@ Category::Category(const Category &cat)
     langTo = cat.langTo;
 }
 
-bool Category::add(QString lang1, QString lang2, int box)
+bool Category::add(QString lang1, QString lang2)
 {
     Vokabel vok;
     vok.language1 = lang1;
     vok.language2 = lang2;
-    vok.box = box;
     return vok.save();
 }
 

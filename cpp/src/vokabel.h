@@ -17,7 +17,9 @@ DQ_DECLARE_MODEL(Vokabel,
                  "vokabel", // the table name.
                  DQ_FIELD(language1, DQNotNull),
                  DQ_FIELD(language2, DQNotNull),
-                 DQ_FIELD(box, DQNotNull)
+                 DQ_FIELD(lektion, DQNotNull),
+                 DQ_FIELD(right, DQNotNull),
+                 DQ_FIELD(wrong, DQNotNull)
                  )
 
 #endif // VOKABEL_H

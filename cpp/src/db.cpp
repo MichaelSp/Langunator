@@ -2,6 +2,7 @@
 #include "pch.h"
 
 #include "vokabel.h"
+#include "category.h"
 
 
 DB::DB():
@@ -24,7 +25,6 @@ void DB::init()
 
     connection->addModel<Category>();
     connection->addModel<Vokabel>();
-    connection->addModel<Box>();
 
     connection->createTables();
 

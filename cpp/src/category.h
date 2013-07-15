@@ -27,7 +27,7 @@ public:
     QString languageFrom(){return langFrom;}
     QString languageTo(){return langTo;}
 
-    bool add(QString lang1, QString lang2, int box=0);
+    bool add(QString lang1, QString lang2);
     virtual bool save(bool forceInsert,bool forceAllField);
 
 private:
