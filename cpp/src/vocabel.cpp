@@ -1,33 +1,31 @@
 #include "vocabel.h"
-
-
 void Vocabel::next()
 {
-    rightInRow++;
-    next++;
+    rightInRow.set( rightInRow().value<int>() +1 );
+    nextClicks.set( nextClicks().value<int>() +1 );
     lastAsked = QDateTime::currentDateTime();
     save();
 }
 
 void Vocabel::previous()
 {
-    previous++;
-    rightInRow--;
+    previousClicks.set( previousClicks().value<int>() +1 );
+    rightInRow.set( rightInRow().value<int>() - 1 );
     lastAsked = QDateTime::currentDateTime();
     save();
 }
 
 void Vocabel::back()
 {
-    rightInRow = 0;
-    back++;
+    rightInRow.set( 0 );
+    backClicks.set( backClicks().value<int>() +1 );
     lastAsked = QDateTime::currentDateTime();
     save();
 }
 
 void Vocabel::stay()
 {
-    stay++;
+    stayClicks.set( stayClicks().value<int>() +1 );
     lastAsked = QDateTime::currentDateTime();
     save();
 }

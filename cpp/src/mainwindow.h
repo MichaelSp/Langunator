@@ -18,6 +18,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void setActiveKeyboardLayout(USHORT primaryLanguage, USHORT subLanguage);
 private slots:
     void currentCategoryChanged(CategoryPtr cat);
     void updateCategories(CategoriesPtr cats);
@@ -31,6 +32,7 @@ private slots:
     void on_btnShowAnswer_clicked();
 
 private:
+    QList<QString> languages();
     Ui::MainWindow *ui;
     Backend backend;
 };

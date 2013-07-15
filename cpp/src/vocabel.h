@@ -1,5 +1,4 @@
-#ifndef VOKABEL_H
-#define VOKABEL_H
+#pragma once
 
 #include "pch.h"
 #include "category.h"
@@ -17,10 +16,10 @@ public:
     DQField<QString> language1;
     DQField<QString> language2;
     DQField<int> lektion;
-    DQField<int> next;
-    DQField<int> previous;
-    DQField<int> stay;
-    DQField<int> back;
+    DQField<int> nextClicks;
+    DQField<int> previousClicks;
+    DQField<int> stayClicks;
+    DQField<int> backClicks;
     DQField<int> rightInRow;
     DQField<QDateTime> lastAsked;
 };
@@ -30,9 +29,9 @@ DQ_DECLARE_MODEL(Vocabel,
                  DQ_FIELD(language1, DQNotNull),
                  DQ_FIELD(language2, DQNotNull),
                  DQ_FIELD(lektion, DQDefault(0)),
-                 DQ_FIELD(right, DQDefault(0)),
-                 DQ_FIELD(wrong, DQDefault(0)),
+                 DQ_FIELD(nextClicks, DQDefault(0)),
+                 DQ_FIELD(previousClicks, DQDefault(0)),
+                 DQ_FIELD(stayClicks, DQDefault(0)),
+                 DQ_FIELD(backClicks, DQDefault(0)),
                  DQ_FIELD(category, DQNotNull)
                  )
-
-#endif // VOKABEL_H

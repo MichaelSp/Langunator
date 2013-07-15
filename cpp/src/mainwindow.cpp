@@ -4,6 +4,21 @@
 #include "ui_mainwindow.h"
 #include "db.h"
 
+#ifdef Q_OS_WIN
+#include "Windows.h"
+
+void MainWindow::setActiveKeyboardLayout(USHORT primaryLanguage, USHORT subLanguage) {
+    DWORD dwLang = MAKELANGID(primaryLanguage, subLanguage);
+    WCHAR szBuf[32];
+    wsprintf(szBuf, L"%.8x", dwLang);
+    ActivateKeyboardLayout(LoadKeyboardLayout(szBuf, KLF_ACTIVATE | KLF_REPLACELANG), KLF_REORDER);
+}
+#else
+void MainWindow::setActiveKeyboardLayout(QString lang) {
+    qWarning("NOT IMPLEMENTED: setActiveKeyboardLayout");
+}
+#endif
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,6 +31,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->edtLanguage2, &QLineEdit::textEdited, this, &MainWindow::currentLanguageChanged);
     connect(&backend, &Backend::categoriesUpdated, this, &MainWindow::updateCategories);
     connect(&backend, &Backend::currentCategoryChanged, this, &MainWindow::currentCategoryChanged);
+
+
+    setActiveKeyboardLayout(LANG_GREEK, SUBLANG_DEFAULT);
+    QList<QString> lang = languages();
+    ui->cmbKeyboardLayout1->addItems(lang);
+    ui->cmbKeyboardLayout2->addItems(lang);
 }
 
 MainWindow::~MainWindow()
@@ -47,7 +68,7 @@ void MainWindow::currentCategoryChanged(CategoryPtr cat)
         ui->edtLanguage1->setText(cat->languageFrom());
         ui->edtLanguage2->setText(cat->languageTo());
         Vocabel *voc = backend.currentVocable();
-        ui->btnShowAnswer->setEnabled(voc != NULL);
+        ui->grpAnswers->setEnabled(voc != NULL);
         if (voc) {
             ui->txtQuestion->setText( voc->language1 );
         }
@@ -83,8 +104,14 @@ void MainWindow::on_btnCategoryAdd_clicked()
 {
     QString languageFrom = ui->edtLanguage1->text();
     QString languageTo = ui->edtLanguage2->text();
+    QString layout1 = ui->cmbKeyboardLayout1->currentText();
+    QString layout2 = ui->cmbKeyboardLayout2->currentText();
+    if (ui->cmbKeyboardLayout1->currentIndex() <=1)
+        layout1 = "";
+    if (ui->cmbKeyboardLayout2->currentIndex() <=1)
+        layout2 = "";
 
-    backend.addCategory(languageFrom, languageTo);
+    backend.addCategory(languageFrom, languageTo, layout1, layout2);
 }
 
 void MainWindow::on_cmbEnterCategory_currentIndexChanged(int index)
@@ -125,4 +152,21 @@ void MainWindow::on_btnShowAnswer_clicked()
     if (backend.currentVocable() == NULL)
         return;
     ui->txtLanguage2->setText( backend.currentVocable()->language2 );
+}
+
+BOOL CALLBACK Locale_EnumLocalesProcEx(_In_ LPWSTR lpLocaleString,
+        _In_  DWORD dwFlags, _In_ LPARAM lParam)
+{
+    Q_UNUSED(dwFlags);
+    ((QList<QString>*)lParam)->append(QString::fromWCharArray(lpLocaleString));
+    return TRUE;
+}
+
+QList<QString> MainWindow::languages()
+{
+    QList<QString> lang;
+    EnumSystemLocalesEx(&Locale_EnumLocalesProcEx, LOCALE_WINDOWS, (LPARAM)&lang, NULL);
+    lang.removeAll("");
+    qSort(lang);
+    return lang;
 }

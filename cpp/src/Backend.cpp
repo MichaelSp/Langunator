@@ -15,9 +15,11 @@ void Backend::delayedInit()
         dbLoaded(); // signal is emitted b4 we reach that line...
 }
 
-void Backend::addCategory(QString languageFrom,QString languageTo)
+void Backend::addCategory(QString languageFrom,QString languageTo, QString layout1, QString layout2)
 {
     CategoryPtr cat(new Category(languageFrom,languageTo));
+    cat->setKeyboardLayoutFrom(layout1);
+    cat->setKeyboardLayoutTo(layout2);
     if (cat->save(false,false))
     {
         cacheIsDirty = true;
@@ -72,7 +74,11 @@ void Backend::setCurrentCategory(CategoryPtr arg)
     if (m_currentCategory != arg) {
         m_currentCategory = arg;
         vocListModel = VocableListPtr(new VocableList(m_currentCategory));
-        trainingSet = Vocabel::objects().filter(DQWhere("category = ", m_currentCategory->id)).all();
+
+        DQSharedQuery qry(Vocabel::objects());
+        trainingSet = qry.filter( DQWhere("lastAsked - CURRENT_TIMESTAMP") > "rightInRow" ).all();
+        qDebug() << "query " << qry.lastQuery().lastError();
+
         emit currentCategoryChanged(arg);
     }
 }

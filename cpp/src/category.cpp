@@ -1,4 +1,3 @@
-
 #include "category.h"
 #include "db.h"
 #include "vocabel.h"
@@ -34,5 +33,26 @@ DQList<Vocabel> Category::vocables()
 {
     DQList<Vocabel> list = Vocabel::objects().filter(DQWhere("category = ", this->id) ).all();
     return list;
+}
+
+
+QString Category::keyboardLayoutTo() const
+{
+    return keyboardTo;
+}
+
+void Category::setKeyboardLayoutTo(const QString &value)
+{
+    keyboardTo = value;
+}
+
+QString Category::keyboardLayoutFrom() const
+{
+    return keyboardFrom;
+}
+
+void Category::setKeyboardLayoutFrom(const QString &value)
+{
+    keyboardFrom = value;
 }
 

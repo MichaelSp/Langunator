@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1129</width>
-    <height>479</height>
+    <height>527</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="iconSize">
        <size>
@@ -57,14 +57,17 @@
            <layout class="QGridLayout" name="gridLayout_2">
             <item row="0" column="0">
              <widget class="QTextEdit" name="txtQuestion">
-              <property name="enabled">
-               <bool>false</bool>
+              <property name="readOnly">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
            </layout>
           </widget>
-          <widget class="QGroupBox" name="groupBox_2">
+          <widget class="QGroupBox" name="grpAnswers">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="title">
             <string>Antwort</string>
            </property>
@@ -186,13 +189,14 @@
              </widget>
             </item>
             <item row="1" column="0" colspan="3">
-             <widget class="QTextEdit" name="txtAnswer"/>
+             <widget class="QTextEdit" name="txtAnswer">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
             <item row="0" column="0">
              <widget class="QCommandLinkButton" name="btnShowAnswer">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
               <property name="text">
                <string>Antwort zeigen</string>
               </property>
@@ -232,6 +236,29 @@
            <string>Sprache</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_6">
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="edtLanguage2"/>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="edtLanguage1">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>5</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Sprache 1:</string>
+             </property>
+             <property name="buddy">
+              <cstring>edtLanguage1</cstring>
+             </property>
+            </widget>
+           </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_2">
              <property name="text">
@@ -242,20 +269,35 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="edtLanguage2"/>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="edtLanguage1"/>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label">
+           <item row="0" column="2" rowspan="2">
+            <widget class="QLabel" name="label_3">
              <property name="text">
-              <string>Sprache 1:</string>
+              <string>Tastatur Layout:</string>
              </property>
-             <property name="buddy">
-              <cstring>edtLanguage1</cstring>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QComboBox" name="cmbKeyboardLayout1">
+             <item>
+              <property name="text">
+               <string>&lt;Nicht ändern&gt;</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="1" column="3">
+            <widget class="QComboBox" name="cmbKeyboardLayout2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>5</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
+             <item>
+              <property name="text">
+               <string>&lt;Nicht ändern&gt;</string>
+              </property>
+             </item>
             </widget>
            </item>
           </layout>
@@ -305,6 +347,9 @@
          <widget class="QSplitter" name="splitter_2">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="childrenCollapsible">
+           <bool>false</bool>
           </property>
           <widget class="QWidget" name="layoutWidget">
            <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -536,8 +581,8 @@
                    </property>
                    <property name="iconSize">
                     <size>
-                     <width>30</width>
-                     <height>30</height>
+                     <width>32</width>
+                     <height>32</height>
                     </size>
                    </property>
                   </widget>
@@ -568,22 +613,10 @@
           </widget>
           <widget class="QListWidget" name="listWidget">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>20</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>500</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="baseSize">
-            <size>
-             <width>500</width>
-             <height>500</height>
-            </size>
            </property>
           </widget>
          </widget>
@@ -615,6 +648,21 @@
     </item>
    </layout>
   </widget>
+  <action name="actionFast_richtig">
+   <property name="icon">
+    <iconset resource="../img.qrc">
+     <normaloff>:/img/img/Taste oben.png</normaloff>:/img/img/Taste oben.png</iconset>
+   </property>
+   <property name="text">
+    <string>Fast richtig</string>
+   </property>
+   <property name="toolTip">
+    <string>Die Vokabel verbleibt in dem aktuellen Status. Weder hoch noch runter.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Up</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>

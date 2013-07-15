@@ -14,8 +14,8 @@ class DB;
 class Category : public DQModel
 {
     DQ_MODEL
-    public:
-        Category(){}
+public:
+    Category(){}
 
     explicit Category(QString from, QString to);
     Category(const Category&);
@@ -34,9 +34,16 @@ class Category : public DQModel
     bool addVocable(QString lang1, QString lang2);
     virtual bool save(bool forceInsert = false, bool forceAllField=false);
 
+    QString keyboardLayoutFrom() const;
+    void setKeyboardLayoutFrom(const QString &value);
+    QString keyboardLayoutTo() const;
+    void setKeyboardLayoutTo(const QString &value);
+
 private:
     DQField<QString> langFrom;
     DQField<QString> langTo;
+    DQField<QString> keyboardFrom;
+    DQField<QString> keyboardTo;
 };
 
 DQ_DECLARE_MODEL(Category,
