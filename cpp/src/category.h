@@ -9,7 +9,7 @@
 
 #include <QObject>
 
-class Vocabel;
+class Vocable;
 class DB;
 class Category : public DQModel
 {
@@ -29,7 +29,7 @@ public:
     QString languageFrom(){return langFrom;}
     QString languageTo(){return langTo;}
 
-    DQList<Vocabel> vocables();
+    DQList<Vocable> vocables();
 
     bool addVocable(QString lang1, QString lang2);
     virtual bool save(bool forceInsert = false, bool forceAllField=false);

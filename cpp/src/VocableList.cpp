@@ -19,6 +19,10 @@ QVariant VocableList::data(const QModelIndex &index, int role) const
         else
             return vocListCache.at(index.row())->language2;
     }
+    else if (role==Qt::UserRole) {
+        Vocable *voc = vocListCache.at(index.row());
+        return QVariant::fromValue( voc );
+    }
     return QVariant();
 }
 
@@ -35,7 +39,7 @@ QVariant VocableList::headerData(int section, Qt::Orientation orientation, int r
 
 void VocableList::refreshCache()
 {
-    vocListCache = Vocabel::objects().filter(DQWhere("category = ", category->id)).all();
+    vocListCache = Vocable::objects().filter(DQWhere("category = ", category->id)).all();
     emit dataChanged(index(0,0),index(rowCount(),columnCount()));
 }
 

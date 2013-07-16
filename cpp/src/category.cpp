@@ -16,7 +16,7 @@ Category::Category(const Category &cat)
 
 bool Category::addVocable(QString lang1, QString lang2)
 {
-    Vocabel vok;
+    Vocable vok;
     vok.language1 = lang1;
     vok.language2 = lang2;
     vok.category = *this;
@@ -29,9 +29,9 @@ bool Category::save(bool forceInsert, bool forceAllField)
     return returnValue;
 }
 
-DQList<Vocabel> Category::vocables()
+DQList<Vocable> Category::vocables()
 {
-    DQList<Vocabel> list = Vocabel::objects().filter(DQWhere("category = ", this->id) ).all();
+    DQList<Vocable> list = Vocable::objects().filter(DQWhere("category = ", this->id) ).all();
     return list;
 }
 

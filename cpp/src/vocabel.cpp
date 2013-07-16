@@ -1,5 +1,5 @@
 #include "vocabel.h"
-void Vocabel::next()
+void Vocable::next()
 {
     rightInRow.set( rightInRow().value<int>() +1 );
     nextClicks.set( nextClicks().value<int>() +1 );
@@ -7,23 +7,23 @@ void Vocabel::next()
     save();
 }
 
-void Vocabel::previous()
+void Vocable::back()
 {
-    previousClicks.set( previousClicks().value<int>() +1 );
+    backClicks.set( backClicks().value<int>() +1 );
     rightInRow.set( rightInRow().value<int>() - 1 );
     lastAsked = QDateTime::currentDateTime();
     save();
 }
 
-void Vocabel::back()
+void Vocable::backTo0()
 {
     rightInRow.set( 0 );
-    backClicks.set( backClicks().value<int>() +1 );
+    backTo0Clicks.set( backTo0Clicks().value<int>() +1 );
     lastAsked = QDateTime::currentDateTime();
     save();
 }
 
-void Vocabel::stay()
+void Vocable::stay()
 {
     stayClicks.set( stayClicks().value<int>() +1 );
     lastAsked = QDateTime::currentDateTime();

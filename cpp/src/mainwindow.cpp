@@ -26,14 +26,14 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->lblWarning->hide();
+    ui->lblMessages->hide();
 
     connect(ui->edtLanguage1, &QLineEdit::textEdited, this, &MainWindow::currentLanguageChanged);
     connect(ui->edtLanguage2, &QLineEdit::textEdited, this, &MainWindow::currentLanguageChanged);
     connect(&backend, &Backend::categoriesUpdated, this, &MainWindow::updateCategories);
     connect(&backend, &Backend::currentCategoryChanged, this, &MainWindow::currentCategoryChanged);
+    connect(&backend, &Backend::newVocable, this, &MainWindow::setVocable);
 
-
-    setActiveKeyboardLayout(LANG_GREEK, SUBLANG_DEFAULT);
     QList<QString> lang = languages();
     ui->cmbKeyboardLayout1->addItems(lang);
     ui->cmbKeyboardLayout2->addItems(lang);
@@ -46,10 +46,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::updateCategories(CategoriesPtr cats)
 {
-    ui->cmbQuestionCategory->clear();
     ui->cmbEnterCategory->clear();
     foreach(CategoryPtr cat, cats){
-        ui->cmbQuestionCategory->addItem(cat->categoryName(), QVariant::fromValue(cat));
         ui->cmbEnterCategory->addItem(cat->categoryName(), QVariant::fromValue(cat));
     }
     int currentIndex = ui->cmbEnterCategory->count()-1;
@@ -59,24 +57,42 @@ void MainWindow::updateCategories(CategoriesPtr cats)
     backend.setCurrentCategory( ui->cmbEnterCategory->itemData( currentIndex ).value<CategoryPtr>() );
 }
 
+void MainWindow::setVocable(Vocable *voc)
+{
+    ui->grpAnswers->setEnabled(voc != NULL);
+    ui->chkInvers->setEnabled(voc != NULL);
+    ui->txtQuestion->clear();
+    ui->txtAnswer->clear();
+    if (voc) {
+        bool invers = ui->chkInvers->isChecked();
+        ui->txtQuestion->setText( invers?voc->language2:voc->language1 );
+    }
+    else
+        ui->lblMessages->show();
+}
+
+void MainWindow::startLearning()
+{
+    backend.prepareTrainingSet();
+}
+
 void MainWindow::currentCategoryChanged(CategoryPtr cat)
 {
     bool valid = !cat.isNull() && cat->isValid();
+    ui->splitterEnterVocabs->setEnabled(valid);
     ui->btnCategoryAdd->setDisabled(valid);
-    ui->btnShowAnswer->setEnabled(false);
-    if (valid) {
-        ui->edtLanguage1->setText(cat->languageFrom());
-        ui->edtLanguage2->setText(cat->languageTo());
-        Vocabel *voc = backend.currentVocable();
-        ui->grpAnswers->setEnabled(voc != NULL);
-        if (voc) {
-            ui->txtQuestion->setText( voc->language1 );
-        }
+    ui->edtLanguage1->clear();
+    ui->edtLanguage2->clear();
+    if (!valid) {
+        ui->edtLanguage1->setFocus();
+        ui->lstVocables->setModel(NULL);
+        return;
     }
-    else {
-        ui->edtLanguage1->clear();
-        ui->edtLanguage2->clear();
-    }
+    //setActiveKeyboardLayout(LANG_GREEK, SUBLANG_DEFAULT);
+    ui->edtLanguage1->setText(cat->languageFrom());
+    ui->edtLanguage2->setText(cat->languageTo());
+    ui->lstVocables->setModel( backend.currentVocabularyModel());
+    connect(ui->lstVocables->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::vocableSelectionChanged);
 }
 
 void MainWindow::currentLanguageChanged(QString)
@@ -142,7 +158,7 @@ void MainWindow::on_btnQuestionSave_clicked()
         QTimer::singleShot(5000, ui->lblWarning, SLOT(hide()));
         return;
     }
-    backend.currentCategory()->addVocable(ui->txtLanguage1->toHtml(), ui->txtLanguage2->toHtml());
+    backend.addVocable(ui->txtLanguage1->toPlainText(), ui->txtLanguage2->toPlainText());
     ui->txtLanguage1->clear();
     ui->txtLanguage2->clear();
 }
@@ -151,11 +167,55 @@ void MainWindow::on_btnShowAnswer_clicked()
 {
     if (backend.currentVocable() == NULL)
         return;
-    ui->txtLanguage2->setText( backend.currentVocable()->language2 );
+    ui->txtAnswer->setText( backend.currentVocable()->language2 );
 }
 
+void MainWindow::vocableSelectionChanged(const QModelIndex &current, const QModelIndex &previous) {
+    Q_UNUSED(previous);
+    ui->txtLanguage1->clear();
+    ui->txtLanguage2->clear();
+    if (!current.isValid())
+        return;
+    Vocable *voc = current.data(Qt::UserRole).value<Vocable*>();
+    ui->txtLanguage1->setText( voc->language1 );
+    ui->txtLanguage2->setText( voc->language2 );
+}
+
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    Q_UNUSED(index)
+    if (ui->tabWidget->currentWidget() == ui->tabLearn) {
+        startLearning();
+    }
+}
+
+void MainWindow::on_btnStay_clicked()
+{
+    backend.currentVocable()->stay();
+    backend.showNextVocable();
+}
+
+void MainWindow::on_btnBackTo0_clicked()
+{
+    backend.currentVocable()->backTo0();
+    backend.showNextVocable();
+}
+
+void MainWindow::on_btnNext_clicked()
+{
+    backend.currentVocable()->next();
+    backend.showNextVocable();
+}
+
+void MainWindow::on_btnBack_clicked()
+{
+    backend.currentVocable()->back();
+    backend.showNextVocable();
+}
+
+
 BOOL CALLBACK Locale_EnumLocalesProcEx(_In_ LPWSTR lpLocaleString,
-        _In_  DWORD dwFlags, _In_ LPARAM lParam)
+                                       _In_  DWORD dwFlags, _In_ LPARAM lParam)
 {
     Q_UNUSED(dwFlags);
     ((QList<QString>*)lParam)->append(QString::fromWCharArray(lpLocaleString));

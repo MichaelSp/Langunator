@@ -21,7 +21,7 @@ public slots:
 
 private:
     CategoryPtr category;
-    DQList<Vocabel> vocListCache;
+    DQList<Vocable> vocListCache;
 };
 
 typedef QSharedPointer<VocableList> VocableListPtr;

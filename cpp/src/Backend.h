@@ -12,6 +12,7 @@ class Backend : public QObject
     Q_PROPERTY(CategoryPtr currentCategory READ currentCategory WRITE setCurrentCategory NOTIFY currentCategoryChanged)
 public:
     explicit Backend(QObject *parent = 0);
+    ~Backend();
 
     void addCategory(QString languageFrom, QString languageTo, QString layout1, QString layout2);
     void removeCategory(CategoryPtr &cat);
@@ -22,14 +23,16 @@ public:
     void addVocable(QString lang1, QString lang2);
     QAbstractItemModel *currentVocabularyModel() const;
 
-    Vocabel *currentVocable();
-
+    void prepareTrainingSet();
+    Vocable *currentVocable();
+    void showNextVocable();
 public slots:
     void setCurrentCategory(CategoryPtr arg);
 
 signals:
     void categoriesUpdated(CategoriesPtr);
     void currentCategoryChanged(CategoryPtr newCurrentCategory);
+    void newVocable(Vocable *);
 
 private slots:
     void dbLoaded();
@@ -43,6 +46,6 @@ private:
     bool cacheIsDirty;
 
     VocableListPtr vocListModel;
-    DQList<Vocabel> trainingSet;
+    DQList<Vocable> trainingSet;
 };
 

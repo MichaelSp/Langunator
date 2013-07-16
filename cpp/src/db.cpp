@@ -24,7 +24,7 @@ void DB::init()
     connection->open(db);
 
     connection->addModel<Category>();
-    connection->addModel<Vocabel>();
+    connection->addModel<Vocable>();
 
     connection->createTables();
 

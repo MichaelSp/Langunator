@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="iconSize">
        <size>
@@ -35,17 +35,7 @@
         <string>Lernen</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4">
-        <item row="0" column="1">
-         <widget class="QRadioButton" name="rdbDirection1">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Sprache 1-&gt;Sprache2</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0" colspan="4">
+        <item row="1" column="0" colspan="3">
          <widget class="QSplitter" name="splitter">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -88,15 +78,15 @@
               </property>
               <layout class="QGridLayout" name="gridLayout_8">
                <item row="1" column="0">
-                <widget class="QCommandLinkButton" name="btnGrobRichtig">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
+                <widget class="QCommandLinkButton" name="btnBack">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
                    <height>50</height>
                   </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Diese Vokabel muss eine Stufe zurück</string>
                  </property>
                  <property name="text">
                   <string>Grob richtig</string>
@@ -111,15 +101,21 @@
                    <height>40</height>
                   </size>
                  </property>
+                 <property name="shortcut">
+                  <string>Left</string>
+                 </property>
                 </widget>
                </item>
                <item row="1" column="1">
-                <widget class="QCommandLinkButton" name="btnFalsch">
+                <widget class="QCommandLinkButton" name="btnBackTo0">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
                    <height>50</height>
                   </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Die Vokabel kommt ganz an den Anfang</string>
                  </property>
                  <property name="text">
                   <string>Falsch</string>
@@ -134,18 +130,21 @@
                    <height>40</height>
                   </size>
                  </property>
+                 <property name="shortcut">
+                  <string>Down</string>
+                 </property>
                 </widget>
                </item>
                <item row="1" column="2">
-                <widget class="QCommandLinkButton" name="btnRichtig">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
+                <widget class="QCommandLinkButton" name="btnNext">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
                    <height>50</height>
                   </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Diese Vokabel kommt in die nächste Stufe</string>
                  </property>
                  <property name="text">
                   <string>Richtig</string>
@@ -160,15 +159,21 @@
                    <height>40</height>
                   </size>
                  </property>
+                 <property name="shortcut">
+                  <string>Right</string>
+                 </property>
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QCommandLinkButton" name="btnFastRichtig">
+                <widget class="QCommandLinkButton" name="btnStay">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
                    <height>50</height>
                   </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Die Vokabel verbleibt in dem aktuellen Status. Weder hoch noch runter.</string>
                  </property>
                  <property name="text">
                   <string>Fast richtig</string>
@@ -182,6 +187,9 @@
                    <width>40</width>
                    <height>40</height>
                   </size>
+                 </property>
+                 <property name="shortcut">
+                  <string>Up</string>
                  </property>
                 </widget>
                </item>
@@ -198,7 +206,31 @@
             <item row="0" column="0">
              <widget class="QCommandLinkButton" name="btnShowAnswer">
               <property name="text">
-               <string>Antwort zeigen</string>
+               <string>Antwort zeigen (S)</string>
+              </property>
+              <property name="shortcut">
+               <string>S</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1" colspan="2">
+             <widget class="QLabel" name="lblMessages">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(152, 198, 139);
+color: rgb(17, 127, 0);
+font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Box</enum>
+              </property>
+              <property name="text">
+               <string>Tagesziel erreicht!</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -207,15 +239,9 @@
          </widget>
         </item>
         <item row="0" column="0">
-         <widget class="QComboBox" name="cmbQuestionCategory"/>
-        </item>
-        <item row="0" column="2">
-         <widget class="QRadioButton" name="rdbDirection2">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
+         <widget class="QCheckBox" name="chkInvers">
           <property name="text">
-           <string>Sprache 2 -&gt; Sprache 1</string>
+           <string>Inverse Richtung abfragen</string>
           </property>
          </widget>
         </item>
@@ -274,6 +300,9 @@
              <property name="text">
               <string>Tastatur Layout:</string>
              </property>
+             <property name="buddy">
+              <cstring>cmbKeyboardLayout1</cstring>
+             </property>
             </widget>
            </item>
            <item row="0" column="3">
@@ -318,8 +347,8 @@
               <string>Kategory Löschen</string>
              </property>
              <property name="icon">
-              <iconset>
-               <normaloff>:/img/img/edit-delete.png</normaloff>:/img/img/edit-delete.png</iconset>
+              <iconset resource="../img.qrc">
+               <normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</iconset>
              </property>
             </widget>
            </item>
@@ -332,8 +361,8 @@
               <string>Kategory hinzufügen</string>
              </property>
              <property name="icon">
-              <iconset>
-               <normaloff>:/img/img/edit-add.png</normaloff>:/img/img/edit-add.png</iconset>
+              <iconset resource="../img.qrc">
+               <normaloff>:/img/img/actions_list_add_user_export_bills.png</normaloff>:/img/img/actions_list_add_user_export_bills.png</iconset>
              </property>
             </widget>
            </item>
@@ -344,7 +373,10 @@
          </widget>
         </item>
         <item row="1" column="0" colspan="2">
-         <widget class="QSplitter" name="splitter_2">
+         <widget class="QSplitter" name="splitterEnterVocabs">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -611,13 +643,25 @@
             </item>
            </layout>
           </widget>
-          <widget class="QListWidget" name="listWidget">
+          <widget class="QTableView" name="lstVocables">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>20</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::SingleSelection</enum>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+           <attribute name="horizontalHeaderDefaultSectionSize">
+            <number>150</number>
+           </attribute>
+           <attribute name="horizontalHeaderStretchLastSection">
+            <bool>true</bool>
+           </attribute>
           </widget>
          </widget>
         </item>
@@ -648,34 +692,30 @@
     </item>
    </layout>
   </widget>
-  <action name="actionFast_richtig">
-   <property name="icon">
-    <iconset resource="../img.qrc">
-     <normaloff>:/img/img/Taste oben.png</normaloff>:/img/img/Taste oben.png</iconset>
-   </property>
-   <property name="text">
-    <string>Fast richtig</string>
-   </property>
-   <property name="toolTip">
-    <string>Die Vokabel verbleibt in dem aktuellen Status. Weder hoch noch runter.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Up</string>
-   </property>
-  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>cmbQuestionCategory</tabstop>
-  <tabstop>rdbDirection1</tabstop>
-  <tabstop>rdbDirection2</tabstop>
+  <tabstop>tabWidget</tabstop>
   <tabstop>txtQuestion</tabstop>
   <tabstop>btnShowAnswer</tabstop>
   <tabstop>txtAnswer</tabstop>
-  <tabstop>btnCategoryRemove</tabstop>
+  <tabstop>btnBack</tabstop>
+  <tabstop>btnStay</tabstop>
+  <tabstop>btnBackTo0</tabstop>
+  <tabstop>btnNext</tabstop>
   <tabstop>edtLanguage1</tabstop>
   <tabstop>edtLanguage2</tabstop>
+  <tabstop>cmbKeyboardLayout1</tabstop>
+  <tabstop>cmbKeyboardLayout2</tabstop>
+  <tabstop>cmbEnterCategory</tabstop>
+  <tabstop>btnCategoryAdd</tabstop>
+  <tabstop>btnCategoryRemove</tabstop>
+  <tabstop>txtLanguage1</tabstop>
   <tabstop>txtLanguage2</tabstop>
+  <tabstop>btnQuestionSave</tabstop>
+  <tabstop>btnQuestionDelete</tabstop>
+  <tabstop>btnMoveToBox</tabstop>
+  <tabstop>lstVocables</tabstop>
  </tabstops>
  <resources>
   <include location="../img.qrc"/>
@@ -688,12 +728,12 @@
    <slot>setText(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>500</x>
-     <y>99</y>
+     <x>379</x>
+     <y>106</y>
     </hint>
     <hint type="destinationlabel">
-     <x>107</x>
-     <y>229</y>
+     <x>120</x>
+     <y>195</y>
     </hint>
    </hints>
   </connection>
@@ -704,12 +744,12 @@
    <slot>setText(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>514</x>
-     <y>128</y>
+     <x>379</x>
+     <y>137</y>
     </hint>
     <hint type="destinationlabel">
-     <x>242</x>
-     <y>223</y>
+     <x>255</x>
+     <y>293</y>
     </hint>
    </hints>
   </connection>
