@@ -31,25 +31,27 @@ public:
 
     DQList<Vocable> vocables();
 
-    bool addVocable(QString lang1, QString lang2);
+    bool addVocable(QString lang1, QString lang2, int lektion);
     virtual bool save(bool forceInsert = false, bool forceAllField=false);
 
-    QString keyboardLayoutFrom() const;
-    void setKeyboardLayoutFrom(const QString &value);
-    QString keyboardLayoutTo() const;
-    void setKeyboardLayoutTo(const QString &value);
+    int keyboardLayoutFrom() const;
+    void setKeyboardLayoutFrom(const int &value);
+    int keyboardLayoutTo() const;
+    void setKeyboardLayoutTo(const int &value);
 
 private:
     DQField<QString> langFrom;
     DQField<QString> langTo;
-    DQField<QString> keyboardFrom;
-    DQField<QString> keyboardTo;
+    DQField<int> keyboardFrom;
+    DQField<int> keyboardTo;
 };
 
 DQ_DECLARE_MODEL(Category,
                  "category",
                  DQ_FIELD(langFrom),
-                 DQ_FIELD(langTo)
+                 DQ_FIELD(langTo),
+                 DQ_FIELD(keyboardFrom),
+                 DQ_FIELD(keyboardTo)
                  )
 
 

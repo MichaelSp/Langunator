@@ -14,11 +14,12 @@ Category::Category(const Category &cat)
     langTo = cat.langTo;
 }
 
-bool Category::addVocable(QString lang1, QString lang2)
+bool Category::addVocable(QString lang1, QString lang2, int lektion)
 {
     Vocable vok;
     vok.language1 = lang1;
     vok.language2 = lang2;
+    vok.lektion = lektion;
     vok.category = *this;
     return vok.save();
 }
@@ -36,22 +37,22 @@ DQList<Vocable> Category::vocables()
 }
 
 
-QString Category::keyboardLayoutTo() const
+int Category::keyboardLayoutTo() const
 {
     return keyboardTo;
 }
 
-void Category::setKeyboardLayoutTo(const QString &value)
+void Category::setKeyboardLayoutTo(const int &value)
 {
     keyboardTo = value;
 }
 
-QString Category::keyboardLayoutFrom() const
+int Category::keyboardLayoutFrom() const
 {
     return keyboardFrom;
 }
 
-void Category::setKeyboardLayoutFrom(const QString &value)
+void Category::setKeyboardLayoutFrom(const int &value)
 {
     keyboardFrom = value;
 }

@@ -16,5 +16,6 @@
         <file>img/actions_list_add_user_export_bills.png</file>
         <file>img/apps_hardware.png</file>
         <file>img/Fernglas.png</file>
+        <file>img/earth.ico</file>
     </qresource>
 </RCC>

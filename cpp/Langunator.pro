@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core gui sql webkitwidgets
 CONFIG   += precompile_header
 
 folder_01.source = src/QML
@@ -18,6 +18,9 @@ TEMPLATE = app
 
 PRECOMPILED_HEADER = ./src/pch.h
 INCLUDEPATH += ./src/ ./dquest-0.2/src/
+
+ICON = $${PWD}/img/earth.ico
+RC_FILE = Langunator.rc
 
 SOURCES += src/main.cpp\
         src/mainwindow.cpp \
@@ -43,7 +46,8 @@ SOURCES += src/main.cpp\
     dquest-0.2/src/dqabstractmodel.cpp \
     src/Backend.cpp \
     src/VocableList.cpp \
-    src/vocabel.cpp
+    src/vocabel.cpp \
+    src/keyboardlayout.cpp
 
 HEADERS  += src/mainwindow.h \
     src/pch.h \
@@ -76,7 +80,8 @@ HEADERS  += src/mainwindow.h \
     dquest-0.2/src/dqabstractmodel.h \
     src/Backend.h \
     src/VocableList.h \
-    src/vocabel.h
+    src/vocabel.h \
+    src/keyboardlayout.h
 
 FORMS    += src/mainwindow.ui
 

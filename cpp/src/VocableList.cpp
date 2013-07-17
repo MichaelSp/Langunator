@@ -14,10 +14,12 @@ QVariant VocableList::data(const QModelIndex &index, int role) const
         return QVariant();
 
     if (role == Qt::DisplayRole) {
-        if (index.column() == 0)
-            return vocListCache.at(index.row())->language1;
-        else
-            return vocListCache.at(index.row())->language2;
+        switch(index.column()){
+        default:
+        case 0: return vocListCache.at(index.row())->language1;
+        case 1: return vocListCache.at(index.row())->language2;
+        case 2: return vocListCache.at(index.row())->lektion;
+        }
     }
     else if (role==Qt::UserRole) {
         Vocable *voc = vocListCache.at(index.row());
@@ -31,10 +33,12 @@ QVariant VocableList::headerData(int section, Qt::Orientation orientation, int r
     if (role != Qt::DisplayRole || orientation != Qt::Horizontal)
         return QAbstractItemModel::headerData(section, orientation, role);
 
-    if (section == 0)
-        return category->languageFrom();
-    else
-        return category->languageTo();
+    switch (section) {
+    case 0: return category->languageFrom();
+    case 1: return category->languageTo();
+    default:
+    case 2: return "Lektion";
+    }
 }
 
 void VocableList::refreshCache()
@@ -60,5 +64,5 @@ int VocableList::rowCount(const QModelIndex &) const
 
 int VocableList::columnCount(const QModelIndex &) const
 {
-    return 2;
+    return 3;
 }

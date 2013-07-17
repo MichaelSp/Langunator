@@ -3,22 +3,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "db.h"
-
-#ifdef Q_OS_WIN
-#include "Windows.h"
-
-void MainWindow::setActiveKeyboardLayout(USHORT primaryLanguage, USHORT subLanguage) {
-    DWORD dwLang = MAKELANGID(primaryLanguage, subLanguage);
-    WCHAR szBuf[32];
-    wsprintf(szBuf, L"%.8x", dwLang);
-    ActivateKeyboardLayout(LoadKeyboardLayout(szBuf, KLF_ACTIVATE | KLF_REPLACELANG), KLF_REORDER);
-}
-#else
-void MainWindow::setActiveKeyboardLayout(QString lang) {
-    qWarning("NOT IMPLEMENTED: setActiveKeyboardLayout");
-}
-#endif
-
+#include "keyboardlayout.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -27,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->lblWarning->hide();
     ui->lblMessages->hide();
+    ui->txtLanguage1->installEventFilter(this);
+    ui->txtLanguage2->installEventFilter(this);
 
     connect(ui->edtLanguage1, &QLineEdit::textEdited, this, &MainWindow::currentLanguageChanged);
     connect(ui->edtLanguage2, &QLineEdit::textEdited, this, &MainWindow::currentLanguageChanged);
@@ -34,9 +21,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&backend, &Backend::currentCategoryChanged, this, &MainWindow::currentCategoryChanged);
     connect(&backend, &Backend::newVocable, this, &MainWindow::setVocable);
 
-    QList<QString> lang = languages();
-    ui->cmbKeyboardLayout1->addItems(lang);
-    ui->cmbKeyboardLayout2->addItems(lang);
+    QList<KeyboardLayout::LanguageInfo> lang = KeyboardLayout::languages();
+    foreach(KeyboardLayout::LanguageInfo nfo, lang) {
+        ui->cmbKeyboardLayout1->addItem(nfo.name, nfo.code);
+        ui->cmbKeyboardLayout2->addItem(nfo.name, nfo.code);
+    }
 }
 
 MainWindow::~MainWindow()
@@ -83,14 +72,21 @@ void MainWindow::currentCategoryChanged(CategoryPtr cat)
     ui->btnCategoryAdd->setDisabled(valid);
     ui->edtLanguage1->clear();
     ui->edtLanguage2->clear();
+    ui->cmbKeyboardLayout1->setCurrentIndex(0);
+    ui->cmbKeyboardLayout2->setCurrentIndex(0);
     if (!valid) {
         ui->edtLanguage1->setFocus();
         ui->lstVocables->setModel(NULL);
         return;
     }
-    //setActiveKeyboardLayout(LANG_GREEK, SUBLANG_DEFAULT);
     ui->edtLanguage1->setText(cat->languageFrom());
     ui->edtLanguage2->setText(cat->languageTo());
+    for(int i=0;i<ui->cmbKeyboardLayout1->count();i++)
+        if (ui->cmbKeyboardLayout1->itemData(i).toInt() == cat->keyboardLayoutFrom())
+            ui->cmbKeyboardLayout1->setCurrentIndex(i);
+    for(int i=0;i<ui->cmbKeyboardLayout2->count();i++)
+        if (ui->cmbKeyboardLayout2->itemData(i).toInt() == cat->keyboardLayoutTo())
+            ui->cmbKeyboardLayout2->setCurrentIndex(i);
     ui->lstVocables->setModel( backend.currentVocabularyModel());
     connect(ui->lstVocables->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::vocableSelectionChanged);
 }
@@ -106,7 +102,6 @@ void MainWindow::currentLanguageChanged(QString)
             cat->setLanguageFrom(languageFrom);
         if (!languageTo.isEmpty())
             cat->setLanguageTo(languageTo);
-        qDebug() << cat->categoryName() ;
         ui->cmbEnterCategory->setItemText(ui->cmbEnterCategory->currentIndex(), cat->categoryName() );
     }
     else{
@@ -120,12 +115,8 @@ void MainWindow::on_btnCategoryAdd_clicked()
 {
     QString languageFrom = ui->edtLanguage1->text();
     QString languageTo = ui->edtLanguage2->text();
-    QString layout1 = ui->cmbKeyboardLayout1->currentText();
-    QString layout2 = ui->cmbKeyboardLayout2->currentText();
-    if (ui->cmbKeyboardLayout1->currentIndex() <=1)
-        layout1 = "";
-    if (ui->cmbKeyboardLayout2->currentIndex() <=1)
-        layout2 = "";
+    int layout1 = ui->cmbKeyboardLayout1->itemData(ui->cmbKeyboardLayout1->currentIndex()).toInt();
+    int layout2 = ui->cmbKeyboardLayout2->itemData(ui->cmbKeyboardLayout2->currentIndex()).toInt();
 
     backend.addCategory(languageFrom, languageTo, layout1, layout2);
 }
@@ -135,6 +126,8 @@ void MainWindow::on_cmbEnterCategory_currentIndexChanged(int index)
     bool validItem = (index>=0);
     bool newItem = ui->cmbEnterCategory->itemData(index).type() == QVariant::Bool;
     ui->btnCategoryRemove->setEnabled(validItem && !newItem);
+    ui->txtLanguage1->clear();
+    ui->txtLanguage2->clear();
 
     if(validItem && !newItem)
         backend.setCurrentCategory( ui->cmbEnterCategory->itemData(index).value<CategoryPtr>() );
@@ -158,7 +151,9 @@ void MainWindow::on_btnQuestionSave_clicked()
         QTimer::singleShot(5000, ui->lblWarning, SLOT(hide()));
         return;
     }
-    backend.addVocable(ui->txtLanguage1->toPlainText(), ui->txtLanguage2->toPlainText());
+    backend.addVocable(ui->txtLanguage1->toPlainText(),
+                       ui->txtLanguage2->toPlainText(),
+                       ui->spnLektion->value());
     ui->txtLanguage1->clear();
     ui->txtLanguage2->clear();
 }
@@ -174,11 +169,13 @@ void MainWindow::vocableSelectionChanged(const QModelIndex &current, const QMode
     Q_UNUSED(previous);
     ui->txtLanguage1->clear();
     ui->txtLanguage2->clear();
+    ui->spnLektion->clear();
     if (!current.isValid())
         return;
     Vocable *voc = current.data(Qt::UserRole).value<Vocable*>();
     ui->txtLanguage1->setText( voc->language1 );
     ui->txtLanguage2->setText( voc->language2 );
+    ui->spnLektion->setValue( voc->lektion );
 }
 
 void MainWindow::on_tabWidget_currentChanged(int index)
@@ -213,20 +210,35 @@ void MainWindow::on_btnBack_clicked()
     backend.showNextVocable();
 }
 
-
-BOOL CALLBACK Locale_EnumLocalesProcEx(_In_ LPWSTR lpLocaleString,
-                                       _In_  DWORD dwFlags, _In_ LPARAM lParam)
+void MainWindow::on_cmbKeyboardLayout1_activated(const QString &)
 {
-    Q_UNUSED(dwFlags);
-    ((QList<QString>*)lParam)->append(QString::fromWCharArray(lpLocaleString));
-    return TRUE;
+    if (backend.currentCategory().isNull())
+        return;
+    int code = ui->cmbKeyboardLayout1->itemData(ui->cmbKeyboardLayout1->currentIndex()).toInt();
+    backend.currentCategory()->setKeyboardLayoutFrom(code);
 }
 
-QList<QString> MainWindow::languages()
+void MainWindow::on_cmbKeyboardLayout2_activated(const QString &)
 {
-    QList<QString> lang;
-    EnumSystemLocalesEx(&Locale_EnumLocalesProcEx, LOCALE_WINDOWS, (LPARAM)&lang, NULL);
-    lang.removeAll("");
-    qSort(lang);
-    return lang;
+    if (backend.currentCategory().isNull())
+        return;
+    int code = ui->cmbKeyboardLayout2->itemData(ui->cmbKeyboardLayout2->currentIndex()).toInt();
+    backend.currentCategory()->setKeyboardLayoutTo(code);
 }
+
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+    if ((obj == ui->txtLanguage1 || obj == ui->txtLanguage2) &&
+            (event->type() == QEvent::FocusIn ||
+             event->type() == QEvent::FocusOut)) {
+        QFocusEvent *evt = static_cast<QFocusEvent*>(event);
+        if (evt->lostFocus())
+            KeyboardLayout::restore();
+        else if (obj == ui->txtLanguage1)
+            KeyboardLayout::setActiveKeyboardLayout(backend.currentCategory()->keyboardLayoutFrom());
+        else if (obj == ui->txtLanguage2)
+            KeyboardLayout::setActiveKeyboardLayout(backend.currentCategory()->keyboardLayoutTo());
+    }
+    return QObject::eventFilter(obj, event);
+}
+

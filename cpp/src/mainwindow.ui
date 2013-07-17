@@ -11,14 +11,18 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Langunator</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../img.qrc">
+    <normaloff>:/img/img/earth.ico</normaloff>:/img/img/earth.ico</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="iconSize">
        <size>
@@ -255,7 +259,47 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
        <attribute name="title">
         <string>Vokabeln verwalten</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_7">
+       <layout class="QGridLayout" name="gridLayout_10">
+        <item row="0" column="1">
+         <widget class="QGroupBox" name="groupBox_3">
+          <property name="title">
+           <string>Kategorie</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_5">
+           <item row="2" column="1">
+            <widget class="QCommandLinkButton" name="btnCategoryRemove">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Kategory Löschen</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../img.qrc">
+               <normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QCommandLinkButton" name="btnCategoryAdd">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Kategory hinzufügen</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../img.qrc">
+               <normaloff>:/img/img/actions_list_add_user_export_bills.png</normaloff>:/img/img/actions_list_add_user_export_bills.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="2">
+            <widget class="QComboBox" name="cmbEnterCategory"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
         <item row="0" column="0">
          <widget class="QGroupBox" name="groupBox_4">
           <property name="title">
@@ -332,46 +376,6 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
           </layout>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QGroupBox" name="groupBox_3">
-          <property name="title">
-           <string>Kategorie</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_5">
-           <item row="2" column="1">
-            <widget class="QCommandLinkButton" name="btnCategoryRemove">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>Kategory Löschen</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../img.qrc">
-               <normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</iconset>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QCommandLinkButton" name="btnCategoryAdd">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>Kategory hinzufügen</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../img.qrc">
-               <normaloff>:/img/img/actions_list_add_user_export_bills.png</normaloff>:/img/img/actions_list_add_user_export_bills.png</iconset>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0" colspan="2">
-            <widget class="QComboBox" name="cmbEnterCategory"/>
-           </item>
-          </layout>
-         </widget>
-        </item>
         <item row="1" column="0" colspan="2">
          <widget class="QSplitter" name="splitterEnterVocabs">
           <property name="enabled">
@@ -380,12 +384,122 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="childrenCollapsible">
-           <bool>false</bool>
-          </property>
           <widget class="QWidget" name="layoutWidget">
-           <layout class="QVBoxLayout" name="verticalLayout_3">
-            <item>
+           <layout class="QGridLayout" name="gridLayout_7">
+            <item row="1" column="0">
+             <widget class="QLabel" name="lblLanguage1">
+              <property name="text">
+               <string>Sprache 1</string>
+              </property>
+              <property name="buddy">
+               <cstring>txtLanguage1</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="lblLanguage2">
+              <property name="text">
+               <string>Sprache 2</string>
+              </property>
+              <property name="buddy">
+               <cstring>txtLanguage2</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="5" column="0" colspan="4">
+             <widget class="QFrame" name="frame">
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_9">
+               <item row="1" column="2">
+                <widget class="QCommandLinkButton" name="btnMoveToBox">
+                 <property name="text">
+                  <string>Suchen</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../img.qrc">
+                   <normaloff>:/img/img/Fernglas.png</normaloff>:/img/img/Fernglas.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>32</width>
+                   <height>32</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QCommandLinkButton" name="btnQuestionSave">
+                 <property name="text">
+                  <string>Speichern</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../img.qrc">
+                   <normaloff>:/img/img/Speichern.png</normaloff>:/img/img/Speichern.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QCommandLinkButton" name="btnQuestionDelete">
+                 <property name="text">
+                  <string>Löschen</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../img.qrc">
+                   <normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QSpinBox" name="spnLektion">
+                 <property name="minimumSize">
+                  <size>
+                   <width>60</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLabel" name="label_4">
+                 <property name="text">
+                  <string>Lektion</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="0" column="0" colspan="4">
              <widget class="QLabel" name="lblWarning">
               <property name="palette">
                <palette>
@@ -544,102 +658,31 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
               </property>
              </widget>
             </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_2">
-              <item>
-               <widget class="QLabel" name="lblLanguage1">
-                <property name="text">
-                 <string>Sprache 1</string>
-                </property>
-                <property name="buddy">
-                 <cstring>txtLanguage1</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QTextEdit" name="txtLanguage1"/>
-              </item>
-             </layout>
+            <item row="1" column="2">
+             <widget class="QCheckBox" name="chkLang1Latex">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>LaTeX</string>
+              </property>
+             </widget>
             </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout">
-              <item>
-               <widget class="QLabel" name="lblLanguage2">
-                <property name="text">
-                 <string>Sprache 2</string>
-                </property>
-                <property name="buddy">
-                 <cstring>txtLanguage2</cstring>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QTextEdit" name="txtLanguage2"/>
-              </item>
-              <item>
-               <widget class="QFrame" name="frame">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_9">
-                 <item row="0" column="1">
-                  <widget class="QCommandLinkButton" name="btnQuestionDelete">
-                   <property name="text">
-                    <string>Löschen</string>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="../img.qrc">
-                     <normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>30</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="2">
-                  <widget class="QCommandLinkButton" name="btnMoveToBox">
-                   <property name="text">
-                    <string>Suchen</string>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="../img.qrc">
-                     <normaloff>:/img/img/Fernglas.png</normaloff>:/img/img/Fernglas.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>32</width>
-                     <height>32</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="QCommandLinkButton" name="btnQuestionSave">
-                   <property name="text">
-                    <string>Speichern</string>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="../img.qrc">
-                     <normaloff>:/img/img/Speichern.png</normaloff>:/img/img/Speichern.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>30</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
+            <item row="3" column="2">
+             <widget class="QCheckBox" name="chkLang2Latex">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>LaTeX</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0" colspan="3">
+             <widget class="QTextEdit" name="txtLanguage2"/>
+            </item>
+            <item row="2" column="0" colspan="3">
+             <widget class="QTextEdit" name="txtLanguage1"/>
             </item>
            </layout>
           </widget>
@@ -695,7 +738,6 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>tabWidget</tabstop>
   <tabstop>txtQuestion</tabstop>
   <tabstop>btnShowAnswer</tabstop>
   <tabstop>txtAnswer</tabstop>
@@ -728,8 +770,8 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
    <slot>setText(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>379</x>
-     <y>106</y>
+     <x>358</x>
+     <y>107</y>
     </hint>
     <hint type="destinationlabel">
      <x>120</x>
@@ -744,12 +786,12 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
    <slot>setText(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>379</x>
-     <y>137</y>
+     <x>358</x>
+     <y>139</y>
     </hint>
     <hint type="destinationlabel">
-     <x>255</x>
-     <y>293</y>
+     <x>267</x>
+     <y>327</y>
     </hint>
    </hints>
   </connection>

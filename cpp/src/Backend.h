@@ -14,13 +14,13 @@ public:
     explicit Backend(QObject *parent = 0);
     ~Backend();
 
-    void addCategory(QString languageFrom, QString languageTo, QString layout1, QString layout2);
+    void addCategory(QString languageFrom, QString languageTo, int layout1, int layout2);
     void removeCategory(CategoryPtr &cat);
 
     const CategoriesPtr &categories();
     CategoryPtr currentCategory() const;
 
-    void addVocable(QString lang1, QString lang2);
+    void addVocable(QString lang1, QString lang2, int lektion);
     QAbstractItemModel *currentVocabularyModel() const;
 
     void prepareTrainingSet();

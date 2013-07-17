@@ -21,6 +21,9 @@ public:
     void setActiveKeyboardLayout(USHORT primaryLanguage, USHORT subLanguage);
     void startLearning();
 
+protected:
+    virtual bool eventFilter(QObject *obj, QEvent *event);
+
 private slots:
     void currentCategoryChanged(CategoryPtr cat);
     void updateCategories(CategoriesPtr cats);
@@ -38,9 +41,11 @@ private slots:
     void on_btnBackTo0_clicked();
     void on_btnNext_clicked();
     void on_btnBack_clicked();
+    void on_cmbKeyboardLayout1_activated(const QString &arg1);
+
+    void on_cmbKeyboardLayout2_activated(const QString &arg1);
 
 private:
-    QList<QString> languages();
     Ui::MainWindow *ui;
     Backend backend;
 };

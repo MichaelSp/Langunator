@@ -21,7 +21,7 @@ void Backend::delayedInit()
     prepareTrainingSet();
 }
 
-void Backend::addCategory(QString languageFrom,QString languageTo, QString layout1, QString layout2)
+void Backend::addCategory(QString languageFrom,QString languageTo, int layout1, int layout2)
 {
     CategoryPtr cat(new Category(languageFrom,languageTo));
     cat->setKeyboardLayoutFrom(layout1);
@@ -54,9 +54,9 @@ CategoryPtr Backend::currentCategory() const
     return m_currentCategory;
 }
 
-void Backend::addVocable(QString lang1, QString lang2)
+void Backend::addVocable(QString lang1, QString lang2, int lektion)
 {
-    bool ok = currentCategory()->addVocable(lang1, lang2);
+    bool ok = currentCategory()->addVocable(lang1, lang2, lektion);
     if (ok && !vocListModel.isNull())
     {
         vocListModel->refreshCache();
