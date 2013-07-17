@@ -73,7 +73,6 @@ void Backend::prepareTrainingSet()
     DQSharedQuery qry(Vocable::objects());
     //trainingSet = qry.filter( DQWhere("lastAsked - CURRENT_TIMESTAMP") > "rightInRow" ).all();
     trainingSet = qry.all();
-    qDebug() << "query " << qry.lastQuery().lastError();
     emit newVocable(currentVocable());
 }
 
