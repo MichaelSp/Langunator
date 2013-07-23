@@ -2,7 +2,8 @@
 
 Backend::Backend(QObject *parent) :
     QObject(parent),
-    cacheIsDirty(true)
+    cacheIsDirty(true),
+    vocabularyListQuery(NULL)
 {
     QTimer::singleShot(0, this, SLOT(delayedInit()));
 }
@@ -10,11 +11,16 @@ Backend::Backend(QObject *parent) :
 Backend::~Backend()
 {
     currentCategory()->save();
+    delete vocabularyListQuery;
 }
 
 void Backend::delayedInit()
 {
     dbInstance = new DB();
+
+    vocabularyListQuery = new QSqlQuery();
+    vocabularyListQuery->prepare("SELECT language1,language2,lektion FROM " + Vocable::TableName() + " WHERE category = :cat" );
+
     connect(dbInstance, &DB::dbLoaded, this, &Backend::dbLoaded);
     if (dbInstance->isLoaded())
         dbLoaded(); // signal is emitted b4 we reach that line...
@@ -61,21 +67,47 @@ CategoryPtr Backend::currentCategory() const
     return m_currentCategory;
 }
 
+void Backend::refreshVocListTable()
+{
+    vocabularyListQuery->exec();
+    vocListModel->setQuery(*vocabularyListQuery);
+}
+
 void Backend::addVocable(QString lang1, QString lang2, int lektion)
 {
     bool ok = currentCategory()->addVocable(lang1, lang2, lektion);
     if (ok && !vocListModel.isNull())
     {
-        vocListModel->refreshCache();
+        refreshVocListTable();
     }
 }
 
-void Backend::removeCurrentVocable()
+void Backend::updateVocable(const QModelIndex &idx, QString lang1, QString lang2, int lektion)
 {
-    bool ok = currentVocable()->remove();
+    if (!idx.isValid())
+        return;
+    Vocable voc;
+    voc.load(DQWhere("language1 = ", idx.model()->index(idx.row(),0).data().toString()) &&
+             DQWhere("language2 = ", idx.model()->index(idx.row(),1).data().toString()));
+    voc.language1 = lang1;
+    voc.language2 = lang2;
+    voc.lektion = lektion;
+    bool ok = voc.save();
     if (ok && !vocListModel.isNull())
     {
-        vocListModel->refreshCache(true);
+        refreshVocListTable();
+    }
+}
+
+void Backend::removeVocable(const QModelIndex &idx)
+{
+    if (!idx.isValid())
+        return;
+    bool ok = Vocable::objects().filter(DQWhere("language1 = ", idx.model()->index(idx.row(),0).data().toString()) &&
+                                        DQWhere("language2 = ", idx.model()->index(idx.row(),1).data().toString())).remove();
+    if (ok && !vocListModel.isNull())
+    {
+        refreshVocListTable();
     }
 }
 
@@ -112,7 +144,13 @@ void Backend::setCurrentCategory(CategoryPtr arg)
             m_currentCategory->save();
         m_currentCategory = arg;
         if (!arg.isNull()){
-            vocListModel = VocableListPtr(new VocableList(m_currentCategory));
+            //vocListModel = VocableListPtr(new VocableList(m_currentCategory));
+            vocListModel = QSharedPointer<QSqlQueryModel>(new QSqlQueryModel(this));
+            vocabularyListQuery->bindValue(":cat", m_currentCategory->id.get().toInt() );
+            refreshVocListTable();
+            vocListModel->setHeaderData(0, Qt::Horizontal, m_currentCategory->languageFrom());
+            vocListModel->setHeaderData(1, Qt::Horizontal, m_currentCategory->languageTo());
+            vocListModel->setHeaderData(2, Qt::Horizontal, tr("Lektion"));
         }
         emit currentCategoryChanged(arg);
     }

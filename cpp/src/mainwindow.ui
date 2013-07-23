@@ -430,6 +430,9 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
               <layout class="QGridLayout" name="gridLayout_9">
                <item row="1" column="2">
                 <widget class="QCommandLinkButton" name="btnMoveToBox">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="text">
                   <string>Suchen</string>
                  </property>
@@ -464,6 +467,9 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
                </item>
                <item row="1" column="1">
                 <widget class="QCommandLinkButton" name="btnQuestionDelete">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="text">
                   <string>Löschen</string>
                  </property>
@@ -493,6 +499,23 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
                 <widget class="QLabel" name="label_4">
                  <property name="text">
                   <string>Lektion</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QCommandLinkButton" name="btnQuestionNew">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="text">
+                  <string>Neue Vokabel eingeben</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../img.qrc">
+                   <normaloff>:/img/img/actions_list_add_user_export_bills.png</normaloff>:/img/img/actions_list_add_user_export_bills.png</iconset>
                  </property>
                 </widget>
                </item>

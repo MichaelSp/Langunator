@@ -22,6 +22,7 @@ public:
     void startLearning();
 
     void initLatexWebView();
+    void setEditButtonsStateEnabled(bool enabled);
 protected:
     virtual bool eventFilter(QObject *obj, QEvent *event);
 
@@ -47,6 +48,7 @@ private slots:
     void on_cmbKeyboardLayout2_activated(const QString &arg1);
     void on_chkShowLatex_clicked(bool showLatex);
     void on_txtLanguage2_textChanged();
+    void on_btnQuestionNew_clicked();
 
 private:
     Ui::MainWindow *ui;

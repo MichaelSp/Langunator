@@ -21,12 +21,14 @@ public:
     CategoryPtr currentCategory() const;
 
     void addVocable(QString lang1, QString lang2, int lektion);
-    void removeCurrentVocable();
+    void updateVocable(const QModelIndex &idx, QString lang1, QString lang2, int lektion);
+    void removeVocable(const QModelIndex &idx);
     QAbstractItemModel *currentVocabularyModel() const;
 
     void prepareTrainingSet();
     Vocable *currentVocable();
     void showNextVocable();
+    void refreshVocListTable();
 public slots:
     void setCurrentCategory(CategoryPtr arg);
 
@@ -46,7 +48,9 @@ private:
     CategoryPtr m_currentCategory;
     bool cacheIsDirty;
 
-    VocableListPtr vocListModel;
+    //VocableListPtr vocListModel;
+    QSqlQuery *vocabularyListQuery;
+    QSharedPointer<QSqlQueryModel> vocListModel;
     DQList<Vocable> trainingSet;
 };
 

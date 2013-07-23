@@ -153,16 +153,33 @@ void MainWindow::on_btnQuestionSave_clicked()
         QTimer::singleShot(5000, ui->lblWarning, SLOT(hide()));
         return;
     }
-    backend.addVocable(ui->txtLanguage1->toPlainText(),
-                       ui->txtLanguage2->toPlainText(),
-                       ui->spnLektion->value());
+    if (ui->lstVocables->selectionModel()->currentIndex().isValid()) {
+        backend.updateVocable( ui->lstVocables->selectionModel()->currentIndex(),
+                               ui->txtLanguage1->toPlainText(),
+                               ui->txtLanguage2->toPlainText(),
+                               ui->spnLektion->value());
+    }
+    else
+        backend.addVocable(ui->txtLanguage1->toPlainText(),
+                           ui->txtLanguage2->toPlainText(),
+                           ui->spnLektion->value());
     ui->txtLanguage1->clear();
     ui->txtLanguage2->clear();
 }
 
+void MainWindow::on_btnQuestionNew_clicked()
+{
+    ui->lstVocables->selectionModel()->blockSignals(true);
+    ui->lstVocables->selectionModel()->clear();
+    ui->lstVocables->selectionModel()->blockSignals(false);
+    on_btnQuestionSave_clicked();
+}
+
 void MainWindow::on_btnQuestionDelete_clicked()
 {
-    backend.removeCurrentVocable();
+    backend.removeVocable( ui->lstVocables->currentIndex() );
+    ui->txtLanguage1->clear();
+    ui->txtLanguage2->clear();
 }
 
 void MainWindow::on_btnShowAnswer_clicked()
@@ -172,17 +189,24 @@ void MainWindow::on_btnShowAnswer_clicked()
     ui->txtAnswer->setText( backend.currentVocable()->language2 );
 }
 
+void MainWindow::setEditButtonsStateEnabled(bool enabled)
+{
+    ui->btnQuestionDelete->setEnabled(enabled);
+    ui->btnQuestionNew->setEnabled(enabled);
+}
+
 void MainWindow::vocableSelectionChanged(const QModelIndex &current, const QModelIndex &previous) {
     Q_UNUSED(previous);
     ui->txtLanguage1->clear();
     ui->txtLanguage2->clear();
     ui->spnLektion->clear();
+    setEditButtonsStateEnabled(current.isValid());
     if (!current.isValid())
         return;
-    Vocable *voc = current.data(Qt::UserRole).value<Vocable*>();
-    ui->txtLanguage1->setText( voc->language1 );
-    ui->txtLanguage2->setText( voc->language2 );
-    ui->spnLektion->setValue( voc->lektion );
+    int row = current.row();
+    ui->txtLanguage1->setText( current.model()->index(row,0).data().toString() );
+    ui->txtLanguage2->setText( current.model()->index(row,1).data().toString()  );
+    ui->spnLektion->setValue( current.model()->index(row,2).data().toInt()  );
 }
 
 void MainWindow::on_tabWidget_currentChanged(int index)
