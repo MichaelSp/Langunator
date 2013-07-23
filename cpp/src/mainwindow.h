@@ -21,6 +21,7 @@ public:
     void setActiveKeyboardLayout(USHORT primaryLanguage, USHORT subLanguage);
     void startLearning();
 
+    void initLatexWebView();
 protected:
     virtual bool eventFilter(QObject *obj, QEvent *event);
 
@@ -35,6 +36,7 @@ private slots:
     void on_cmbEnterCategory_currentIndexChanged(int index);
     void on_btnCategoryRemove_clicked();
     void on_btnQuestionSave_clicked();
+    void on_btnQuestionDelete_clicked();
     void on_btnShowAnswer_clicked();
     void on_tabWidget_currentChanged(int index);
     void on_btnStay_clicked();
@@ -42,8 +44,9 @@ private slots:
     void on_btnNext_clicked();
     void on_btnBack_clicked();
     void on_cmbKeyboardLayout1_activated(const QString &arg1);
-
     void on_cmbKeyboardLayout2_activated(const QString &arg1);
+    void on_chkShowLatex_clicked(bool showLatex);
+    void on_txtLanguage2_textChanged();
 
 private:
     Ui::MainWindow *ui;

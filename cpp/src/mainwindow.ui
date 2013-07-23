@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1129</width>
-    <height>527</height>
+    <width>1253</width>
+    <height>643</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -658,53 +658,55 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="2">
-             <widget class="QCheckBox" name="chkLang1Latex">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>LaTeX</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="2">
-             <widget class="QCheckBox" name="chkLang2Latex">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>LaTeX</string>
-              </property>
-             </widget>
-            </item>
             <item row="4" column="0" colspan="3">
              <widget class="QTextEdit" name="txtLanguage2"/>
             </item>
             <item row="2" column="0" colspan="3">
              <widget class="QTextEdit" name="txtLanguage1"/>
             </item>
+            <item row="3" column="2">
+             <widget class="QCheckBox" name="chkShowLatex">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>&amp;LaTeX</string>
+              </property>
+              <property name="shortcut">
+               <string>Alt+L, Ctrl+S</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </widget>
-          <widget class="QTableView" name="lstVocables">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-             <horstretch>20</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="selectionMode">
-            <enum>QAbstractItemView::SingleSelection</enum>
-           </property>
-           <property name="selectionBehavior">
-            <enum>QAbstractItemView::SelectRows</enum>
-           </property>
-           <attribute name="horizontalHeaderDefaultSectionSize">
-            <number>150</number>
-           </attribute>
-           <attribute name="horizontalHeaderStretchLastSection">
-            <bool>true</bool>
-           </attribute>
+          <widget class="QStackedWidget" name="stackedWidget">
+           <widget class="QTableView" name="lstVocables">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>20</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="selectionMode">
+             <enum>QAbstractItemView::SingleSelection</enum>
+            </property>
+            <property name="selectionBehavior">
+             <enum>QAbstractItemView::SelectRows</enum>
+            </property>
+            <attribute name="horizontalHeaderDefaultSectionSize">
+             <number>150</number>
+            </attribute>
+            <attribute name="horizontalHeaderStretchLastSection">
+             <bool>true</bool>
+            </attribute>
+           </widget>
+           <widget class="QWebView" name="webView">
+            <property name="url">
+             <url>
+              <string>about:blank</string>
+             </url>
+            </property>
+           </widget>
           </widget>
          </widget>
         </item>
@@ -737,6 +739,13 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header>QtWebKitWidgets/QWebView</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>txtQuestion</tabstop>
   <tabstop>btnShowAnswer</tabstop>
@@ -774,8 +783,8 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
      <y>107</y>
     </hint>
     <hint type="destinationlabel">
-     <x>120</x>
-     <y>195</y>
+     <x>68</x>
+     <y>199</y>
     </hint>
    </hints>
   </connection>
@@ -790,8 +799,8 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
      <y>139</y>
     </hint>
     <hint type="destinationlabel">
-     <x>267</x>
-     <y>327</y>
+     <x>68</x>
+     <y>312</y>
     </hint>
    </hints>
   </connection>

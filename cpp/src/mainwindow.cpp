@@ -1,4 +1,5 @@
 #include <QtConcurrent/QtConcurrent>
+#include <QWebFrame>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -26,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->cmbKeyboardLayout1->addItem(nfo.name, nfo.code);
         ui->cmbKeyboardLayout2->addItem(nfo.name, nfo.code);
     }
+    initLatexWebView();
 }
 
 MainWindow::~MainWindow()
@@ -158,6 +160,11 @@ void MainWindow::on_btnQuestionSave_clicked()
     ui->txtLanguage2->clear();
 }
 
+void MainWindow::on_btnQuestionDelete_clicked()
+{
+    backend.removeCurrentVocable();
+}
+
 void MainWindow::on_btnShowAnswer_clicked()
 {
     if (backend.currentVocable() == NULL)
@@ -240,5 +247,35 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
             KeyboardLayout::setActiveKeyboardLayout(backend.currentCategory()->keyboardLayoutTo());
     }
     return QObject::eventFilter(obj, event);
+}
+
+
+void MainWindow::initLatexWebView()
+{
+    QFile f(":/html/MathJax/MathJax.html");
+    if (!f.open(QIODevice::ReadOnly))
+        qWarning() << "unable to read: " << f.fileName();
+    QByteArray html=f.readAll();
+    //ui->webView->setHtml(html, QUrl("qrc:/html/MathJax/"));
+}
+
+void MainWindow::on_chkShowLatex_clicked(bool showLatex)
+{
+    ui->stackedWidget->setCurrentIndex(showLatex?1:0);
+    if (showLatex) {
+        on_txtLanguage2_textChanged();
+    }
+}
+
+void MainWindow::on_txtLanguage2_textChanged()
+{
+    if (!ui->chkShowLatex->isChecked())
+        return;
+    // \\[ g\frac{d^2u}{dx^2} + L\\sin u = 0 \\]
+    //  \[ g\frac{d^2u}{dx^2} + L\sin u = 0 \]
+    // \left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)
+    QString js = "try {document.getElementById('MathInput').value='"+ ui->txtLanguage2->toPlainText() +"'; Preview.Update();} catch (e) {console.log(e);}";
+    qDebug() << js;
+    ui->webView->page()->currentFrame()->evaluateJavaScript(js);
 }
 

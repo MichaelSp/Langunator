@@ -50,8 +50,8 @@ DQ_DECLARE_MODEL(Category,
                  "category",
                  DQ_FIELD(langFrom),
                  DQ_FIELD(langTo),
-                 DQ_FIELD(keyboardFrom),
-                 DQ_FIELD(keyboardTo)
+                 DQ_FIELD(keyboardFrom, DQDefault(0)),
+                 DQ_FIELD(keyboardTo, DQDefault(0))
                  )
 
 

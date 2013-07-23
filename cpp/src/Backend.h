@@ -21,6 +21,7 @@ public:
     CategoryPtr currentCategory() const;
 
     void addVocable(QString lang1, QString lang2, int lektion);
+    void removeCurrentVocable();
     QAbstractItemModel *currentVocabularyModel() const;
 
     void prepareTrainingSet();

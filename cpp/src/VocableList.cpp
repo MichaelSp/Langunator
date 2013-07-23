@@ -41,10 +41,18 @@ QVariant VocableList::headerData(int section, Qt::Orientation orientation, int r
     }
 }
 
-void VocableList::refreshCache()
+void VocableList::refreshCache(bool isRemove)
 {
+    if (isRemove)
+        beginRemoveRows(QModelIndex(), qMax(0,rowCount()-1),rowCount());
+    else
+        beginInsertRows(QModelIndex(), qMax(0,rowCount()-1),rowCount());
     vocListCache = Vocable::objects().filter(DQWhere("category = ", category->id)).all();
     emit dataChanged(index(0,0),index(rowCount(),columnCount()));
+    if (isRemove)
+        endRemoveRows();
+    else
+        endInsertRows();
 }
 
 QModelIndex VocableList::index(int row, int column, const QModelIndex &) const

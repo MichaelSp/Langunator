@@ -26,6 +26,7 @@ public:
 
 DQ_DECLARE_MODEL(Vocable,
                  "vocable", // the table name.
+                 DQ_FIELD(category, DQNotNull),
                  DQ_FIELD(language1, DQNotNull),
                  DQ_FIELD(language2, DQNotNull),
                  DQ_FIELD(lektion, DQDefault(0)),
@@ -33,7 +34,8 @@ DQ_DECLARE_MODEL(Vocable,
                  DQ_FIELD(backClicks, DQDefault(0)),
                  DQ_FIELD(stayClicks, DQDefault(0)),
                  DQ_FIELD(backTo0Clicks, DQDefault(0)),
-                 DQ_FIELD(category, DQNotNull)
+                 DQ_FIELD(rightInRow, DQDefault(0)),
+                 DQ_FIELD(lastAsked, DQDefault("CURRENT_TIMESTAMP"))
                  )
 
 Q_DECLARE_METATYPE(Vocable)

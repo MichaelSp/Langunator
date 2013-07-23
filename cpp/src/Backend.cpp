@@ -35,11 +35,18 @@ void Backend::addCategory(QString languageFrom,QString languageTo, int layout1, 
 
 void Backend::removeCategory(CategoryPtr &cat)
 {
+    if (!Vocable::objects().filter(DQWhere( "language1 = ", cat->id ) || DQWhere("language2 = ",cat->id)).remove()) {
+        qWarning() << "Cannot remove vocab for category " << cat->categoryName() <<": " << Vocable::objects().lastQuery().executedQuery();
+        return;
+    }
     if (cat->remove())
     {
         cacheIsDirty=true;
         emit categoriesUpdated(categories());
+        cat->save();
     }
+    else
+        qWarning() << "Cannot remove category " << cat->categoryName()<<": " << Category::objects().lastQuery().executedQuery();
 }
 
 const CategoriesPtr& Backend::categories()
@@ -63,6 +70,15 @@ void Backend::addVocable(QString lang1, QString lang2, int lektion)
     }
 }
 
+void Backend::removeCurrentVocable()
+{
+    bool ok = currentVocable()->remove();
+    if (ok && !vocListModel.isNull())
+    {
+        vocListModel->refreshCache(true);
+    }
+}
+
 QAbstractItemModel *Backend::currentVocabularyModel()const
 {
     return vocListModel.data();
@@ -71,8 +87,7 @@ QAbstractItemModel *Backend::currentVocabularyModel()const
 void Backend::prepareTrainingSet()
 {
     DQSharedQuery qry(Vocable::objects());
-    //trainingSet = qry.filter( DQWhere("lastAsked - CURRENT_TIMESTAMP") > "rightInRow" ).all();
-    trainingSet = qry.all();
+    trainingSet = qry.filter( DQWhere("(julianday(Date('now')) - julianday(lastAsked))") >= DQWhere("rightInRow*rightInRow") ).all();
     emit newVocable(currentVocable());
 }
 

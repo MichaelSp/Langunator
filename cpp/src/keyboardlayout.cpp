@@ -4,14 +4,17 @@
 #ifdef Q_OS_WIN
 
 void KeyboardLayout::setActiveKeyboardLayout(int langCode) {
-    if (langCode == 0)
+    if (langCode == 0 || langCode ==  LOWORD(GetKeyboardLayout(0)))
         return;
     qApp->setOverrideCursor(Qt::WaitCursor);
     LCID dwLang = MAKELANGID(langCode, SUBLANG_DEFAULT);
     WCHAR szBuf[32];
     wsprintf(szBuf, L"%.8x", dwLang);
-    ActivateKeyboardLayout(LoadKeyboardLayout(szBuf, KLF_ACTIVATE | KLF_REPLACELANG), KLF_REORDER);
-    qDebug() << "Keyboard layout set to "<< langCode;
+    HKL result = ActivateKeyboardLayout(LoadKeyboardLayout(szBuf, KLF_ACTIVATE | KLF_REPLACELANG), KLF_REORDER);
+    if (result<=0)
+        qWarning() << "unable to set keyboard layout " << GetLastError();
+    else
+        qDebug() << "Keyboard layout set to "<< langCode;
     qApp->restoreOverrideCursor();
 }
 #else
