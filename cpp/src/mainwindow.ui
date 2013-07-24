@@ -451,7 +451,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
                <item row="1" column="0">
                 <widget class="QCommandLinkButton" name="btnQuestionSave">
                  <property name="text">
-                  <string>Speichern</string>
+                  <string>Speichern (Strg+S)</string>
                  </property>
                  <property name="icon">
                   <iconset resource="../img.qrc">
@@ -462,6 +462,9 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
                    <width>30</width>
                    <height>30</height>
                   </size>
+                 </property>
+                 <property name="shortcut">
+                  <string>Ctrl+S</string>
                  </property>
                 </widget>
                </item>
@@ -682,10 +685,18 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
              </widget>
             </item>
             <item row="4" column="0" colspan="3">
-             <widget class="QTextEdit" name="txtLanguage2"/>
+             <widget class="QTextEdit" name="txtLanguage2">
+              <property name="tabChangesFocus">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
             <item row="2" column="0" colspan="3">
-             <widget class="QTextEdit" name="txtLanguage1"/>
+             <widget class="QTextEdit" name="txtLanguage1">
+              <property name="tabChangesFocus">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
             <item row="3" column="2">
              <widget class="QCheckBox" name="chkShowLatex">

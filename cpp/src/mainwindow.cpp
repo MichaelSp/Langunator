@@ -175,6 +175,7 @@ void MainWindow::on_btnQuestionSave_clicked()
                            ui->spnLektion->value());
     ui->txtLanguage1->clear();
     ui->txtLanguage2->clear();
+    ui->txtLanguage1->setFocus();
 }
 
 void MainWindow::on_btnQuestionNew_clicked()
