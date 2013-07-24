@@ -21,7 +21,9 @@ public:
     static QList<LanguageInfo> languages();
     static void setActiveKeyboardLayout(int langCode);
 private:
+#ifdef Q_OS_WIN
     static BOOL CALLBACK enumLocalesCallback(_In_  LPTSTR lpLocaleString);
+#endif
     static QList<LanguageInfo> langList;
 };
 

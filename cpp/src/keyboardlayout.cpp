@@ -39,6 +39,7 @@ void KeyboardLayout::restore()
     setActiveKeyboardLayout(GetSystemDefaultLCID ());
 }
 
+#ifdef Q_OS_WIN
 BOOL CALLBACK KeyboardLayout::enumLocalesCallback(_In_  LPTSTR lpLocaleString)
 {
     LCID anLCID = QString::fromWCharArray(lpLocaleString).toInt(0,16);
@@ -61,4 +62,10 @@ QList<KeyboardLayout::LanguageInfo> KeyboardLayout::languages()
     }
     return langList;
 }
+#else
+QList<KeyboardLayout::LanguageInfo> KeyboardLayout::languages()
+{
+    return QList<KeyboardLayout::LanguageInfo>();
+}
 
+#endif
