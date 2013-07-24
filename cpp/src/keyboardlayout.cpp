@@ -36,7 +36,9 @@ KeyboardLayout::~KeyboardLayout()
 
 void KeyboardLayout::restore()
 {
+#ifdef Q_OS_WIN
     setActiveKeyboardLayout(GetSystemDefaultLCID ());
+#endif
 }
 
 #ifdef Q_OS_WIN
