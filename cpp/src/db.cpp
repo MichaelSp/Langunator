@@ -15,8 +15,10 @@ void DB::init()
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("test.sqlite");
-    if (!db.open())
-        QMessageBox::warning(NULL,"DB Error", db.lastError().text() );
+    if (!db.open()){
+        QMessageBox::warning(NULL,"DB Error", db.lastError().text() + "\nSQLite Driver is required!" );
+        qApp->quit();
+    }
     else
         qDebug() << "Database opened";
 
