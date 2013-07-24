@@ -10,6 +10,7 @@ class KeyboardLayout
 {
 public:
     KeyboardLayout();
+    virtual ~KeyboardLayout();
 
     struct LanguageInfo {
         QString name;
@@ -20,7 +21,7 @@ public:
     static QList<LanguageInfo> languages();
     static void setActiveKeyboardLayout(int langCode);
 private:
-    static BOOL CALLBACK KeyboardLayout::enumLocalesCallback(_In_  LPTSTR lpLocaleString);
+    static BOOL CALLBACK enumLocalesCallback(_In_  LPTSTR lpLocaleString);
     static QList<LanguageInfo> langList;
 };
 

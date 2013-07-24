@@ -29,6 +29,11 @@ KeyboardLayout::KeyboardLayout()
 {
 }
 
+KeyboardLayout::~KeyboardLayout()
+{
+    restore();
+}
+
 void KeyboardLayout::restore()
 {
     setActiveKeyboardLayout(GetSystemDefaultLCID ());

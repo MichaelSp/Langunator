@@ -83,10 +83,8 @@
         <file>MathJax/jax/output/HTML-CSS/autoload/ms.js</file>
         <file>MathJax/jax/output/HTML-CSS/autoload/mtable.js</file>
         <file>MathJax/jax/output/HTML-CSS/autoload/multiline.js</file>
-        <file>MathJax/fonts/HTML-CSS/TeX/png/unpacked/imagedata.js</file>
         <file>MathJax/MathJax.mini.js</file>
         <file>MathJax/MathJax.debug.js</file>
-        <file>MathJax/fonts/HTML-CSS/TeX/png/imagedata.js</file>
         <file>MathJax/extensions/MathMenu.js</file>
         <file>MathJax/extensions/MathZoom.js</file>
         <file>MathJax/fonts/HTML-CSS/TeX/otf/MathJax_Math-Italic.otf</file>
