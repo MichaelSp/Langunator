@@ -10,7 +10,8 @@ Backend::Backend(QObject *parent) :
 
 Backend::~Backend()
 {
-    currentCategory()->save();
+    if (!currentCategory().isNull())
+        currentCategory()->save();
     delete vocabularyListQuery;
 }
 
@@ -21,7 +22,11 @@ void Backend::delayedInit()
     vocabularyListQuery = new QSqlQuery();
     vocabularyListQuery->prepare("SELECT language1,language2,lektion FROM " + Vocable::TableName() + " WHERE category = :cat" );
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
     connect(dbInstance, &DB::dbLoaded, this, &Backend::dbLoaded);
+#else
+    connect(dbInstance, SIGNAL(dbLoaded()), this, SLOT(dbLoaded()));
+#endif
     if (dbInstance->isLoaded())
         dbLoaded(); // signal is emitted b4 we reach that line...
     prepareTrainingSet();

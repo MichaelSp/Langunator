@@ -1,5 +1,4 @@
-#include <QtConcurrent/QtConcurrent>
-#include <QWebFrame>
+#include <QtConcurrentRun>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -16,11 +15,19 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->txtLanguage1->installEventFilter(this);
     ui->txtLanguage2->installEventFilter(this);
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
     connect(ui->edtLanguage1, &QLineEdit::textEdited, this, &MainWindow::currentLanguageChanged);
     connect(ui->edtLanguage2, &QLineEdit::textEdited, this, &MainWindow::currentLanguageChanged);
     connect(&backend, &Backend::categoriesUpdated, this, &MainWindow::updateCategories);
     connect(&backend, &Backend::currentCategoryChanged, this, &MainWindow::currentCategoryChanged);
     connect(&backend, &Backend::newVocable, this, &MainWindow::setVocable);
+#else
+    connect(ui->edtLanguage1, SIGNAL(textEdited(QString)), this, SLOT(currentLanguageChanged(QString)));
+    connect(ui->edtLanguage2, SIGNAL(textEdited(QString)), this, SLOT(currentLanguageChanged(QString)));
+    connect(&backend, SIGNAL(categoriesUpdated(CategoriesPtr)), this, SLOT(updateCategories(CategoriesPtr)));
+    connect(&backend, SIGNAL(currentCategoryChanged(CategoryPtr)), this, SLOT(currentCategoryChanged(CategoryPtr)));
+    connect(&backend, SIGNAL(newVocable(Vocable*)), this, SLOT(setVocable(Vocable*)));
+#endif
 
     QList<KeyboardLayout::LanguageInfo> lang = KeyboardLayout::languages();
     foreach(KeyboardLayout::LanguageInfo nfo, lang) {
@@ -90,7 +97,11 @@ void MainWindow::currentCategoryChanged(CategoryPtr cat)
         if (ui->cmbKeyboardLayout2->itemData(i).toInt() == cat->keyboardLayoutTo())
             ui->cmbKeyboardLayout2->setCurrentIndex(i);
     ui->lstVocables->setModel( backend.currentVocabularyModel());
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
     connect(ui->lstVocables->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::vocableSelectionChanged);
+#else
+    connect(ui->lstVocables->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(vocableSelectionChanged(QModelIndex,QModelIndex)));
+#endif
 }
 
 void MainWindow::currentLanguageChanged(QString)

@@ -16,7 +16,7 @@ void DB::init()
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("test.sqlite");
     if (!db.open())
-        qWarning()<< db.lastError();
+        QMessageBox::warning(NULL,"DB Error", db.lastError().text() );
     else
         qDebug() << "Database opened";
 

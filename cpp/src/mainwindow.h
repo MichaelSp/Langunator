@@ -18,7 +18,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void setActiveKeyboardLayout(USHORT primaryLanguage, USHORT subLanguage);
     void startLearning();
 
     void initLatexWebView();

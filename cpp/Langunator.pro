@@ -11,7 +11,14 @@ folder_01.source = src/QML
 folder_01.target = src
 DEPLOYMENTFOLDERS = folder_01
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets webkitwidgets
+greaterThan(QT_MAJOR_VERSION, 4){
+  QT += widgets webkitwidgets
+  include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
+  qtcAddDeployment()
+}
+else: QT += webkit
+
+win32:LIBS+= -lUser32
 
 TARGET = Langunator
 TEMPLATE = app
@@ -89,8 +96,6 @@ RESOURCES += \
     img.qrc
 
 include(src/plugins/androidComponents.pri)
-include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
-qtcAddDeployment()
 
 OTHER_FILES += \
     dquest-0.2/src/dquest-install.pri \

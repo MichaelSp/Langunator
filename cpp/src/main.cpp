@@ -1,9 +1,14 @@
-#include "mainwindow.h"
-#include "qtquick2applicationviewer.h"
-#include <QApplication>
-#include <QtQml/QQmlEngine>
 
 //#define HANDY
+
+
+#ifdef HANDY
+#include "qtquick2applicationviewer.h"
+#include <QtQml/QQmlEngine>
+#endif
+#include "mainwindow.h"
+#include <QApplication>
+
 
 int main(int argc, char *argv[])
 {
