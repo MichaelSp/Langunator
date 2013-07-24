@@ -4,14 +4,14 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql webkitwidgets
+QT       += core gui sql
 CONFIG   += precompile_header
 
 folder_01.source = src/QML
 folder_01.target = src
 DEPLOYMENTFOLDERS = folder_01
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets webkitwidgets
 
 TARGET = Langunator
 TEMPLATE = app
