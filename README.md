@@ -1,13 +1,10 @@
 Langunator
 ==========
-
 Language and Vocabulary trainer
 
-C++
+C++ [![Build Status](https://travis-ci.org/MichaelSp/Langunator.png?branch=master)](https://travis-ci.org/MichaelSp/Langunator)
 ====
-Based on Qt using the Qt-Creator
-
-This is the first [release 0.9](https://github.com/MichaelSp/Langunator/releases/tag/0.9)
+[<img src="http://www.vlc.de/img/download_button.png" alt="Binary release" />](https://github.com/MichaelSp/Langunator/releases)
 
 
 Java-Version
