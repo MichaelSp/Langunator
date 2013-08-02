@@ -289,7 +289,7 @@ void setFontSize(QTextEdit* edt, int size) {
 bool MainWindow::handleWheelEvent(QWheelEvent *evt)
 {
     if (evt->modifiers() & Qt::ControlModifier) {
-        auto delta = qMin(1,qMax(-1,evt->delta()));
+        int delta = qMin(1,qMax(-1,evt->delta()));
         if (ui->txtLanguage1->underMouse())
             setFontSize(ui->txtLanguage1, delta);
         else if (ui->txtLanguage2->underMouse())
