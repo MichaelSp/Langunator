@@ -13,9 +13,9 @@ class Vocable;
 class DB;
 class Category : public DQModel
 {
-    DQ_MODEL
+    DQ_MODEL;
 public:
-    Category(){}
+    Category():aboutToDelete(false){}
 
     explicit Category(QString from, QString to);
     Category(const Category&);
@@ -33,6 +33,7 @@ public:
 
     bool addVocable(QString lang1, QString lang2, int lektion);
     virtual bool save(bool forceInsert = false, bool forceAllField=false);
+    virtual bool remove();
 
     int keyboardLayoutFrom() const;
     void setKeyboardLayoutFrom(const int &value);
@@ -40,6 +41,7 @@ public:
     void setKeyboardLayoutTo(const int &value);
 
 private:
+    bool aboutToDelete;
     DQField<QString> langFrom;
     DQField<QString> langTo;
     DQField<int> keyboardFrom;

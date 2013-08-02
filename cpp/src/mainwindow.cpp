@@ -47,9 +47,10 @@ void MainWindow::updateCategories(CategoriesPtr cats)
     foreach(CategoryPtr cat, cats){
         ui->cmbEnterCategory->addItem(cat->categoryName(), QVariant::fromValue(cat));
     }
-    int currentIndex = ui->cmbEnterCategory->count()-1;
+    int currentIndex = qMax(0,ui->cmbEnterCategory->count()-1);
     ui->cmbEnterCategory->addItem("<Neue Kategorie>", false);
     ui->cmbEnterCategory->setCurrentIndex(currentIndex);
+    ui->btnCategoryRemove->setEnabled( currentIndex < ui->cmbEnterCategory->count()-1);
 
     backend.setCurrentCategory( ui->cmbEnterCategory->itemData( currentIndex ).value<CategoryPtr>() );
 }

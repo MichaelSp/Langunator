@@ -3,6 +3,7 @@
 #include "vocabel.h"
 
 Category::Category(QString from, QString to)
+    :aboutToDelete(false)
 {
     langFrom = from;
     langTo = to;
@@ -26,8 +27,15 @@ bool Category::addVocable(QString lang1, QString lang2, int lektion)
 
 bool Category::save(bool forceInsert, bool forceAllField)
 {
-    bool returnValue = DQModel::save(forceInsert, forceAllField);
-    return returnValue;
+    if (aboutToDelete)
+        return true;
+    return DQModel::save(forceInsert, forceAllField);
+}
+
+bool Category::remove()
+{
+    aboutToDelete =true;
+    return DQModel::remove();
 }
 
 DQList<Vocable> Category::vocables()
