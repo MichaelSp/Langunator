@@ -17,7 +17,7 @@ void DB::init()
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
     QDir appDataDir( QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) );
 #else
-    QDir appDataDir = QDir::home() + QDir::separator() + "." + QApplication::applicationName();
+    QDir appDataDir = QDir( QDir::home().absoluteFilePath( "." + QApplication::applicationName() ));
 #endif
     if (!appDataDir.exists())
         appDataDir.mkpath(".");
