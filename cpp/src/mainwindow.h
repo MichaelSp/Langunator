@@ -22,6 +22,8 @@ public:
 
     void initLatexWebView();
     void setEditButtonsStateEnabled(bool enabled);
+    bool handleFocusEvent(QFocusEvent *event, QObject *obj);
+    bool handleWheelEvent(QWheelEvent *evt);
 protected:
     virtual bool eventFilter(QObject *obj, QEvent *event);
 

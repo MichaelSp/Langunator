@@ -269,18 +269,51 @@ void MainWindow::on_cmbKeyboardLayout2_activated(const QString &)
     backend.currentCategory()->setKeyboardLayoutTo(code);
 }
 
+bool MainWindow::handleFocusEvent(QFocusEvent *evt, QObject *obj)
+{
+    if (evt->lostFocus())
+        KeyboardLayout::restore();
+    else if (obj == ui->txtLanguage1)
+        KeyboardLayout::setActiveKeyboardLayout(backend.currentCategory()->keyboardLayoutFrom());
+    else if (obj == ui->txtLanguage2)
+        KeyboardLayout::setActiveKeyboardLayout(backend.currentCategory()->keyboardLayoutTo());
+    return false;
+}
+
+void setFontSize(QTextEdit* edt, int size) {
+    QFont fnt = edt->font();
+    fnt.setPointSize( qMin(200, qMax(5, fnt.pointSize() + size ) ));
+    edt->setFont(fnt);
+}
+
+bool MainWindow::handleWheelEvent(QWheelEvent *evt)
+{
+    if (evt->modifiers() & Qt::ControlModifier) {
+        auto delta = qMin(1,qMax(-1,evt->delta()));
+        if (ui->txtLanguage1->underMouse())
+            setFontSize(ui->txtLanguage1, delta);
+        else if (ui->txtLanguage2->underMouse())
+            setFontSize(ui->txtLanguage2, delta);
+        else
+            return false;
+        return true;
+    }
+    return false;
+}
+
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
-    if ((obj == ui->txtLanguage1 || obj == ui->txtLanguage2) &&
-            (event->type() == QEvent::FocusIn ||
+    if ((obj == ui->txtLanguage1 || obj == ui->txtLanguage2)){
+
+        if ((event->type() == QEvent::FocusIn ||
              event->type() == QEvent::FocusOut)) {
-        QFocusEvent *evt = static_cast<QFocusEvent*>(event);
-        if (evt->lostFocus())
-            KeyboardLayout::restore();
-        else if (obj == ui->txtLanguage1)
-            KeyboardLayout::setActiveKeyboardLayout(backend.currentCategory()->keyboardLayoutFrom());
-        else if (obj == ui->txtLanguage2)
-            KeyboardLayout::setActiveKeyboardLayout(backend.currentCategory()->keyboardLayoutTo());
+            QFocusEvent *evt = static_cast<QFocusEvent*>(event);
+            return handleFocusEvent(evt, obj);
+        }
+        if (event->type() == QEvent::Wheel) {
+            QWheelEvent*evt = static_cast<QWheelEvent*>(event);
+            return handleWheelEvent(evt);
+        }
     }
     return QObject::eventFilter(obj, event);
 }
