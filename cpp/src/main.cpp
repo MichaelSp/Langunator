@@ -14,6 +14,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    QApplication::setOrganizationName("");
+    QApplication::setApplicationName("Langunator");
+
 #ifdef HANDY
     QtQuick2ApplicationViewer viewer;
 #ifdef Q_OS_ANDROID

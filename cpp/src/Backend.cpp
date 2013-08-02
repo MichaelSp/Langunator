@@ -42,19 +42,23 @@ void Backend::addCategory(QString languageFrom,QString languageTo, int layout1, 
         cacheIsDirty = true;
         emit categoriesUpdated(categories());
     }
+    else
+        qWarning() << "Cannot add category " << cat->categoryName() <<": "
+                   << Vocable::objects().lastQuery().lastError();
 }
 
 void Backend::removeCategory(CategoryPtr &cat)
 {
     if (!Vocable::objects().filter(DQWhere( "language1 = ", cat->id ) || DQWhere("language2 = ",cat->id)).remove()) {
-        qWarning() << "Cannot remove vocab for category " << cat->categoryName() <<": " << Vocable::objects().lastQuery().executedQuery();
+        qWarning() << "Cannot remove vocab for category " << cat->categoryName() <<": "
+                   << Vocable::objects().lastQuery().executedQuery();
         return;
     }
     if (cat->remove())
     {
+        cat.clear();
         cacheIsDirty=true;
         emit categoriesUpdated(categories());
-        cat->save();
     }
     else
         qWarning() << "Cannot remove category " << cat->categoryName()<<": " << Category::objects().lastQuery().executedQuery();

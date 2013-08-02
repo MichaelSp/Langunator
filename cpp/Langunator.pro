@@ -97,7 +97,7 @@ RESOURCES += \
 
 include(src/plugins/androidComponents.pri)
 
-OTHER_FILES += \
+OTHER_FILES += installer.nsi \
     dquest-0.2/src/dquest-install.pri \
     dquest-0.2/src/dquest.pro \
     dquest-0.2/src/dquest.pri \
