@@ -14,6 +14,7 @@ public:
 
     void setButtonsVisible(bool visible);
     void setTextFont(QFont fnt);
+    int currentLayout();
 protected:
     void focusInEvent(QFocusEvent *e);
     void focusOutEvent(QFocusEvent *e);
@@ -27,6 +28,7 @@ private slots:
     void showKeyboardLayoutSelection();
 
 private:
+    void initButton(QToolButton &btn, const QIcon icon);
     QToolButton fontButton;
     QToolButton keyboardLayout;
     QComboBox languages;

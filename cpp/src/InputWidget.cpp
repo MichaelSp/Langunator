@@ -8,11 +8,8 @@ InputWidget::InputWidget(QWidget *parent) :
     keyboardLayout(this),
     languages(this)
 {
-    fontButton.setIcon( QIcon(":/img/img/apps_preferences_desktop_filetype_association.png") );
-    keyboardLayout.setIcon( QIcon(":/img/img/Taste.png") );
-    fontButton.setAttribute(Qt::WA_SetFont, false);
-    keyboardLayout.setAttribute(Qt::WA_SetFont, false);
-    languages.setAttribute(Qt::WA_SetFont, false);
+    initButton(fontButton, QIcon(":/img/img/apps_preferences_desktop_filetype_association.png") );
+    initButton(keyboardLayout, QIcon(":/img/img/Taste.png") );
 
     QList<KeyboardLayout::LanguageInfo> lang = KeyboardLayout::languages();
     languages.addItem("<Nicht ändern>");
@@ -32,6 +29,16 @@ InputWidget::InputWidget(QWidget *parent) :
     setButtonsVisible(false);
 }
 
+void InputWidget::initButton(QToolButton &btn, const QIcon icon){
+    QSize size(38,38);
+    btn.setIconSize( QSize(32,32));
+    btn.setMinimumSize( size );
+    btn.setMaximumSize( size );
+    btn.setIcon( icon );
+    btn.setAttribute(Qt::WA_SetFont, true);
+    btn.setFont(parentWidget()->font());
+}
+
 void InputWidget::setButtonsVisible(bool visible)
 {
     fontButton.setVisible(visible);
@@ -43,21 +50,34 @@ void InputWidget::focusInEvent(QFocusEvent *evt)
     setButtonsVisible(true);
     languages.hide();
     if(isFirstLanguage){
-        KeyboardLayout::setActiveKeyboardLayout(backend->currentCategory()->keyboardLayoutFrom());
-        qDebug() << "restore " <<  backend->currentCategory()->fontFrom();
+        int layout = backend->currentCategory()->keyboardLayoutFrom();
+        if (layout == 0)
+            KeyboardLayout::restore();
+        else
+            KeyboardLayout::setActiveKeyboardLayout(layout);
         setFont( backend->currentCategory()->fontFrom() );
     }
     else {
-        KeyboardLayout::setActiveKeyboardLayout(backend->currentCategory()->keyboardLayoutTo());
+        int layout = backend->currentCategory()->keyboardLayoutTo();
+        if (layout == 0)
+            KeyboardLayout::restore();
+        else
+            KeyboardLayout::setActiveKeyboardLayout(layout);
         setFont( backend->currentCategory()->fontTo() );
     }
+    for(int i=0;i<languages.count();i++)
+        if (languages.itemData(i).isValid() &&
+                languages.itemData(i).value<KeyboardLayout::LanguageInfo>().code == currentLayout()) {
+            keyboardLayout.setText(languages.itemData(i).value<KeyboardLayout::LanguageInfo>().shortName);
+            keyboardLayout.setToolButtonStyle(Qt::ToolButtonTextOnly);
+            break;
+        }
 }
 
 void InputWidget::focusOutEvent(QFocusEvent *e)
 {
     QTextEdit::focusOutEvent(e);
     setButtonsVisible(false);
-    KeyboardLayout::restore();
 }
 
 void InputWidget::showEvent(QShowEvent *e)
@@ -68,15 +88,14 @@ void InputWidget::showEvent(QShowEvent *e)
 
 void InputWidget::moveButtons()
 {
-    int spacing = fontButton.iconSize().width()*2;
+    int spacing = fontButton.iconSize().width();
     fontButton.move(width() - spacing, 10);
-    keyboardLayout.move(width() - spacing*2, 10);
+    keyboardLayout.move(fontButton.pos().x() - spacing *2, 10);
     languages.move(width() - languages.sizeHint().width() - 10, 10 + keyboardLayout.height());
 }
 
 void InputWidget::setTextFont(QFont fnt)
 {
-    qDebug() << "store " <<  fnt;
     if (isFirstLanguage)
         backend->currentCategory()->setFontFrom( fnt );
     else
@@ -95,17 +114,21 @@ void InputWidget::showFontDialog()
     }
 }
 
+int InputWidget::currentLayout()
+{
+    int layout = backend->currentCategory()->keyboardLayoutTo();
+    if (isFirstLanguage)
+        layout = backend->currentCategory()->keyboardLayoutFrom();
+
+    return layout;
+}
+
 void InputWidget::showKeyboardLayoutSelection()
 {
-    int currentLayout = backend->currentCategory()->keyboardLayoutTo();
-    if (isFirstLanguage)
-        currentLayout = backend->currentCategory()->keyboardLayoutFrom();
-
-    qDebug() << currentLayout;
     languages.blockSignals(true);
     for(int i=0;i<languages.count();i++)
         if (languages.itemData(i).isValid() &&
-                languages.itemData(i).value<KeyboardLayout::LanguageInfo>().code == currentLayout) {
+                languages.itemData(i).value<KeyboardLayout::LanguageInfo>().code == currentLayout()) {
             languages.setCurrentIndex(i);
             break;
         }

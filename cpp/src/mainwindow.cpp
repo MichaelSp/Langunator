@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->lblWarning->hide();
     ui->lblMessages->hide();
+    ui->edtLanguage1->installEventFilter(this);
+    ui->edtLanguage2->installEventFilter(this);
 
     ui->txtLanguage1->setBackend(backend,true);
     ui->txtLanguage2->setBackend(backend,false);
@@ -193,6 +195,15 @@ void MainWindow::setEditButtonsStateEnabled(bool enabled)
     ui->btnQuestionNew->setEnabled(enabled);
 }
 
+bool MainWindow::eventFilter(QObject *obj, QEvent *evt)
+{
+    if (evt->type() == QEvent::FocusIn || evt->type() == QEvent::FocusOut) {
+        if (obj != ui->txtLanguage1 && obj != ui->txtLanguage2)
+            KeyboardLayout::restore();
+    }
+    return QMainWindow::eventFilter(obj,evt);
+}
+
 void MainWindow::vocableSelectionChanged(const QModelIndex &current, const QModelIndex &previous) {
     Q_UNUSED(previous);
     ui->txtLanguage1->clear();
@@ -209,7 +220,8 @@ void MainWindow::vocableSelectionChanged(const QModelIndex &current, const QMode
 
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
-    Q_UNUSED(index)
+    Q_UNUSED(index);
+    KeyboardLayout::restore();
     if (ui->tabWidget->currentWidget() == ui->tabLearn) {
         startLearning();
     }

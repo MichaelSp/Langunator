@@ -23,6 +23,9 @@ public:
     void initLatexWebView();
     void setEditButtonsStateEnabled(bool enabled);
 
+protected:
+    virtual bool eventFilter(QObject *obj, QEvent *evt);
+
 private slots:
     void currentCategoryChanged(CategoryPtr cat);
     void updateCategories(CategoriesPtr cats);
