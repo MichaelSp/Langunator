@@ -54,7 +54,8 @@ SOURCES += src/main.cpp\
     src/Backend.cpp \
     src/VocableList.cpp \
     src/vocabel.cpp \
-    src/keyboardlayout.cpp
+    src/keyboardlayout.cpp \
+    src/InputWidget.cpp
 
 HEADERS  += src/mainwindow.h \
     src/pch.h \
@@ -88,7 +89,8 @@ HEADERS  += src/mainwindow.h \
     src/Backend.h \
     src/VocableList.h \
     src/vocabel.h \
-    src/keyboardlayout.h
+    src/keyboardlayout.h \
+    src/InputWidget.h
 
 FORMS    += src/mainwindow.ui
 

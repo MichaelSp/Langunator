@@ -14,7 +14,7 @@ public:
     explicit Backend(QObject *parent = 0);
     ~Backend();
 
-    void addCategory(QString languageFrom, QString languageTo, int layout1, int layout2);
+    void addCategory(QString languageFrom, QString languageTo);
     void removeCategory(CategoryPtr &cat);
 
     const CategoriesPtr &categories();

@@ -11,8 +11,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->lblWarning->hide();
     ui->lblMessages->hide();
-    ui->txtLanguage1->installEventFilter(this);
-    ui->txtLanguage2->installEventFilter(this);
+
+    ui->txtLanguage1->setBackend(backend,true);
+    ui->txtLanguage2->setBackend(backend,false);
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
     connect(ui->edtLanguage1, &QLineEdit::textEdited, this, &MainWindow::currentLanguageChanged);
@@ -28,11 +29,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&backend, SIGNAL(newVocable(Vocable*)), this, SLOT(setVocable(Vocable*)));
 #endif
 
-    QList<KeyboardLayout::LanguageInfo> lang = KeyboardLayout::languages();
-    foreach(KeyboardLayout::LanguageInfo nfo, lang) {
-        ui->cmbKeyboardLayout1->addItem(nfo.name, nfo.code);
-        ui->cmbKeyboardLayout2->addItem(nfo.name, nfo.code);
-    }
     initLatexWebView();
 }
 
@@ -81,8 +77,6 @@ void MainWindow::currentCategoryChanged(CategoryPtr cat)
     ui->btnCategoryAdd->setDisabled(valid);
     ui->edtLanguage1->clear();
     ui->edtLanguage2->clear();
-    ui->cmbKeyboardLayout1->setCurrentIndex(0);
-    ui->cmbKeyboardLayout2->setCurrentIndex(0);
     if (!valid) {
         ui->edtLanguage1->setFocus();
         ui->lstVocables->setModel(NULL);
@@ -90,12 +84,6 @@ void MainWindow::currentCategoryChanged(CategoryPtr cat)
     }
     ui->edtLanguage1->setText(cat->languageFrom());
     ui->edtLanguage2->setText(cat->languageTo());
-    for(int i=0;i<ui->cmbKeyboardLayout1->count();i++)
-        if (ui->cmbKeyboardLayout1->itemData(i).toInt() == cat->keyboardLayoutFrom())
-            ui->cmbKeyboardLayout1->setCurrentIndex(i);
-    for(int i=0;i<ui->cmbKeyboardLayout2->count();i++)
-        if (ui->cmbKeyboardLayout2->itemData(i).toInt() == cat->keyboardLayoutTo())
-            ui->cmbKeyboardLayout2->setCurrentIndex(i);
     ui->lstVocables->setModel( backend.currentVocabularyModel());
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
     connect(ui->lstVocables->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::vocableSelectionChanged);
@@ -128,10 +116,8 @@ void MainWindow::on_btnCategoryAdd_clicked()
 {
     QString languageFrom = ui->edtLanguage1->text();
     QString languageTo = ui->edtLanguage2->text();
-    int layout1 = ui->cmbKeyboardLayout1->itemData(ui->cmbKeyboardLayout1->currentIndex()).toInt();
-    int layout2 = ui->cmbKeyboardLayout2->itemData(ui->cmbKeyboardLayout2->currentIndex()).toInt();
 
-    backend.addCategory(languageFrom, languageTo, layout1, layout2);
+    backend.addCategory(languageFrom, languageTo);
 }
 
 void MainWindow::on_cmbEnterCategory_currentIndexChanged(int index)
@@ -252,72 +238,6 @@ void MainWindow::on_btnBack_clicked()
     backend.currentVocable()->back();
     backend.showNextVocable();
 }
-
-void MainWindow::on_cmbKeyboardLayout1_activated(const QString &)
-{
-    if (backend.currentCategory().isNull())
-        return;
-    int code = ui->cmbKeyboardLayout1->itemData(ui->cmbKeyboardLayout1->currentIndex()).toInt();
-    backend.currentCategory()->setKeyboardLayoutFrom(code);
-}
-
-void MainWindow::on_cmbKeyboardLayout2_activated(const QString &)
-{
-    if (backend.currentCategory().isNull())
-        return;
-    int code = ui->cmbKeyboardLayout2->itemData(ui->cmbKeyboardLayout2->currentIndex()).toInt();
-    backend.currentCategory()->setKeyboardLayoutTo(code);
-}
-
-bool MainWindow::handleFocusEvent(QFocusEvent *evt, QObject *obj)
-{
-    if (evt->lostFocus())
-        KeyboardLayout::restore();
-    else if (obj == ui->txtLanguage1)
-        KeyboardLayout::setActiveKeyboardLayout(backend.currentCategory()->keyboardLayoutFrom());
-    else if (obj == ui->txtLanguage2)
-        KeyboardLayout::setActiveKeyboardLayout(backend.currentCategory()->keyboardLayoutTo());
-    return false;
-}
-
-void setFontSize(QTextEdit* edt, int size) {
-    QFont fnt = edt->font();
-    fnt.setPointSize( qMin(200, qMax(5, fnt.pointSize() + size ) ));
-    edt->setFont(fnt);
-}
-
-bool MainWindow::handleWheelEvent(QWheelEvent *evt)
-{
-    if (evt->modifiers() & Qt::ControlModifier) {
-        int delta = qMin(1,qMax(-1,evt->delta()));
-        if (ui->txtLanguage1->underMouse())
-            setFontSize(ui->txtLanguage1, delta);
-        else if (ui->txtLanguage2->underMouse())
-            setFontSize(ui->txtLanguage2, delta);
-        else
-            return false;
-        return true;
-    }
-    return false;
-}
-
-bool MainWindow::eventFilter(QObject *obj, QEvent *event)
-{
-    if ((obj == ui->txtLanguage1 || obj == ui->txtLanguage2)){
-
-        if ((event->type() == QEvent::FocusIn ||
-             event->type() == QEvent::FocusOut)) {
-            QFocusEvent *evt = static_cast<QFocusEvent*>(event);
-            return handleFocusEvent(evt, obj);
-        }
-        if (event->type() == QEvent::Wheel) {
-            QWheelEvent*evt = static_cast<QWheelEvent*>(event);
-            return handleWheelEvent(evt);
-        }
-    }
-    return QObject::eventFilter(obj, event);
-}
-
 
 void MainWindow::initLatexWebView()
 {

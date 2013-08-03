@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QSet>
+#include <QVariant>
 
 #ifdef Q_OS_WIN
 #include "Windows.h"
@@ -13,6 +14,7 @@ public:
     virtual ~KeyboardLayout();
 
     struct LanguageInfo {
+        QString shortName;
         QString name;
         int code;
     };
@@ -26,6 +28,7 @@ private:
 #endif
     static QList<LanguageInfo> langList;
 };
+Q_DECLARE_METATYPE(KeyboardLayout::LanguageInfo)
 
 inline bool operator ==(const KeyboardLayout::LanguageInfo &a, const KeyboardLayout::LanguageInfo &b){
     return a.name == b.name;

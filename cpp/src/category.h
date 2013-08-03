@@ -13,7 +13,7 @@ class Vocable;
 class DB;
 class Category : public DQModel
 {
-    DQ_MODEL;
+    DQ_MODEL
 public:
     Category():aboutToDelete(false){}
 
@@ -28,6 +28,11 @@ public:
     void setLanguageTo(QString to){langTo=to;}
     QString languageFrom(){return langFrom;}
     QString languageTo(){return langTo;}
+
+    void setFontFrom(QFont from){fontTypeFrom=QVariant::fromValue(from);}
+    void setFontTo(QFont to){fontTypeTo=QVariant::fromValue(to);}
+    QFont fontFrom(){return fontTypeFrom.get().value<QFont>();}
+    QFont fontTo(){return fontTypeTo.get().value<QFont>();}
 
     DQList<Vocable> vocables();
 
@@ -44,6 +49,8 @@ private:
     bool aboutToDelete;
     DQField<QString> langFrom;
     DQField<QString> langTo;
+    DQField<QString> fontTypeFrom;
+    DQField<QString> fontTypeTo;
     DQField<int> keyboardFrom;
     DQField<int> keyboardTo;
 };
@@ -52,6 +59,8 @@ DQ_DECLARE_MODEL(Category,
                  "category",
                  DQ_FIELD(langFrom),
                  DQ_FIELD(langTo),
+                 DQ_FIELD(fontTypeFrom),
+                 DQ_FIELD(fontTypeTo),
                  DQ_FIELD(keyboardFrom, DQDefault(0)),
                  DQ_FIELD(keyboardTo, DQDefault(0))
                  )

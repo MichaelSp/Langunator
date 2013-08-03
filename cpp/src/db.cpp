@@ -21,7 +21,7 @@ void DB::init()
 #endif
     if (!appDataDir.exists())
         appDataDir.mkpath(".");
-    QString sqlDBFile = appDataDir.absoluteFilePath("DB.sqlite");
+    QString sqlDBFile = appDataDir.absoluteFilePath(QApplication::applicationName() + ".sqlite");
     qDebug() << "SQLite DB: " <<sqlDBFile;
     db.setDatabaseName(sqlDBFile);
     if (!db.open()){

@@ -45,11 +45,14 @@ void KeyboardLayout::restore()
 BOOL CALLBACK KeyboardLayout::enumLocalesCallback(_In_  LPTSTR lpLocaleString)
 {
     LCID anLCID = QString::fromWCharArray(lpLocaleString).toInt(0,16);
-    WCHAR szBuffer[MAX_PATH];
+    WCHAR longName[MAX_PATH];
+    WCHAR shortName[MAX_PATH];
 
-    GetLocaleInfo(anLCID, LOCALE_SENGLANGUAGE, szBuffer, MAX_PATH);
+    GetLocaleInfo(anLCID, LOCALE_SENGLANGUAGE, longName, MAX_PATH);
+    GetLocaleInfo(anLCID, LOCALE_SABBREVLANGNAME, shortName, MAX_PATH);
     LanguageInfo nfo;
-    nfo.name= QString::fromWCharArray(szBuffer);
+    nfo.name= QString::fromWCharArray(longName);
+    nfo.shortName = QString::fromWCharArray(shortName);
     nfo.code = anLCID;
     if (!KeyboardLayout::langList.contains(nfo))
         KeyboardLayout::langList.append(nfo);

@@ -22,10 +22,6 @@ public:
 
     void initLatexWebView();
     void setEditButtonsStateEnabled(bool enabled);
-    bool handleFocusEvent(QFocusEvent *event, QObject *obj);
-    bool handleWheelEvent(QWheelEvent *evt);
-protected:
-    virtual bool eventFilter(QObject *obj, QEvent *event);
 
 private slots:
     void currentCategoryChanged(CategoryPtr cat);
@@ -45,8 +41,6 @@ private slots:
     void on_btnBackTo0_clicked();
     void on_btnNext_clicked();
     void on_btnBack_clicked();
-    void on_cmbKeyboardLayout1_activated(const QString &arg1);
-    void on_cmbKeyboardLayout2_activated(const QString &arg1);
     void on_chkShowLatex_clicked(bool showLatex);
     void on_txtLanguage2_textChanged();
     void on_btnQuestionNew_clicked();

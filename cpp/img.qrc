@@ -17,6 +17,7 @@
         <file>img/apps_hardware.png</file>
         <file>img/Fernglas.png</file>
         <file>img/earth.ico</file>
+        <file>img/apps_preferences_desktop_filetype_association.png</file>
     </qresource>
     <qresource prefix="/html">
         <file>MathJax/config/Accessible.js</file>

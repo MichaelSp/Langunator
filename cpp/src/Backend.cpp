@@ -32,11 +32,9 @@ void Backend::delayedInit()
     prepareTrainingSet();
 }
 
-void Backend::addCategory(QString languageFrom,QString languageTo, int layout1, int layout2)
+void Backend::addCategory(QString languageFrom,QString languageTo)
 {
     CategoryPtr cat(new Category(languageFrom,languageTo));
-    cat->setKeyboardLayoutFrom(layout1);
-    cat->setKeyboardLayoutTo(layout2);
     if (cat->save(false,false))
     {
         cacheIsDirty = true;
