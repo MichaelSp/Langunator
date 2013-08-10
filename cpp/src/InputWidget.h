@@ -19,6 +19,7 @@ protected:
     void focusInEvent(QFocusEvent *e);
     void focusOutEvent(QFocusEvent *e);
     void showEvent(QShowEvent *);
+    void resizeEvent(QResizeEvent *e);
     void wheelEvent(QWheelEvent *e);
 
 private slots:

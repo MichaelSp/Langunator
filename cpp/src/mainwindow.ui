@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1253</width>
-    <height>643</height>
+    <width>1180</width>
+    <height>573</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -278,6 +278,12 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
               <iconset resource="../img.qrc">
                <normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</iconset>
              </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
             </widget>
            </item>
            <item row="2" column="0">
@@ -292,9 +298,35 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
               <iconset resource="../img.qrc">
                <normaloff>:/img/img/actions_list_add_user_export_bills.png</normaloff>:/img/img/actions_list_add_user_export_bills.png</iconset>
              </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
             </widget>
            </item>
-           <item row="1" column="0" colspan="2">
+           <item row="2" column="2">
+            <widget class="QCommandLinkButton" name="btnShare">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Teilen</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../img.qrc">
+               <normaloff>:/img/img/svn-commit.png</normaloff>:/img/img/svn-commit.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="3">
             <widget class="QComboBox" name="cmbEnterCategory"/>
            </item>
           </layout>
@@ -338,19 +370,6 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
               </sizepolicy>
              </property>
             </widget>
-           </item>
-           <item row="0" column="2">
-            <spacer name="horizontalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
            </item>
           </layout>
          </widget>
@@ -407,17 +426,17 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QGridLayout" name="gridLayout_9">
-               <item row="1" column="2">
-                <widget class="QCommandLinkButton" name="btnMoveToBox">
+               <item row="1" column="1">
+                <widget class="QCommandLinkButton" name="btnQuestionDelete">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
                  <property name="text">
-                  <string>Suchen</string>
+                  <string>Löschen</string>
                  </property>
                  <property name="icon">
                   <iconset resource="../img.qrc">
-                   <normaloff>:/img/img/Fernglas.png</normaloff>:/img/img/Fernglas.png</iconset>
+                   <normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -438,52 +457,12 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
                  </property>
                  <property name="iconSize">
                   <size>
-                   <width>30</width>
-                   <height>30</height>
+                   <width>32</width>
+                   <height>32</height>
                   </size>
                  </property>
                  <property name="shortcut">
                   <string>Ctrl+S</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QCommandLinkButton" name="btnQuestionDelete">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="text">
-                  <string>Löschen</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../img.qrc">
-                   <normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</normaloff>:/img/img/actions_edit_clear_rtl_locationbar.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="2">
-                <widget class="QSpinBox" name="spnLektion">
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QLabel" name="label_4">
-                 <property name="text">
-                  <string>Lektion</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                  </property>
                 </widget>
                </item>
@@ -498,6 +477,52 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
                  <property name="icon">
                   <iconset resource="../img.qrc">
                    <normaloff>:/img/img/actions_list_add_user_export_bills.png</normaloff>:/img/img/actions_list_add_user_export_bills.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>32</width>
+                   <height>32</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2">
+                <widget class="QCommandLinkButton" name="btnMoveToBox">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="text">
+                  <string>Suchen</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../img.qrc">
+                   <normaloff>:/img/img/Fernglas.png</normaloff>:/img/img/Fernglas.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>32</width>
+                   <height>32</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLabel" name="label_4">
+                 <property name="text">
+                  <string>Lektion</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QSpinBox" name="spnLektion">
+                 <property name="minimumSize">
+                  <size>
+                   <width>60</width>
+                   <height>0</height>
+                  </size>
                  </property>
                 </widget>
                </item>
@@ -725,7 +750,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab">
+      <widget class="TabImportExport" name="tabImportExport">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -737,7 +762,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
         <string>Import/Export</string>
        </attribute>
       </widget>
-      <widget class="QWidget" name="tab_2">
+      <widget class="QWidget" name="tabStatistic">
        <attribute name="icon">
         <iconset resource="../img.qrc">
          <normaloff>:/img/img/Statistik.png</normaloff>:/img/img/Statistik.png</iconset>
@@ -763,6 +788,12 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
    <extends>QTextEdit</extends>
    <header>InputWidget.h</header>
   </customwidget>
+  <customwidget>
+   <class>TabImportExport</class>
+   <extends>QWidget</extends>
+   <header>TabImportExport.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>txtQuestion</tabstop>
@@ -780,8 +811,6 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
   <tabstop>txtLanguage1</tabstop>
   <tabstop>txtLanguage2</tabstop>
   <tabstop>btnQuestionSave</tabstop>
-  <tabstop>btnQuestionDelete</tabstop>
-  <tabstop>btnMoveToBox</tabstop>
   <tabstop>lstVocables</tabstop>
  </tabstops>
  <resources>

@@ -18,7 +18,7 @@ QVariant VocableList::data(const QModelIndex &index, int role) const
         default:
         case 0: return vocListCache.at(index.row())->language1;
         case 1: return vocListCache.at(index.row())->language2;
-        case 2: return vocListCache.at(index.row())->lektion;
+        case 2: return vocListCache.at(index.row())->lesson;
         }
     }
     else if (role==Qt::UserRole) {

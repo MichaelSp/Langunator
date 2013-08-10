@@ -2,6 +2,12 @@
 #include "db.h"
 #include "vocabel.h"
 
+Category::Category(const QJsonObject &obj)
+    :aboutToDelete(false)
+{
+   *this << obj;
+}
+
 Category::Category(QString from, QString to)
     :aboutToDelete(false)
 {
@@ -20,7 +26,7 @@ bool Category::addVocable(QString lang1, QString lang2, int lektion)
     Vocable vok;
     vok.language1 = lang1;
     vok.language2 = lang2;
-    vok.lektion = lektion;
+    vok.lesson = lektion;
     vok.category = *this;
     return vok.save();
 }
@@ -53,6 +59,13 @@ int Category::keyboardLayoutTo() const
 void Category::setKeyboardLayoutTo(const int &value)
 {
     keyboardTo = value;
+}
+
+void Category::refreshNumbers()
+{
+    DQQuery<Vocable> query;
+    count = query.filter(DQWhere("category") == id).count();
+    lesson = query.call("avg","lesson").toInt();
 }
 
 int Category::keyboardLayoutFrom() const

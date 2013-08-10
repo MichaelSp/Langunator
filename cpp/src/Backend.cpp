@@ -98,7 +98,7 @@ void Backend::updateVocable(const QModelIndex &idx, QString lang1, QString lang2
              DQWhere("language2 = ", idx.model()->index(idx.row(),1).data().toString()));
     voc.language1 = lang1;
     voc.language2 = lang2;
-    voc.lektion = lektion;
+    voc.lesson = lektion;
     bool ok = voc.save();
     if (ok && !vocListModel.isNull())
     {

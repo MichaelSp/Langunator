@@ -1,4 +1,21 @@
 #include "vocabel.h"
+
+
+Vocable::Vocable(const QJsonObject &obj, CategoryPtr cat)
+{
+    *this << obj;
+    Category localCat;
+    localCat.load( DQWhere("langFrom") == cat->languageFrom() && DQWhere("langTo") == cat->languageTo() ||
+                   DQWhere("langTo") == cat->languageFrom() && DQWhere("langFrom") == cat->languageTo());
+    if (!localCat.isValid()) {
+        localCat.setLanguageFrom(cat->languageFrom());
+        localCat.setLanguageTo(cat->languageTo());
+        localCat.save();
+    }
+    category = localCat.id;
+    save();
+}
+
 void Vocable::next()
 {
     rightInRow.set( rightInRow().value<int>() +1 );

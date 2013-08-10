@@ -25,6 +25,7 @@ public:
 
 protected:
     virtual bool eventFilter(QObject *obj, QEvent *evt);
+    virtual void dragEnterEvent(QDragEnterEvent *evt);
 
 private slots:
     void currentCategoryChanged(CategoryPtr cat);
@@ -47,6 +48,7 @@ private slots:
     void on_chkShowLatex_clicked(bool showLatex);
     void on_txtLanguage2_textChanged();
     void on_btnQuestionNew_clicked();
+    void on_btnShare_clicked();
 
 private:
     Ui::MainWindow *ui;

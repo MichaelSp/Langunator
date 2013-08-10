@@ -86,6 +86,12 @@ void InputWidget::showEvent(QShowEvent *e)
     moveButtons();
 }
 
+void InputWidget::resizeEvent(QResizeEvent *e)
+{
+    QTextEdit::resizeEvent(e);
+    moveButtons();
+}
+
 void InputWidget::moveButtons()
 {
     int spacing = fontButton.iconSize().width();

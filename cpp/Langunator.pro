@@ -55,7 +55,9 @@ SOURCES += src/main.cpp\
     src/VocableList.cpp \
     src/vocabel.cpp \
     src/keyboardlayout.cpp \
-    src/InputWidget.cpp
+    src/InputWidget.cpp \
+    src/TabImportExport.cpp \
+    src/GithubAPI.cpp
 
 HEADERS  += src/mainwindow.h \
     src/pch.h \
@@ -90,13 +92,18 @@ HEADERS  += src/mainwindow.h \
     src/VocableList.h \
     src/vocabel.h \
     src/keyboardlayout.h \
-    src/InputWidget.h
+    src/InputWidget.h \
+    src/TabImportExport.h \
+    src/GithubAPI.h
 
-FORMS    += src/mainwindow.ui
+FORMS    += src/mainwindow.ui \
+    src/TabImportExport.ui
 
 RESOURCES += \
     img.qrc
 
+#include(latex/latex.pri)
+include(qt-oauth-lib/qt-oauth-lib.pri)
 include(src/plugins/androidComponents.pri)
 
 OTHER_FILES += installer.nsi \

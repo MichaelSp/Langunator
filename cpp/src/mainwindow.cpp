@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&backend, SIGNAL(newVocable(Vocable*)), this, SLOT(setVocable(Vocable*)));
 #endif
 
+    setAcceptDrops(true);
     initLatexWebView();
 }
 
@@ -49,6 +50,7 @@ void MainWindow::updateCategories(CategoriesPtr cats)
     ui->cmbEnterCategory->addItem("<Neue Kategorie>", false);
     ui->cmbEnterCategory->setCurrentIndex(currentIndex);
     ui->btnCategoryRemove->setEnabled( currentIndex < ui->cmbEnterCategory->count()-1);
+    ui->btnShare->setEnabled( currentIndex < ui->cmbEnterCategory->count()-1);
 
     backend.setCurrentCategory( ui->cmbEnterCategory->itemData( currentIndex ).value<CategoryPtr>() );
 }
@@ -127,6 +129,7 @@ void MainWindow::on_cmbEnterCategory_currentIndexChanged(int index)
     bool validItem = (index>=0);
     bool newItem = ui->cmbEnterCategory->itemData(index).type() == QVariant::Bool;
     ui->btnCategoryRemove->setEnabled(validItem && !newItem);
+    ui->btnShare->setEnabled(validItem && !newItem);
     ui->txtLanguage1->clear();
     ui->txtLanguage2->clear();
 
@@ -202,6 +205,17 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *evt)
             KeyboardLayout::restore();
     }
     return QMainWindow::eventFilter(obj,evt);
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent *evt)
+{
+    foreach(QString format, evt->mimeData()->formats())
+        qDebug() << format << "\t= " << evt->mimeData()->data(format).toHex();
+
+    if (evt->mimeData()->hasFormat("application/x-qt-windows-mime;value=\"FileName\"")){
+        QFileInfo nfo(evt->mimeData()->data("application/x-qt-windows-mime;value=\"FileName\""));
+        qDebug() << nfo.absoluteFilePath();
+    }
 }
 
 void MainWindow::vocableSelectionChanged(const QModelIndex &current, const QModelIndex &previous) {
@@ -280,3 +294,11 @@ void MainWindow::on_txtLanguage2_textChanged()
     ui->webView->page()->currentFrame()->evaluateJavaScript(js);
 }
 
+
+void MainWindow::on_btnShare_clicked()
+{
+    qApp->setOverrideCursor( Qt::WaitCursor );
+    ui->tabImportExport->share( backend.currentCategory() );
+    ui->tabWidget->setCurrentWidget( ui->tabImportExport );
+    qApp->restoreOverrideCursor();
+}
