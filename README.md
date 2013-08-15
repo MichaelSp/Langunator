@@ -6,8 +6,3 @@ C++ [![Build Status](https://travis-ci.org/MichaelSp/Langunator.png?branch=maste
 ====
 [<img src="http://www.vlc.de/img/download_button.png" alt="Binary release" />](https://github.com/MichaelSp/Langunator/releases)
 
-
-Java-Version
-====
-(deprecated Version)
-You need maven to build this
