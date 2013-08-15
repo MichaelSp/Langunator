@@ -2,8 +2,7 @@
 
 Backend::Backend(QObject *parent) :
     QObject(parent),
-    cacheIsDirty(true),
-    vocabularyListQuery(NULL)
+    cacheIsDirty(true)
 {
     QTimer::singleShot(0, this, SLOT(delayedInit()));
 }
@@ -12,15 +11,11 @@ Backend::~Backend()
 {
     if (!currentCategory().isNull())
         currentCategory()->save();
-    delete vocabularyListQuery;
 }
 
 void Backend::delayedInit()
 {
     dbInstance = new DB();
-
-    vocabularyListQuery = new QSqlQuery();
-    vocabularyListQuery->prepare("SELECT language1,language2,lektion FROM " + Vocable::TableName() + " WHERE category = :cat" );
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
     connect(dbInstance, &DB::dbLoaded, this, &Backend::dbLoaded);
@@ -74,18 +69,12 @@ CategoryPtr Backend::currentCategory() const
     return m_currentCategory;
 }
 
-void Backend::refreshVocListTable()
-{
-    vocabularyListQuery->exec();
-    vocListModel->setQuery(*vocabularyListQuery);
-}
-
 void Backend::addVocable(QString lang1, QString lang2, int lektion)
 {
     bool ok = currentCategory()->addVocable(lang1, lang2, lektion);
     if (ok && !vocListModel.isNull())
     {
-        refreshVocListTable();
+        vocListModel->refresh();
     }
 }
 
@@ -102,7 +91,7 @@ void Backend::updateVocable(const QModelIndex &idx, QString lang1, QString lang2
     bool ok = voc.save();
     if (ok && !vocListModel.isNull())
     {
-        refreshVocListTable();
+        vocListModel->refresh();
     }
 }
 
@@ -114,7 +103,7 @@ void Backend::removeVocable(const QModelIndex &idx)
                                         DQWhere("language2 = ", idx.model()->index(idx.row(),1).data().toString())).remove();
     if (ok && !vocListModel.isNull())
     {
-        refreshVocListTable();
+        vocListModel->refresh();
     }
 }
 
@@ -151,10 +140,7 @@ void Backend::setCurrentCategory(CategoryPtr arg)
             m_currentCategory->save();
         m_currentCategory = arg;
         if (!arg.isNull()){
-            //vocListModel = VocableListPtr(new VocableList(m_currentCategory));
-            vocListModel = QSharedPointer<QSqlQueryModel>(new QSqlQueryModel(this));
-            vocabularyListQuery->bindValue(":cat", m_currentCategory->id.get().toInt() );
-            refreshVocListTable();
+            vocListModel = VocableListPtr( new VocableList(m_currentCategory, this));
             vocListModel->setHeaderData(0, Qt::Horizontal, m_currentCategory->languageFrom());
             vocListModel->setHeaderData(1, Qt::Horizontal, m_currentCategory->languageTo());
             vocListModel->setHeaderData(2, Qt::Horizontal, tr("Lektion"));

@@ -1,7 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
-#include <QMainWindow>
+#pragma once
 
 #include "pch.h"
 #include "Backend.h"
@@ -30,7 +27,7 @@ protected:
 private slots:
     void currentCategoryChanged(CategoryPtr cat);
     void updateCategories(CategoriesPtr cats);
-    void currentLanguageChanged(QString);
+    void on_btnCategoreRename_clicked();
     void vocableSelectionChanged(const QModelIndex &current, const QModelIndex &previous);
     void setVocable(Vocable *voc);
 
@@ -53,6 +50,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Backend backend;
+    bool modeRename;
 };
 
-#endif // MAINWINDOW_H

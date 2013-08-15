@@ -4,8 +4,10 @@
 #include <Qt>
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
+#ifdef QT_WEBKIT_LIB
 #include <QWebFrame>
+#endif
 #include <QtConcurrent/QtConcurrent>
 
 #else

@@ -28,7 +28,6 @@ public:
     void prepareTrainingSet();
     Vocable *currentVocable();
     void showNextVocable();
-    void refreshVocListTable();
 public slots:
     void setCurrentCategory(CategoryPtr arg);
 
@@ -48,9 +47,7 @@ private:
     CategoryPtr m_currentCategory;
     bool cacheIsDirty;
 
-    //VocableListPtr vocListModel;
-    QSqlQuery *vocabularyListQuery;
-    QSharedPointer<QSqlQueryModel> vocListModel;
+    VocableListPtr vocListModel;
     DQList<Vocable> trainingSet;
 };
 

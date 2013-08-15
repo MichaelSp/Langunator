@@ -7,8 +7,7 @@
 #include <QtQml/QQmlEngine>
 #endif
 #include "mainwindow.h"
-#include <QApplication>
-
+#include "pch.h"
 
 int main(int argc, char *argv[])
 {

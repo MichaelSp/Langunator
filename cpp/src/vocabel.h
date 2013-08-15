@@ -24,6 +24,9 @@ public:
     DQField<int> backTo0Clicks;
     DQField<int> rightInRow;
     DQField<QDateTime> lastAsked;
+
+private:
+    QDateTime getTimestamp();
 };
 
 inline void operator <<(QJsonObject &obj, const Vocable &voc) {

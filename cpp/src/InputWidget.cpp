@@ -13,6 +13,7 @@ InputWidget::InputWidget(QWidget *parent) :
 
     QList<KeyboardLayout::LanguageInfo> lang = KeyboardLayout::languages();
     languages.addItem("<Nicht ändern>");
+    languages.resize( 200, languages.height() );
     foreach(KeyboardLayout::LanguageInfo nfo, lang)
         languages.addItem(nfo.name, QVariant::fromValue(nfo));
     languages.hide();
@@ -30,8 +31,8 @@ InputWidget::InputWidget(QWidget *parent) :
 }
 
 void InputWidget::initButton(QToolButton &btn, const QIcon icon){
-    QSize size(38,38);
-    btn.setIconSize( QSize(32,32));
+    QSize size(32,32);
+    btn.setIconSize( size - QSize(6,6));
     btn.setMinimumSize( size );
     btn.setMaximumSize( size );
     btn.setIcon( icon );
@@ -94,10 +95,10 @@ void InputWidget::resizeEvent(QResizeEvent *e)
 
 void InputWidget::moveButtons()
 {
-    int spacing = fontButton.iconSize().width();
-    fontButton.move(width() - spacing, 10);
-    keyboardLayout.move(fontButton.pos().x() - spacing *2, 10);
-    languages.move(width() - languages.sizeHint().width() - 10, 10 + keyboardLayout.height());
+    int right = width() - fontButton.iconSize().width() - 15;
+    fontButton.move(right, 5);
+    keyboardLayout.move(right, fontButton.y() + fontButton.height() + 5);
+    languages.move(keyboardLayout.x() - languages.width(), keyboardLayout.y());
 }
 
 void InputWidget::setTextFont(QFont fnt)

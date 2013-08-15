@@ -18,20 +18,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->txtLanguage2->setBackend(backend,false);
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-    connect(ui->edtLanguage1, &QLineEdit::textEdited, this, &MainWindow::currentLanguageChanged);
-    connect(ui->edtLanguage2, &QLineEdit::textEdited, this, &MainWindow::currentLanguageChanged);
     connect(&backend, &Backend::categoriesUpdated, this, &MainWindow::updateCategories);
     connect(&backend, &Backend::currentCategoryChanged, this, &MainWindow::currentCategoryChanged);
     connect(&backend, &Backend::newVocable, this, &MainWindow::setVocable);
 #else
-    connect(ui->edtLanguage1, SIGNAL(textEdited(QString)), this, SLOT(currentLanguageChanged(QString)));
-    connect(ui->edtLanguage2, SIGNAL(textEdited(QString)), this, SLOT(currentLanguageChanged(QString)));
     connect(&backend, SIGNAL(categoriesUpdated(CategoriesPtr)), this, SLOT(updateCategories(CategoriesPtr)));
     connect(&backend, SIGNAL(currentCategoryChanged(CategoryPtr)), this, SLOT(currentCategoryChanged(CategoryPtr)));
     connect(&backend, SIGNAL(newVocable(Vocable*)), this, SLOT(setVocable(Vocable*)));
 #endif
 
-    setAcceptDrops(true);
     initLatexWebView();
 }
 
@@ -46,13 +41,13 @@ void MainWindow::updateCategories(CategoriesPtr cats)
     foreach(CategoryPtr cat, cats){
         ui->cmbEnterCategory->addItem(cat->categoryName(), QVariant::fromValue(cat));
     }
-    int currentIndex = qMax(0,ui->cmbEnterCategory->count()-1);
-    ui->cmbEnterCategory->addItem("<Neue Kategorie>", false);
-    ui->cmbEnterCategory->setCurrentIndex(currentIndex);
-    ui->btnCategoryRemove->setEnabled( currentIndex < ui->cmbEnterCategory->count()-1);
-    ui->btnShare->setEnabled( currentIndex < ui->cmbEnterCategory->count()-1);
+    bool hasEntries = ui->cmbEnterCategory->count();
+    ui->btnCategoryRemove->setEnabled( hasEntries);
+    ui->btnShare->setEnabled( hasEntries );
+    ui->btnCategoreRename->setEnabled(hasEntries);
 
-    backend.setCurrentCategory( ui->cmbEnterCategory->itemData( currentIndex ).value<CategoryPtr>() );
+    if (hasEntries)
+        backend.setCurrentCategory( ui->cmbEnterCategory->itemData( ui->cmbEnterCategory->currentIndex() ).value<CategoryPtr>() );
 }
 
 void MainWindow::setVocable(Vocable *voc)
@@ -63,6 +58,7 @@ void MainWindow::setVocable(Vocable *voc)
     ui->txtAnswer->clear();
     if (voc) {
         bool invers = ui->chkInvers->isChecked();
+        ui->txtQuestion->setFont( invers?voc->category->fontTo():voc->category->fontFrom());
         ui->txtQuestion->setText( invers?voc->language2:voc->language1 );
     }
     else
@@ -77,17 +73,24 @@ void MainWindow::startLearning()
 void MainWindow::currentCategoryChanged(CategoryPtr cat)
 {
     bool valid = !cat.isNull() && cat->isValid();
+    ui->btnCategoreRename->setEnabled( valid );
     ui->splitterEnterVocabs->setEnabled(valid);
-    ui->btnCategoryAdd->setDisabled(valid);
+    ui->lblLanguage1->setText(tr("Sprache 1"));
+    ui->lblLanguage2->setText(tr("Sprache 2"));
     ui->edtLanguage1->clear();
     ui->edtLanguage2->clear();
     if (!valid) {
+        qDebug() << "changed to invalid category";
         ui->edtLanguage1->setFocus();
         ui->lstVocables->setModel(NULL);
         return;
     }
     ui->edtLanguage1->setText(cat->languageFrom());
     ui->edtLanguage2->setText(cat->languageTo());
+    ui->txtLanguage1->setFont(cat->fontFrom() );
+    ui->txtLanguage2->setFont(cat->fontTo() );
+    ui->lblLanguage1->setText(cat->languageFrom());
+    ui->lblLanguage2->setText(cat->languageTo());
     ui->lstVocables->setModel( backend.currentVocabularyModel());
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
     connect(ui->lstVocables->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::vocableSelectionChanged);
@@ -96,7 +99,7 @@ void MainWindow::currentCategoryChanged(CategoryPtr cat)
 #endif
 }
 
-void MainWindow::currentLanguageChanged(QString)
+void MainWindow::on_btnCategoreRename_clicked()
 {
     QString languageFrom = ui->edtLanguage1->text();
     QString languageTo = ui->edtLanguage2->text();
@@ -121,21 +124,28 @@ void MainWindow::on_btnCategoryAdd_clicked()
     QString languageFrom = ui->edtLanguage1->text();
     QString languageTo = ui->edtLanguage2->text();
 
+    if (languageFrom.isEmpty() || languageTo.isEmpty()) {
+        ui->lblWarning->setText(tr("Die Eingabefelder für Sprache 1 und Sprache 2 dürfen nicht leer sein."));
+        ui->lblWarning->show();
+        QTimer::singleShot(5000, ui->lblWarning, SLOT(hide()));
+        return;
+    }
+
     backend.addCategory(languageFrom, languageTo);
 }
 
 void MainWindow::on_cmbEnterCategory_currentIndexChanged(int index)
 {
-    bool validItem = (index>=0);
-    bool newItem = ui->cmbEnterCategory->itemData(index).type() == QVariant::Bool;
-    ui->btnCategoryRemove->setEnabled(validItem && !newItem);
-    ui->btnShare->setEnabled(validItem && !newItem);
+    bool validItem = ui->cmbEnterCategory->count()>0;
+    ui->btnCategoryRemove->setEnabled( validItem );
+    ui->btnCategoreRename->setEnabled( validItem );
+    ui->btnShare->setEnabled(validItem );
     ui->txtLanguage1->clear();
     ui->txtLanguage2->clear();
 
-    if(validItem && !newItem)
+    if(validItem)
         backend.setCurrentCategory( ui->cmbEnterCategory->itemData(index).value<CategoryPtr>() );
-    if(newItem)
+    else
         backend.setCurrentCategory(CategoryPtr());
 }
 
@@ -156,15 +166,18 @@ void MainWindow::on_btnQuestionSave_clicked()
         return;
     }
     if (ui->lstVocables->selectionModel()->currentIndex().isValid()) {
+        qDebug() << "update ";
         backend.updateVocable( ui->lstVocables->selectionModel()->currentIndex(),
                                ui->txtLanguage1->toPlainText(),
                                ui->txtLanguage2->toPlainText(),
                                ui->spnLektion->value());
     }
-    else
+    else {
+        qDebug() << "insert ";
         backend.addVocable(ui->txtLanguage1->toPlainText(),
                            ui->txtLanguage2->toPlainText(),
                            ui->spnLektion->value());
+    }
     ui->txtLanguage1->clear();
     ui->txtLanguage2->clear();
     ui->txtLanguage1->setFocus();

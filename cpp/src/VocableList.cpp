@@ -1,76 +1,31 @@
 #include "VocableList.h"
 #include "vocabel.h"
 
-VocableList::VocableList(CategoryPtr cat, QObject *parent) :
-    QAbstractItemModel(parent),
+VocableList::VocableList(CategoryPtr cat,  QObject *parent) :
+    QSqlQueryModel(parent),
     category(cat)
 {
-    refreshCache();
+    vocabularyListQuery.prepare("SELECT language1,language2,lesson FROM " + Vocable::TableName() + " WHERE category = :cat" );
+    vocabularyListQuery.bindValue(":cat", category->id.get().toInt() );
+    refresh();
 }
 
 QVariant VocableList::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid())
-        return QVariant();
-
-    if (role == Qt::DisplayRole) {
+   if (index.isValid() && role==Qt::FontRole) {
         switch(index.column()){
+        case 0: return category->fontFrom();
+        case 1: return category->fontTo();
         default:
-        case 0: return vocListCache.at(index.row())->language1;
-        case 1: return vocListCache.at(index.row())->language2;
-        case 2: return vocListCache.at(index.row())->lesson;
+            return QSqlQueryModel::data(index,role);
         }
     }
-    else if (role==Qt::UserRole) {
-        Vocable *voc = vocListCache.at(index.row());
-        return QVariant::fromValue( voc );
-    }
-    return QVariant();
+   return QSqlQueryModel::data(index,role);
 }
 
-QVariant VocableList::headerData(int section, Qt::Orientation orientation, int role) const
+void VocableList::refresh()
 {
-    if (role != Qt::DisplayRole || orientation != Qt::Horizontal)
-        return QAbstractItemModel::headerData(section, orientation, role);
-
-    switch (section) {
-    case 0: return category->languageFrom();
-    case 1: return category->languageTo();
-    default:
-    case 2: return "Lektion";
-    }
-}
-
-void VocableList::refreshCache(bool isRemove)
-{
-    if (isRemove)
-        beginRemoveRows(QModelIndex(), qMax(0,rowCount()-1),rowCount());
-    else
-        beginInsertRows(QModelIndex(), qMax(0,rowCount()-1),rowCount());
-    vocListCache = Vocable::objects().filter(DQWhere("category = ", category->id)).all();
-    emit dataChanged(index(0,0),index(rowCount(),columnCount()));
-    if (isRemove)
-        endRemoveRows();
-    else
-        endInsertRows();
-}
-
-QModelIndex VocableList::index(int row, int column, const QModelIndex &) const
-{
-    return createIndex(row, column, row);
-}
-
-QModelIndex VocableList::parent(const QModelIndex &) const
-{
-    return QModelIndex();
-}
-
-int VocableList::rowCount(const QModelIndex &) const
-{
-    return vocListCache.size();
-}
-
-int VocableList::columnCount(const QModelIndex &) const
-{
-    return 3;
+    if (!vocabularyListQuery.exec())
+        qDebug() << vocabularyListQuery.lastError().databaseText();
+    setQuery(vocabularyListQuery);
 }
