@@ -26,6 +26,7 @@ public slots:
     void loadIndex(std::function<void (CategoriesPtr &packages)> callback, std::function<void (QNetworkReply*)> error);
 
 private:
+    QBuffer *prepareUploadFileBuffer(const CategoryPtr &pack);
     void updateIndex(CategoriesPtr *successfull);
     void request(QString url, std::function<void (QNetworkReply *)> success, std::function<void (QNetworkReply*)> error = NULL, QIODevice *uplData=NULL);
     OAuth2 oauth;

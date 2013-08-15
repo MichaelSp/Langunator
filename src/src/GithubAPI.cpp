@@ -3,6 +3,8 @@
 #include <QtCore>
 #include "vocabel.h"
 
+#define ACCESS_TOKEN "fb6cc1e8ed683e414df9c8837ecfa62ae1c76a6d"
+#define BASE_URL "https://api.github.com/repos/Langunator/Langunator-data"
 
 GithubAPI::GithubAPI(QWidget *parent) :
     QObject(parent),
@@ -53,6 +55,23 @@ void GithubAPI::downloadPackages(const CategoriesPtr &packages, std::function<vo
     }
 }
 
+QBuffer* GithubAPI::prepareUploadFileBuffer(const CategoryPtr&pack) {
+    QBuffer *buf = new QBuffer(this);
+    buf->open(QIODevice::WriteOnly);
+    QJsonArray arr;
+    DQList<Vocable> vocList = pack->vocables();
+    for(int i=0;i<vocList.size();i++){
+        QJsonObject obj;
+        obj << *vocList.at(i);
+        arr.append(obj);
+    }
+    buf->write( QJsonDocument(arr).toJson() );
+    buf->close();
+    buf->open(QIODevice::ReadOnly);
+    buf->seek(0);
+    return buf;
+}
+
 void GithubAPI::uploadPackages(const CategoriesPtr &packages,
                                std::function<void (CategoryPtr)> callback,
                                std::function<void (CategoryPtr, QString)> error,
@@ -63,23 +82,15 @@ void GithubAPI::uploadPackages(const CategoriesPtr &packages,
 	*failed=0;
     foreach(const CategoryPtr&pack, packages) {
         qDebug() << "upload " << pack->categoryName();
-        QBuffer *buf = new QBuffer(this);
-        buf->open(QIODevice::WriteOnly);
-        QJsonArray arr;
-        DQList<Vocable> vocList = pack->vocables();
-        for(int i=0;i<vocList.size();i++){
-            QJsonObject obj;
-            obj << *vocList.at(i);
-            arr.append(obj);
-        }
-        buf->write( QJsonDocument(arr).toJson() );
-        buf->close();
-        buf->open(QIODevice::ReadOnly);
-        qDebug() << buf->readAll();
-        buf->seek(0);
+        QBuffer *buf = prepareUploadFileBuffer(pack);
+        QString fileName = QString("%1_%2_%3_%4.json")
+                .arg(QDateTime::currentDateTime().toString("yyyy.MM.dd"))
+                .arg(pack->categoryName())
+                .arg(pack->lesson)
+                .arg(pack->author);
 
         // POST /repos/:owner/:repo/git/blobs
-        request("http://raspi/~michael/blobs", [=](QNetworkReply *){
+        request(BASE_URL "/git/blobs/" + fileName, [=](QNetworkReply *){
             callback(pack);
             successfull->append(pack);
             if (successfull->size() + *failed >= packages.size()) {
@@ -108,8 +119,26 @@ void GithubAPI::updateIndex(CategoriesPtr *successfull)
         packages.append(obj);
     }
     index.insert("packages", packages);
-    qDebug() << QJsonDocument(index).toJson();
+    QVariantMap map;
+    map.insert("content", QJsonDocument(index).toJson());
+    map.insert("encoding", "utf-8");
+
+    qDebug() << QJsonDocument(QJsonObject::fromVariantMap(map)).toJson();
+    QBuffer *buf = new QBuffer(this);
+    buf->open(QIODevice::ReadWrite);
+    buf->write( QJsonDocument(index).toJson() );
 	delete successfull;
+    auto success = [=](QNetworkReply*repl){
+        qDebug() << "OK " << repl->readAll();
+        delete buf;
+    };
+    auto error =[=](QNetworkReply*repl){
+        qDebug() << "error " << repl->readAll();
+        delete buf;
+    };
+
+    request(BASE_URL "/git/blobs?access_token="  ACCESS_TOKEN,
+            success,error,buf);
 }
 
 void GithubAPI::loadIndex(std::function<void (CategoriesPtr &packages)> callback, std::function<void (QNetworkReply*)> error)
@@ -125,8 +154,7 @@ void GithubAPI::loadIndex(std::function<void (CategoriesPtr &packages)> callback
         }
         callback(cats);
     };
-    // GET /repos/:owner/:repo/git/blobs/:sha
-    request("http://raspi/~michael/index.json", success, error);
+    request(BASE_URL "/contents/index.json?ref=master", success, error);
 }
 
 void GithubAPI::request(QString url, std::function<void (QNetworkReply*)> success, std::function<void (QNetworkReply*)> error, QIODevice *uplData)
