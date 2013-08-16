@@ -58,6 +58,8 @@ void MainWindow::setVocable(Vocable *voc)
     ui->txtAnswer->clear();
     if (voc) {
         bool invers = ui->chkInvers->isChecked();
+        ui->lblQuestionLangFrom->setText(invers?voc->category->languageTo():voc->category->languageFrom());
+        ui->lblQuestionLangTo->setText(invers?voc->category->languageFrom():voc->category->languageTo());
         ui->txtQuestion->setFont( invers?voc->category->fontTo():voc->category->fontFrom());
         ui->txtQuestion->setText( invers?voc->language2:voc->language1 );
     }
@@ -67,6 +69,8 @@ void MainWindow::setVocable(Vocable *voc)
 
 void MainWindow::startLearning()
 {
+    ui->lblQuestionLangTo->clear();
+    ui->lblQuestionLangFrom->clear();
     backend.prepareTrainingSet();
 }
 
@@ -202,7 +206,11 @@ void MainWindow::on_btnShowAnswer_clicked()
 {
     if (backend.currentVocable() == NULL)
         return;
-    ui->txtAnswer->setText( backend.currentVocable()->language2 );
+
+    bool invers = ui->chkInvers->isChecked();
+    Vocable *voc = backend.currentVocable();
+    ui->txtAnswer->setFont( invers?voc->category->fontTo():voc->category->fontFrom());
+    ui->txtAnswer->setText( invers?voc->language2:voc->language1 );
 }
 
 void MainWindow::setEditButtonsStateEnabled(bool enabled)
@@ -278,6 +286,14 @@ void MainWindow::on_btnBack_clicked()
     backend.showNextVocable();
 }
 
+void MainWindow::on_btnShare_clicked()
+{
+    qApp->setOverrideCursor( Qt::WaitCursor );
+    ui->tabImportExport->share( backend.currentCategory() );
+    ui->tabWidget->setCurrentWidget( ui->tabImportExport );
+    qApp->restoreOverrideCursor();
+}
+
 void MainWindow::initLatexWebView()
 {
     QFile f(":/html/MathJax/MathJax.html");
@@ -305,13 +321,4 @@ void MainWindow::on_txtLanguage2_textChanged()
     QString js = "try {document.getElementById('MathInput').value='"+ ui->txtLanguage2->toPlainText() +"'; Preview.Update();} catch (e) {console.log(e);}";
     qDebug() << js;
     ui->webView->page()->currentFrame()->evaluateJavaScript(js);
-}
-
-
-void MainWindow::on_btnShare_clicked()
-{
-    qApp->setOverrideCursor( Qt::WaitCursor );
-    ui->tabImportExport->share( backend.currentCategory() );
-    ui->tabWidget->setCurrentWidget( ui->tabImportExport );
-    qApp->restoreOverrideCursor();
 }

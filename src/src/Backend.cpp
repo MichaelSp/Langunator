@@ -24,7 +24,6 @@ void Backend::delayedInit()
 #endif
     if (dbInstance->isLoaded())
         dbLoaded(); // signal is emitted b4 we reach that line...
-    prepareTrainingSet();
 }
 
 void Backend::addCategory(QString languageFrom,QString languageTo)

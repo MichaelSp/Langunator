@@ -50,6 +50,21 @@
            </property>
            <layout class="QGridLayout" name="gridLayout_2">
             <item row="0" column="0">
+             <widget class="QLabel" name="lblQuestionLangFrom">
+              <property name="font">
+               <font>
+                <pointsize>22</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Sprache 1</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
              <widget class="QTextEdit" name="txtQuestion">
               <property name="readOnly">
                <bool>true</bool>
@@ -66,7 +81,45 @@
             <string>Antwort</string>
            </property>
            <layout class="QGridLayout" name="gridLayout_3">
-            <item row="3" column="0">
+            <item row="2" column="0" colspan="3">
+             <widget class="QTextEdit" name="txtAnswer">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QCommandLinkButton" name="btnShowAnswer">
+              <property name="text">
+               <string>Antwort zeigen (S)</string>
+              </property>
+              <property name="shortcut">
+               <string>S</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1" colspan="2">
+             <widget class="QLabel" name="lblMessages">
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(152, 198, 139);
+color: rgb(17, 127, 0);
+font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Box</enum>
+              </property>
+              <property name="text">
+               <string>Tagesziel erreicht!</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
              <widget class="QFrame" name="frameTasten">
               <property name="maximumSize">
                <size>
@@ -200,41 +253,15 @@
               </layout>
              </widget>
             </item>
-            <item row="1" column="0" colspan="3">
-             <widget class="QTextEdit" name="txtAnswer">
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="0">
-             <widget class="QCommandLinkButton" name="btnShowAnswer">
-              <property name="text">
-               <string>Antwort zeigen (S)</string>
-              </property>
-              <property name="shortcut">
-               <string>S</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1" colspan="2">
-             <widget class="QLabel" name="lblMessages">
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(152, 198, 139);
-color: rgb(17, 127, 0);
-font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Box</enum>
+             <widget class="QLabel" name="lblQuestionLangTo">
+              <property name="font">
+               <font>
+                <pointsize>22</pointsize>
+               </font>
               </property>
               <property name="text">
-               <string>Tagesziel erreicht!</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-              <property name="wordWrap">
-               <bool>true</bool>
+               <string>Sprache 2</string>
               </property>
              </widget>
             </item>
