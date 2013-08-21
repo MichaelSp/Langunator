@@ -11,6 +11,7 @@ class DB: public QObject
 public:
 
     bool isLoaded(){return _isLoaded;}
+    void populateLookupTable();
 signals:
     void dbLoaded();
 
@@ -22,3 +23,16 @@ private:
     bool _isLoaded;
     DQConnection *connection;
 };
+
+class LookupTable: public DQModel {
+    DQ_MODEL
+public:
+    DQField<double> exponent;
+    DQField<double> power;
+};
+
+DQ_DECLARE_MODEL(LookupTable,
+                 "LookupTable", // the table name.
+                 DQ_FIELD(exponent, DQNotNull | DQUnique),
+                 DQ_FIELD(power, DQNotNull)
+                 )

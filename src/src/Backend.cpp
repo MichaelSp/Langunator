@@ -113,8 +113,13 @@ QAbstractItemModel *Backend::currentVocabularyModel()const
 
 void Backend::prepareTrainingSet()
 {
-    DQSharedQuery qry(Vocable::objects());
-    trainingSet = qry.filter( DQWhere("(julianday(Date('now')) - julianday(lastAsked))") >= DQWhere("rightInRow*rightInRow") ).all();
+    DQQuery<Vocable> qry;
+
+    trainingSet = qry
+            .filter( DQWhere("(julianday(Date('now')) - julianday(lastAsked))") >= DQWhere("(SELECT power FROM "+LookupTable::TableName()+" WHERE exponent == rightInRow)") )
+            .orderBy("language2")
+            .all();
+    qDebug() << "qry: " << qry.lastQuery().executedQuery() << " " << qry.lastQuery().lastError().text();
     emit newVocable(currentVocable());
 }
 

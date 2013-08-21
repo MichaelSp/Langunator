@@ -36,9 +36,27 @@ void DB::init()
 
     connection->addModel<Category>();
     connection->addModel<Vocable>();
+    connection->addModel<LookupTable>();
 
     connection->createTables();
 
+    populateLookupTable();
+
     emit dbLoaded();
     _isLoaded=true;
+}
+
+void DB::populateLookupTable()
+{
+    DQQuery<LookupTable> lookupTable;
+    if (lookupTable.count() >=2 )
+        return;
+
+    DQList<LookupTable> initialData;
+    DQListWriter writer(&initialData);
+
+    for(double i=0;i<20;i++)
+        writer << i << pow(2.0,i);
+
+    initialData.save();
 }

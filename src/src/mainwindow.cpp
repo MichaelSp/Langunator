@@ -209,8 +209,8 @@ void MainWindow::on_btnShowAnswer_clicked()
 
     bool invers = ui->chkInvers->isChecked();
     Vocable *voc = backend.currentVocable();
-    ui->txtAnswer->setFont( invers?voc->category->fontTo():voc->category->fontFrom());
-    ui->txtAnswer->setText( invers?voc->language2:voc->language1 );
+    ui->txtAnswer->setFont( invers?voc->category->fontFrom():voc->category->fontTo());
+    ui->txtAnswer->setText( invers?voc->language1:voc->language2 );
 }
 
 void MainWindow::setEditButtonsStateEnabled(bool enabled)

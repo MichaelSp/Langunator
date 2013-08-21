@@ -163,6 +163,7 @@ void TabImportExport::on_btnUpload_clicked()
         qDebug()<< "Package successfull: " << done->categoryName();
         removePackFrom(ui->tblExport, done);
     }, [uploads, this](const CategoryPtr &failed, const QString &error){
+        Q_UNUSED(failed);
         QMessageBox::warning(this, tr("Package upload error"), error);
     }, [this](){
         on_btnRefresh_clicked();
