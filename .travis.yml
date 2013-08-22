@@ -3,6 +3,10 @@ install:
   - sudo apt-get update
   - sudo apt-get install qt5-default qtdeclarative5-dev libqt5webkit5-dev libqt5widgets5 libqt5sql5-sqlite libqt5gui5
 
+compiler:
+  - clang
+  - gcc
+  
 script:
   - qtchooser -run-tool=qmake -qt=qt5 src/Langunator.pro
   - make
