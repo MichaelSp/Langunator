@@ -26,6 +26,8 @@ TEMPLATE = app
 PRECOMPILED_HEADER = ./src/pch.h
 INCLUDEPATH += ./src/ ./dquest-0.2/src/
 
+QMAKE_CXXFLAGS +=  -std=c++11
+
 ICON = $${PWD}/img/earth.ico
 RC_FILE = Langunator.rc
 
