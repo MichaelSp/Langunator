@@ -106,7 +106,8 @@ RESOURCES += \
 include(qt-oauth-lib/qt-oauth-lib.pri)
 include(src/plugins/androidComponents.pri)
 
-OTHER_FILES += installer.nsi \
+OTHER_FILES += ../.travis.yml \
+    installer.nsi \
     dquest-0.2/src/dquest-install.pri \
     dquest-0.2/src/dquest.pro \
     dquest-0.2/src/dquest.pri \
