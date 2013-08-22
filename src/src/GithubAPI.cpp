@@ -33,7 +33,7 @@ void GithubAPI::downloadPackages(const CategoriesPtr &packages, std::function<vo
 {
     foreach(const CategoryPtr&pack, packages) {
         qDebug() << "download " << pack->categoryName() << " from " << pack->sourceFileName;
-        request(pack->sourceFileName, [callback, error, pack](QNetworkReply* reply){
+        request(pack->sourceFileName, [callback, error, pack, this](QNetworkReply* reply){
             QJsonParseError jsonError;
             QList<Vocable> lst;
             QJsonDocument doc = QJsonDocument::fromJson(reply->readAll(), &jsonError);
@@ -48,7 +48,7 @@ void GithubAPI::downloadPackages(const CategoriesPtr &packages, std::function<vo
                 lst.append(Vocable(val.toObject(), pack));
             callback(lst);
         },
-        [error,pack](QNetworkReply*reply){
+        [error,pack,this](QNetworkReply*reply){
             error(pack, tr("Package\n\t%1 from %2\nNetwork error:\n\t%3")
                   .arg( pack->categoryName(), pack->author, reply->errorString()));
         });
