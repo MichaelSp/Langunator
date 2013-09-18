@@ -1,7 +1,7 @@
 #include "db.h"
 #include "pch.h"
 
-#include "vocabel.h"
+#include "Vocable.h"
 #include "category.h"
 
 

@@ -55,11 +55,11 @@ SOURCES += src/main.cpp\
     dquest-0.2/src/dqabstractmodel.cpp \
     src/Backend.cpp \
     src/VocableList.cpp \
-    src/vocabel.cpp \
     src/keyboardlayout.cpp \
     src/InputWidget.cpp \
     src/TabImportExport.cpp \
-    src/GithubAPI.cpp
+    src/GithubAPI.cpp \
+    src/Vocable.cpp
 
 HEADERS  += src/mainwindow.h \
     src/pch.h \
@@ -92,11 +92,11 @@ HEADERS  += src/mainwindow.h \
     dquest-0.2/src/dqabstractmodel.h \
     src/Backend.h \
     src/VocableList.h \
-    src/vocabel.h \
     src/keyboardlayout.h \
     src/InputWidget.h \
     src/TabImportExport.h \
-    src/GithubAPI.h
+    src/GithubAPI.h \
+    src/Vocable.h
 
 FORMS    += src/mainwindow.ui \
     src/TabImportExport.ui

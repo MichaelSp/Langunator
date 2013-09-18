@@ -1,5 +1,5 @@
 #include "VocableList.h"
-#include "vocabel.h"
+#include "Vocable.h"
 
 VocableList::VocableList(CategoryPtr cat,  QObject *parent) :
     QSqlQueryModel(parent),

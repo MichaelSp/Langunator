@@ -33,6 +33,7 @@ void Backend::addCategory(QString languageFrom,QString languageTo)
     {
         cacheIsDirty = true;
         emit categoriesUpdated(categories());
+        setCurrentCategory(cat);
     }
     else
         qWarning() << "Cannot add category " << cat->categoryName() <<": "
@@ -119,7 +120,6 @@ void Backend::prepareTrainingSet()
             .filter( DQWhere("(julianday(Date('now')) - julianday(lastAsked))") >= DQWhere("(SELECT power FROM "+LookupTable::TableName()+" WHERE exponent == rightInRow)") )
             .orderBy("language2")
             .all();
-    qDebug() << "qry: " << qry.lastQuery().executedQuery() << " " << qry.lastQuery().lastError().text();
     emit newVocable(currentVocable());
 }
 

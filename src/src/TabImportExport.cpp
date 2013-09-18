@@ -1,6 +1,6 @@
 #include "TabImportExport.h"
 #include "ui_TabImportExport.h"
-#include "vocabel.h"
+#include "Vocable.h"
 #include <QtNetwork>
 
 TabImportExport::TabImportExport(QWidget *parent) :

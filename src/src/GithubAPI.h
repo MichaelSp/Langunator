@@ -26,8 +26,13 @@ public slots:
     void loadIndex(std::function<void (CategoriesPtr &packages)> callback, std::function<void (QNetworkReply*)> error);
 
 private:
+    struct SuccessfullUploaded {
+        QString sha;
+        CategoryPtr cat;
+    };
+
     QBuffer *prepareUploadFileBuffer(const CategoryPtr &pack);
-    void updateIndex(CategoriesPtr *successfull);
+    void updateIndex(QList<SuccessfullUploaded> *successfull);
     void request(QString url, std::function<void (QNetworkReply *)> success, std::function<void (QNetworkReply*)> error = NULL, QIODevice *uplData=NULL);
     OAuth2 oauth;
     QNetworkAccessManager *manager;
@@ -35,6 +40,7 @@ private:
     QDateTime lastAccess;
     QSignalMapper mapper;
     QJsonObject index;
+    QString indexBlobSHA;
 };
 
 class ResponseHandler: public QObject
@@ -44,7 +50,7 @@ public:
     ResponseHandler(QNetworkReply *reply, std::function<void (QNetworkReply*)> success,
                     std::function<void (QNetworkReply*)> error, QIODevice* uplData=NULL)
         :reply(reply),success(success),error(error),uploadIODevice(uplData){}
-    ~ResponseHandler() { if (uploadIODevice != NULL) delete uploadIODevice;}
+    ~ResponseHandler() { if (this!= NULL && uploadIODevice != NULL) delete uploadIODevice;}
     QNetworkReply *reply;
     std::function<void (QNetworkReply*)> success;
     std::function<void (QNetworkReply*)> error;

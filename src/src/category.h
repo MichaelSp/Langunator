@@ -84,7 +84,6 @@ inline void operator <<(QJsonObject &obj, const Category &cat) {
     map.insert("author", cat.author.get().toString());
     map.insert("lesson", cat.lesson);
     map.insert("count",  cat.count);
-    map.insert("file", cat.sourceFileName.get().toString());
     obj = QJsonObject::fromVariantMap(map);
 }
 

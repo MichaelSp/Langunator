@@ -1,6 +1,6 @@
 #include "category.h"
 #include "db.h"
-#include "vocabel.h"
+#include "Vocable.h"
 
 Category::Category(const QJsonObject &obj)
     :aboutToDelete(false)
@@ -9,17 +9,19 @@ Category::Category(const QJsonObject &obj)
 }
 
 Category::Category(QString from, QString to)
-    :aboutToDelete(false)
+    :DQModel(),
+     aboutToDelete(false)
 {
     langFrom = from;
     langTo = to;
 }
 
-Category::Category(const Category &cat)
+Category::Category(const Category &cat):DQModel()
 {
     langFrom = cat.langFrom;
     langTo = cat.langTo;
 }
+
 
 bool Category::addVocable(QString lang1, QString lang2, int lektion)
 {

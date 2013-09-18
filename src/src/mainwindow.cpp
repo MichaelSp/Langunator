@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->txtLanguage1->setBackend(backend,true);
     ui->txtLanguage2->setBackend(backend,false);
 
+    ui->lstVocables->horizontalHeader()->resizeSection(1,50);
+
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
     connect(&backend, &Backend::categoriesUpdated, this, &MainWindow::updateCategories);
     connect(&backend, &Backend::currentCategoryChanged, this, &MainWindow::currentCategoryChanged);

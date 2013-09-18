@@ -1,4 +1,4 @@
-#include "vocabel.h"
+#include "Vocable.h"
 
 
 Vocable::Vocable(const QJsonObject &obj, CategoryPtr cat)
@@ -47,10 +47,10 @@ void Vocable::stay()
     save();
 }
 
-// returns current date with the time set to 2:00 am
+// returns current date with the time set to 0:00 am
 QDateTime Vocable::getTimestamp()
 {
     QDateTime dt = QDateTime::currentDateTime();
-    dt.setTime( QTime(2,0) );
+    dt.setTime( QTime(0,0) );
     return dt;
 }

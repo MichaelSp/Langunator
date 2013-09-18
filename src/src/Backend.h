@@ -3,7 +3,7 @@
 #include <QObject>
 #include "db.h"
 #include "category.h"
-#include "vocabel.h"
+#include "Vocable.h"
 #include "VocableList.h"
 
 class Backend : public QObject
