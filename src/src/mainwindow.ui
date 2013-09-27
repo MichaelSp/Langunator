@@ -502,7 +502,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
                   <bool>false</bool>
                  </property>
                  <property name="text">
-                  <string>Neue Vokabel eingeben (Strg+N)</string>
+                  <string>Vokabel hinzufügen (Strg+N)</string>
                  </property>
                  <property name="icon">
                   <iconset resource="../img.qrc">
