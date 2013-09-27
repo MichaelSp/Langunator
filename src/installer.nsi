@@ -64,6 +64,12 @@ Section "Langunator (required)"
   File "$%QTDIR%\bin\Qt5WebKitWidgets.dll"
   File "$%QTDIR%\bin\Qt5Widgets.dll"
 
+  ; For MinGW
+  File "$%QTDIR%\bin\libgcc_s_dw2-1.dll"
+  File "$%QTDIR%\bin\libstdc++-6.dll"
+  File "$%QTDIR%\bin\libwinpthread-1.dll"
+
+
   SetOutPath $INSTDIR\sqldrivers
   File "$%QTDIR%\plugins\sqldrivers\qsqlite.dll"
 

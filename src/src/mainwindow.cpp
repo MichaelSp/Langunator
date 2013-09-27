@@ -14,6 +14,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->edtLanguage1->installEventFilter(this);
     ui->edtLanguage2->installEventFilter(this);
 
+    ui->tabWidget->removeTab(2);
+    ui->tabWidget->removeTab(2);
+
     ui->txtLanguage1->setBackend(backend,true);
     ui->txtLanguage2->setBackend(backend,false);
 
