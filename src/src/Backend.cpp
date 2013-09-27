@@ -117,8 +117,9 @@ void Backend::prepareTrainingSet()
     DQQuery<Vocable> qry;
 
     trainingSet = qry
-            .filter( DQWhere("(julianday(Date('now')) - julianday(lastAsked))") >= DQWhere("(SELECT power FROM "+LookupTable::TableName()+" WHERE exponent == rightInRow)") )
-            .orderBy("language2")
+            .filter( DQWhere("(julianday(Date('now')) - julianday(lastAsked))") >=
+                     DQWhere("(SELECT power FROM "+LookupTable::TableName()+" WHERE exponent == rightInRow)") )
+            .orderBy("category")
             .all();
     emit newVocable(currentVocable());
 }

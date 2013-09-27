@@ -36,7 +36,7 @@ private slots:
     void on_btnCategoryRemove_clicked();
     void on_btnQuestionSave_clicked();
     void on_btnQuestionDelete_clicked();
-    void on_btnShowAnswer_clicked();
+    void showAnswer();
     void on_tabWidget_currentChanged(int index);
     void on_btnStay_clicked();
     void on_btnBackTo0_clicked();

@@ -204,7 +204,7 @@ void MainWindow::on_btnQuestionDelete_clicked()
     ui->txtLanguage2->clear();
 }
 
-void MainWindow::on_btnShowAnswer_clicked()
+void MainWindow::showAnswer()
 {
     if (backend.currentVocable() == NULL)
         return;
@@ -266,26 +266,42 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 
 void MainWindow::on_btnStay_clicked()
 {
-    backend.currentVocable()->stay();
-    backend.showNextVocable();
+    if (ui->txtAnswer->toPlainText().isEmpty())
+        showAnswer();
+    else {
+        backend.currentVocable()->stay();
+        backend.showNextVocable();
+    }
 }
 
 void MainWindow::on_btnBackTo0_clicked()
 {
-    backend.currentVocable()->backTo0();
-    backend.showNextVocable();
+    if (ui->txtAnswer->toPlainText().isEmpty())
+        showAnswer();
+    else {
+        backend.currentVocable()->backTo0();
+        backend.showNextVocable();
+    }
 }
 
 void MainWindow::on_btnNext_clicked()
 {
-    backend.currentVocable()->next();
-    backend.showNextVocable();
+    if (ui->txtAnswer->toPlainText().isEmpty())
+        showAnswer();
+    else {
+        backend.currentVocable()->next();
+        backend.showNextVocable();
+    }
 }
 
 void MainWindow::on_btnBack_clicked()
 {
-    backend.currentVocable()->back();
-    backend.showNextVocable();
+    if (ui->txtAnswer->toPlainText().isEmpty())
+        showAnswer();
+    else {
+        backend.currentVocable()->back();
+        backend.showNextVocable();
+    }
 }
 
 void MainWindow::on_btnShare_clicked()

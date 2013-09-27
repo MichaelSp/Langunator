@@ -25,7 +25,7 @@ public:
     DQField<int> rightInRow;
     DQField<QDateTime> lastAsked;
 
-private:
+
     QDateTime getTimestamp();
 };
 
