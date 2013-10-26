@@ -3,11 +3,11 @@
 
 #ifdef Q_OS_WIN
 
-void KeyboardLayout::setActiveKeyboardLayout(int langCode) {
+void KeyboardLayout::setActiveKeyboardLayout(int langCode, int subCode) {
     if (langCode == 0 || langCode ==  LOWORD(GetKeyboardLayout(0)))
         return;
     qApp->setOverrideCursor(Qt::WaitCursor);
-    LCID dwLang = MAKELANGID(langCode, SUBLANG_DEFAULT);
+    LCID dwLang = MAKELANGID(langCode, subCode);
     WCHAR szBuf[32];
     wsprintf(szBuf, L"%.8x", dwLang);
     HKL result = ActivateKeyboardLayout(LoadKeyboardLayout(szBuf, KLF_ACTIVATE | KLF_REPLACELANG), KLF_REORDER);
@@ -18,7 +18,7 @@ void KeyboardLayout::setActiveKeyboardLayout(int langCode) {
     qApp->restoreOverrideCursor();
 }
 #else
-void KeyboardLayout::setActiveKeyboardLayout(int langCode) {
+void KeyboardLayout::setActiveKeyboardLayout(int langCode, int subCode) {
     qWarning("NOT IMPLEMENTED: setActiveKeyboardLayout");
 }
 #endif
@@ -42,7 +42,7 @@ void KeyboardLayout::restore()
 }
 
 #ifdef Q_OS_WIN
-BOOL CALLBACK KeyboardLayout::enumLocalesCallback(_In_  LPTSTR lpLocaleString)
+BOOL CALLBACK KeyboardLayout::enumLocalesCallback(LPTSTR lpLocaleString)
 {
     LCID anLCID = QString::fromWCharArray(lpLocaleString).toInt(0,16);
     WCHAR longName[MAX_PATH];
@@ -59,10 +59,16 @@ BOOL CALLBACK KeyboardLayout::enumLocalesCallback(_In_  LPTSTR lpLocaleString)
     return true;
 }
 
+BOOL CALLBACK KeyboardLayout::enumLanguageGroupLocalesProc(LGRPID LanguageGroup, LCID Locale, LPTSTR lpLocaleString, LONG_PTR lParam) {
+
+}
+
+
 QList<KeyboardLayout::LanguageInfo> KeyboardLayout::languages()
 {
     if (langList.isEmpty()) {
         EnumSystemLocales(&KeyboardLayout::enumLocalesCallback, LCID_INSTALLED);
+        //EnumLanguageGroupLocales(&KeyboardLayout::enumLanguageGroupLocalesProc );
         qSort(langList);
     }
     return langList;

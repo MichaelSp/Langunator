@@ -28,6 +28,10 @@ GithubAPI::GithubAPI(QWidget *parent) :
     });
 }
 
+GithubAPI::~GithubAPI()
+{
+}
+
 void GithubAPI::downloadPackages(const CategoriesPtr &packages, std::function<void (QList<Vocable> &packages)> callback
                                  , std::function<void (CategoryPtr, QString )> error)
 {

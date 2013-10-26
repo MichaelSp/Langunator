@@ -14,9 +14,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->edtLanguage1->installEventFilter(this);
     ui->edtLanguage2->installEventFilter(this);
 
-    ui->tabWidget->removeTab(2);
-    ui->tabWidget->removeTab(2);
-
     ui->txtLanguage1->setBackend(backend,true);
     ui->txtLanguage2->setBackend(backend,false);
 
@@ -48,7 +45,7 @@ void MainWindow::updateCategories(CategoriesPtr cats)
     }
     bool hasEntries = ui->cmbEnterCategory->count();
     ui->btnCategoryRemove->setEnabled( hasEntries);
-    ui->btnShare->setEnabled( hasEntries );
+    //ui->btnShare->setEnabled( hasEntries );
     ui->btnCategoreRename->setEnabled(hasEntries);
 
     if (hasEntries)

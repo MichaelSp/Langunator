@@ -31,6 +31,11 @@ bool Category::addVocable(QString lang1, QString lang2, int lektion)
     vok.lesson = lektion;
     vok.category = *this;
     vok.lastAsked = vok.getTimestamp();
+    vok.rightInRow = 0;
+    vok.nextClicks = 0;
+    vok.backClicks = 0;
+    vok.stayClicks = 0;
+    vok.backTo0Clicks = 0;
     return vok.save();
 }
 

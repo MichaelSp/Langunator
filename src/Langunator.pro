@@ -58,8 +58,8 @@ SOURCES += src/main.cpp\
     src/keyboardlayout.cpp \
     src/InputWidget.cpp \
     src/TabImportExport.cpp \
-    src/GithubAPI.cpp \
-    src/Vocable.cpp
+    src/Vocable.cpp \
+    src/GithubAPI.cpp
 
 HEADERS  += src/mainwindow.h \
     src/pch.h \
@@ -95,8 +95,8 @@ HEADERS  += src/mainwindow.h \
     src/keyboardlayout.h \
     src/InputWidget.h \
     src/TabImportExport.h \
-    src/GithubAPI.h \
-    src/Vocable.h
+    src/Vocable.h \
+    src/GithubAPI.h
 
 FORMS    += src/mainwindow.ui \
     src/TabImportExport.ui

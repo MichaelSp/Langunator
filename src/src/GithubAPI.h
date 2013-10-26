@@ -13,6 +13,7 @@ class GithubAPI : public QObject
     Q_OBJECT
 public:
     explicit GithubAPI(QWidget *parent);
+    virtual ~GithubAPI();
 
 signals:
     void errorLoading(const CategoriesPtr &packages, QString message);
