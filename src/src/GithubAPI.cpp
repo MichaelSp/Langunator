@@ -4,7 +4,8 @@
 #include "Vocable.h"
 
 #define ACCESS_TOKEN "?access_token=fb6cc1e8ed683e414df9c8837ecfa62ae1c76a6d"
-#define BASE_URL "https://api.github.com/repos/Langunator/Langunator-data"
+#define BASE_URL "https://api.github.com/gists"
+#define INDEX_URL "https://api.github.com/users/Langunator/gists"
 
 GithubAPI::GithubAPI(QWidget *parent) :
     QObject(parent),
@@ -18,6 +19,7 @@ GithubAPI::GithubAPI(QWidget *parent) :
 
     connect(&mapper, static_cast<void (QSignalMapper::*)(QObject*)>(&QSignalMapper::mapped), [](QObject* obj){
         ResponseHandler *handler = qobject_cast<ResponseHandler*>(obj);
+        qDebug() << "callback for " << handler;
         if (handler->reply->error() != QNetworkReply::NoError){
             handler->error(handler->reply);
         }
@@ -32,7 +34,7 @@ GithubAPI::~GithubAPI()
 {
 }
 
-void GithubAPI::downloadPackages(const CategoriesPtr &packages, std::function<void (QList<Vocable> &packages)> callback
+void GithubAPI::downloadPackages(const CategoriesPtr &packages, std::function<void (QList<Vocable> &packages, const CategoryPtr &cat)> callback
                                  , std::function<void (CategoryPtr, QString )> error)
 {
     foreach(const CategoryPtr&pack, packages) {
@@ -40,7 +42,7 @@ void GithubAPI::downloadPackages(const CategoriesPtr &packages, std::function<vo
         request(pack->sourceFileName, [callback, error, pack, this](QNetworkReply* reply){
             QJsonParseError jsonError;
             QList<Vocable> lst;
-            QJsonDocument doc = QJsonDocument::fromJson(reply->readAll(), &jsonError);
+            QJsonDocument doc = QJsonDocument::fromJson(QByteArray::fromBase64(reply->readAll()), &jsonError);
             if (doc.isNull() || jsonError.error != QJsonParseError::NoError)
             {
                 error(pack, tr("Package\n\t%1 from %2\nError parsing JSON-Response\n\t%3")
@@ -50,7 +52,7 @@ void GithubAPI::downloadPackages(const CategoriesPtr &packages, std::function<vo
             QJsonArray array = doc.array();
             foreach(const QJsonValue &val, array)
                 lst.append(Vocable(val.toObject(), pack));
-            callback(lst);
+            callback(lst, pack);
         },
         [error,pack,this](QNetworkReply*reply){
             error(pack, tr("Package\n\t%1 from %2\nNetwork error:\n\t%3")
@@ -69,9 +71,15 @@ QBuffer* GithubAPI::prepareUploadFileBuffer(const CategoryPtr&pack) {
         obj << *vocList.at(i);
         arr.append(obj);
     }
-    buf->write( "{ \"content\" : \"" );
+    QJsonObject data;
+    data << *pack.data();
+    buf->write("{\n\"description\": \"");
+    buf->write( QJsonDocument(data).toJson().replace("\"","\\\"").replace("\n"," ") );
+    buf->write("\",\n   \"files\" : {\n");
+    buf->write("    \"\" : {");
+    buf->write("\"content\" : \"");
     buf->write( QJsonDocument(arr).toJson().toBase64() );
-    buf->write( "\",\n \"encoding\": \"utf-8\" ");
+    buf->write("\"}\n   }\n}");
     buf->close();
     buf->open(QIODevice::ReadOnly);
     buf->seek(0);
@@ -87,16 +95,16 @@ void GithubAPI::uploadPackages(const CategoriesPtr &packages,
     int *failed=new int;
 	*failed=0;
     foreach(const CategoryPtr&pack, packages) {
-        qDebug() << "upload " << pack->categoryName();
         QBuffer *buf = prepareUploadFileBuffer(pack);
+        qDebug() << "upload " << pack->categoryName() << ": \n" << buf->data();
 
-        request(BASE_URL "/git/blobs" ACCESS_TOKEN, [=](QNetworkReply *reply){
+        request(BASE_URL ACCESS_TOKEN, [=](QNetworkReply *reply){
             callback(pack);
             QString sha = QJsonDocument::fromJson( reply->readAll() ).object().value("sha").toString();
+            qDebug() << "upload resonse " << sha;
             successfull->append( { sha, pack } );
             if (successfull->size() + *failed >= packages.size()) {
 				delete failed;
-                updateIndex(successfull);
                 uploadDone();
             }
         }, [=](QNetworkReply *reply){
@@ -104,65 +112,36 @@ void GithubAPI::uploadPackages(const CategoriesPtr &packages,
             (*failed)++;
 			if (successfull->size() + *failed >= packages.size()) {
 				delete failed;
-                updateIndex(successfull);
                 uploadDone();
             }
         },buf);
     }
 }
 
-void GithubAPI::updateIndex(QList<SuccessfullUploaded> *successfull)
-{
-    QJsonArray packages = index.value("packages").toArray();
-    foreach(SuccessfullUploaded upl, *successfull) {
-        QJsonObject obj;
-        obj << *upl.cat.data();
-        obj.insert("sha", upl.sha);
-        packages.append(obj);
-    }
-    index.insert("packages", packages);
-    QVariantMap map;
-    map.insert("content", QJsonDocument(index).toJson().toBase64());
-    map.insert("encoding", "base64");
-
-    qDebug() << QJsonDocument(QJsonObject::fromVariantMap(map)).toJson();
-    QBuffer *buf = new QBuffer(this);
-    buf->open(QIODevice::ReadWrite);
-    buf->write( QJsonDocument(index).toJson() );
-	delete successfull;
-    auto success = [=](QNetworkReply*repl){
-        qDebug() << "OK " << repl->readAll();
-        delete buf;
-    };
-    auto error =[=](QNetworkReply*repl){
-        qDebug() << "error " << repl->readAll();
-        delete buf;
-    };
-
-    request(BASE_URL "/git/blobs"  ACCESS_TOKEN, success,error,buf);
-}
-
 void GithubAPI::loadIndex(std::function<void (CategoriesPtr &packages)> callback, std::function<void (QNetworkReply*)> error)
 {
     auto success = [this, callback] (QNetworkReply* reply) {
-        QJsonObject content = QJsonDocument::fromJson(reply->readAll()).object();
-        if (content.contains("content") && content.value("content").toString().isEmpty()) {
+        QJsonDocument content = QJsonDocument::fromJson(reply->readAll());
+        if (content.isArray() && content.array().isEmpty()) {
             qDebug() << "Index is empty";
             return;
         }
-        indexBlobSHA = content.value("sha").toString();
-        index = QJsonDocument::fromJson( QByteArray::fromBase64( content.value("content").toVariant().toByteArray() ) ).object();
-        QJsonArray packages = index.value("packages").toArray();
+
         lastAccess = QDateTime::currentDateTime();
+        index = content.array();
         CategoriesPtr cats;
-        foreach(QJsonValue val, packages)
-        {
-            cats.append( CategoryPtr(new Category(val.toObject())));
+        foreach(QJsonValue obj, index) {
+            QString metadata = obj.toObject().value("description").toString();
+            QJsonObject val = QJsonDocument::fromJson(metadata.toUtf8()).object();
+            CategoryPtr cat =  CategoryPtr(new Category(val));
+            cat->sourceFileName = obj.toObject().value("files").toObject().constBegin().value().toObject().value("raw_url").toString();
+            qDebug() << "Metadata "<< metadata << " @ " << cat->sourceFileName;
+            cats.append(cat);
         }
         callback(cats);
     };
 
-    request(BASE_URL "/contents/index.json?ref=master", success, error);
+    request(INDEX_URL ACCESS_TOKEN, success, error);
 }
 
 void GithubAPI::request(QString url, std::function<void (QNetworkReply*)> success, std::function<void (QNetworkReply*)> error, QIODevice *uplData)

@@ -52,6 +52,15 @@ bool Category::remove()
     return DQModel::remove();
 }
 
+DQList<Vocable> Category::findSimilar(Vocable voc)
+{
+    DQList<Vocable> list = Vocable::objects().filter(DQWhere("lang1").like(voc.language1) ||
+                                                     DQWhere("lang2").like(voc.language2) ||
+                                                     DQWhere("lang1").like(voc.language2) ||
+                                                     DQWhere("lang2").like(voc.language1) ).all();
+    return list;
+}
+
 DQList<Vocable> Category::vocables()
 {
     DQList<Vocable> list = Vocable::objects().filter(DQWhere("category = ", this->id) ).all();

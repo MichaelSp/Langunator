@@ -98,10 +98,35 @@ void TabImportExport::on_btnRefresh_clicked()
     });
 }
 
+bool TabImportExport::saveDuplicate(DQList<Vocable>& dupl, const Vocable &voc ) {
+
+    QString v1;
+    for(int i=0;i<dupl.size();i++)
+        v1 += QString("'%1'' -> '%2'\n")
+                .arg(dupl.at(i)->language1)
+                .arg(dupl.at(i)->language2);
+    QString v2 = QString("'%1'' -> '%2'").arg(voc.language1).arg(voc.language2);
+    return (QMessageBox::question(this,
+                                  QObject::tr("Doppelter Eintrag"),
+                                  QObject::tr("Diese Vokabel befindet sich bereits in deiner Liste:\n%1\nJetzt hinzufügen?\n%2")
+                                          .arg(v1).arg(v2)) == QMessageBox::Yes);
+}
+
 void TabImportExport::on_btnDownload_clicked()
 {
-    github.downloadPackages(getPackages(ui->tblImport), [this](QList<Vocable> &vocList){
+    github.downloadPackages(getPackages(ui->tblImport), [this](QList<Vocable> &vocList, const CategoryPtr &package){
         qDebug()<< "Package successfull: " << vocList;
+        bool reverse=false;
+        foreach(const Vocable &voc, vocList) {
+            DQList<Vocable> duplicate = package->findSimilar(voc);
+            qDebug() << "duplicates " << duplicate;
+            if ((duplicate.size() > 0 && saveDuplicate(duplicate, voc)) || duplicate.size()<=0){
+                if (reverse)
+                    package->addVocable(voc.language2, voc.language1, voc.lesson);
+                else
+                    package->addVocable(voc.language1, voc.language2, voc.lesson);
+            }
+        }
     }, [=](const CategoryPtr &, const QString &error){
         QMessageBox::warning(this, tr("Package download error"), error);
     });

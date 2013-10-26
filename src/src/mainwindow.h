@@ -25,6 +25,7 @@ protected:
     virtual void dragEnterEvent(QDragEnterEvent *evt);
 
 private slots:
+    void reloadVocabularyList();
     void currentCategoryChanged(CategoryPtr cat);
     void updateCategories(CategoriesPtr cats);
     void on_btnCategoreRename_clicked();

@@ -42,10 +42,12 @@ public:
     QFont fontTo()const {return fontTypeTo.get().value<QFont>();}
 
     DQList<Vocable> vocables();
+    DQList<Vocable> findSimilar(Vocable voc);
 
     bool addVocable(QString lang1, QString lang2, int lektion);
     virtual bool save(bool forceInsert = false, bool forceAllField=false);
     virtual bool remove();
+
 
     int keyboardLayoutFrom() const;
     void setKeyboardLayoutFrom(const int &value);

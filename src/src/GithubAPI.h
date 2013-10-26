@@ -19,7 +19,9 @@ signals:
     void errorLoading(const CategoriesPtr &packages, QString message);
     
 public slots:
-    void downloadPackages(const CategoriesPtr &packages, std::function<void (QList<Vocable> &)>    callback, std::function<void (CategoryPtr, QString)> error);
+    void downloadPackages(const CategoriesPtr &packages,
+                          std::function<void (QList<Vocable> &, const CategoryPtr &cat)> callback,
+                          std::function<void (CategoryPtr, QString)> error);
     void uploadPackages  (const CategoriesPtr &packages,
                           std::function<void (CategoryPtr)> callback,
                           std::function<void (CategoryPtr, QString)> error,
@@ -33,15 +35,13 @@ private:
     };
 
     QBuffer *prepareUploadFileBuffer(const CategoryPtr &pack);
-    void updateIndex(QList<SuccessfullUploaded> *successfull);
     void request(QString url, std::function<void (QNetworkReply *)> success, std::function<void (QNetworkReply*)> error = NULL, QIODevice *uplData=NULL);
     OAuth2 oauth;
     QNetworkAccessManager *manager;
     std::function<void (QNetworkReply *)> defaultErrorHandler;
     QDateTime lastAccess;
     QSignalMapper mapper;
-    QJsonObject index;
-    QString indexBlobSHA;
+    QJsonArray index;
 };
 
 class ResponseHandler: public QObject

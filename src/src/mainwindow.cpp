@@ -76,6 +76,17 @@ void MainWindow::startLearning()
     backend.prepareTrainingSet();
 }
 
+void MainWindow::reloadVocabularyList()
+{
+    ui->lstVocables->setModel( nullptr );
+    ui->lstVocables->setModel( backend.currentVocabularyModel());
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+    connect(ui->lstVocables->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::vocableSelectionChanged);
+#else
+    connect(ui->lstVocables->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(vocableSelectionChanged(QModelIndex,QModelIndex)));
+#endif
+}
+
 void MainWindow::currentCategoryChanged(CategoryPtr cat)
 {
     bool valid = !cat.isNull() && cat->isValid();
@@ -97,12 +108,7 @@ void MainWindow::currentCategoryChanged(CategoryPtr cat)
     ui->txtLanguage2->setFont(cat->fontTo() );
     ui->lblLanguage1->setText(cat->languageFrom());
     ui->lblLanguage2->setText(cat->languageTo());
-    ui->lstVocables->setModel( backend.currentVocabularyModel());
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-    connect(ui->lstVocables->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &MainWindow::vocableSelectionChanged);
-#else
-    connect(ui->lstVocables->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(vocableSelectionChanged(QModelIndex,QModelIndex)));
-#endif
+    reloadVocabularyList();
 }
 
 void MainWindow::on_btnCategoreRename_clicked()
@@ -261,6 +267,9 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     KeyboardLayout::restore();
     if (ui->tabWidget->currentWidget() == ui->tabLearn) {
         startLearning();
+    }
+    else if (ui->tabWidget->currentWidget() == ui->tabEnter) {
+        reloadVocabularyList();
     }
 }
 

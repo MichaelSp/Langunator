@@ -33,6 +33,7 @@ private slots:
     void on_btnUpload_clicked();
 
 private:
+    bool saveDuplicate(DQList<Vocable> &dupl, const Vocable &voc);
     void removePackFrom(QTableWidget *wid, const CategoryPtr &pack);
     void insertRow(QTableWidget *tableWidget, const CategoryPtr &pack, bool isSelected=false);
     QTableWidgetItem *createItem(const CategoryPtr &pack, QString text, bool checkable=false, bool isSelected=false);

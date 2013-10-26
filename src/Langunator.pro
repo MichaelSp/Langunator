@@ -24,12 +24,12 @@ TARGET = Langunator
 TEMPLATE = app
 
 PRECOMPILED_HEADER = ./src/pch.h
-INCLUDEPATH += ./src/ ./dquest-0.2/src/
+INCLUDEPATH += ./src/ ./dquest-0.2/src/ /usr/include/i386-linux-gnu/c++/4.8/
 
 QMAKE_CXXFLAGS +=  -std=c++0x
 
 ICON = $${PWD}/img/earth.ico
-RC_FILE = Langunator.rc
+RC_FILE = Ressource.rc
 
 SOURCES += src/main.cpp\
         src/mainwindow.cpp \
@@ -59,7 +59,8 @@ SOURCES += src/main.cpp\
     src/InputWidget.cpp \
     src/TabImportExport.cpp \
     src/Vocable.cpp \
-    src/GithubAPI.cpp
+    src/GithubAPI.cpp \
+    src/tabstatistics.cpp
 
 HEADERS  += src/mainwindow.h \
     src/pch.h \
@@ -96,10 +97,12 @@ HEADERS  += src/mainwindow.h \
     src/InputWidget.h \
     src/TabImportExport.h \
     src/Vocable.h \
-    src/GithubAPI.h
+    src/GithubAPI.h \
+    src/tabstatistics.h
 
 FORMS    += src/mainwindow.ui \
-    src/TabImportExport.ui
+    src/TabImportExport.ui \
+    src/tabstatistics.ui
 
 RESOURCES += \
     img.qrc

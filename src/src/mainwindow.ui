@@ -784,7 +784,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
             </attribute>
            </widget>
            <widget class="QWebView" name="webView">
-            <property name="url">
+            <property name="url" stdset="0">
              <url>
               <string>about:blank</string>
              </url>
@@ -807,7 +807,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
         <string>Import/Export</string>
        </attribute>
       </widget>
-      <widget class="QWidget" name="tabStatistic">
+      <widget class="TabStatistics" name="tabStatistic">
        <attribute name="icon">
         <iconset resource="../img.qrc">
          <normaloff>:/img/img/Statistik.png</normaloff>:/img/img/Statistik.png</iconset>
@@ -837,6 +837,12 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
    <class>TabImportExport</class>
    <extends>QWidget</extends>
    <header>TabImportExport.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TabStatistics</class>
+   <extends>QWidget</extends>
+   <header location="global">tabstatistics.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

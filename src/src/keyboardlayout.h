@@ -21,12 +21,15 @@ public:
 
     static void restore();
     static QList<LanguageInfo> languages();
-    static void setActiveKeyboardLayout(int langCode, int subCode = SUBLANG_DEFAULT);
 private:
 #ifdef Q_OS_WIN
-    static BOOL CALLBACK enumLocalesCallback(LPTSTR lpLocaleString);
+public: static void setActiveKeyboardLayout(int langCode, int subCode = SUBLANG_DEFAULT);
+private: static BOOL CALLBACK enumLocalesCallback(LPTSTR lpLocaleString);
     static BOOL CALLBACK enumLanguageGroupLocalesProc(
              LGRPID LanguageGroup, LCID Locale, LPTSTR lpLocaleString, LONG_PTR lParam);
+#else
+public: static void setActiveKeyboardLayout(int langCode, int subCode=0);
+private:
 #endif
     static QList<LanguageInfo> langList;
 };
